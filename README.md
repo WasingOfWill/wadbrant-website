@@ -159,4 +159,4 @@ The site includes `jekyll-seo-tag` plugin which automatically:
 - Verify CNAME file contains only your domain (no http://)
 - Check GitHub Pages settings in repository
 
-<!-- Build trigger - Configuration fixed - Jan 2025 -->
+<!-- Build trigger - Bundle dependencies fixed - Jan 2025 -->

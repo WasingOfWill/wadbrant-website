@@ -1,39 +1,32 @@
 source "https://rubygems.org"
 
-# Chirpy theme - stable version
-gem "jekyll-theme-chirpy", "~> 6.5"
+# Chirpy theme - use exact version that's proven stable
+gem "jekyll-theme-chirpy", "~> 6.5.0"
 
-# Jekyll version compatible with Chirpy
+# Lock Jekyll to compatible version
 gem "jekyll", "~> 4.3.0"
 
-# Essential Jekyll plugins
+# Essential plugins for Chirpy - grouped together
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
-  gem "jekyll-sitemap"
-  gem "jekyll-seo-tag"
-  gem "jekyll-archives"
-  gem "jekyll-paginate"
-  gem "jekyll-include-cache"
+  gem "jekyll-sitemap", "~> 1.4"
+  gem "jekyll-seo-tag", "~> 2.6"
+  gem "jekyll-archives", "~> 2.2"
+  gem "jekyll-paginate", "~> 1.1"
+  gem "jekyll-include-cache", "~> 0.2"
 end
 
-# Testing and development gems
-group :test do
-  gem "html-proofer", "~> 4.0"
-end
+# Performance and reliability gems
+gem "webrick", "~> 1.7"
 
-# Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
-# and associated library.
+# Windows support
 platforms :mingw, :x64_mingw, :mswin, :jruby do
   gem "tzinfo", ">= 1", "< 3"
   gem "tzinfo-data"
 end
 
-# Webrick is needed for Ruby 3.0+
-gem "webrick", "~> 1.7"
+# Windows file watching
+gem "wdm", ">= 0.1.0", platforms: [:mingw, :x64_mingw, :mswin]
 
-# Windows polling for file changes
-gem 'wdm', '>= 0.1.0' if Gem.win_platform?
-
-# Lock `http_parser.rb` gem to `v0.6.x` on JRuby builds since newer versions of the gem
-# do not have a Java counterpart.
-gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby] 
+# Lock for JRuby compatibility
+gem "http_parser.rb", "~> 0.6.0", platforms: [:jruby] 
