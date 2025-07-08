@@ -34,9 +34,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Clean bundle cache
-        run: bundle clean --force
         
       - name: Install dependencies
         run: bundle install

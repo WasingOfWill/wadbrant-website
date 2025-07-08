@@ -1,6 +1,6 @@
-# My Personal Blog
+# Will's Blog & Website
 
-A Jekyll-powered blog hosted on GitHub Pages.
+A Jekyll-powered blog hosted on GitHub Pages. Forked from the Chirpy's site theme.
 
 ## Quick Start
 
@@ -159,4 +159,4 @@ The site includes `jekyll-seo-tag` plugin which automatically:
 - Verify CNAME file contains only your domain (no http://)
 - Check GitHub Pages settings in repository
 
-<!-- Build trigger - Bundle dependencies fixed - Jan 2025 -->
+<!-- Build trigger - Clean cache fix - Jan 2025 -->
