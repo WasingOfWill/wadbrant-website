@@ -18,6 +18,9 @@ end
 
 # Performance and reliability gems
 gem "webrick", "~> 1.7"
+gem "csv", "~> 3.2"
+gem "base64", "~> 0.1"
+gem "logger", "~> 1.5"
 
 # Windows support
 platforms :mingw, :x64_mingw, :mswin, :jruby do
