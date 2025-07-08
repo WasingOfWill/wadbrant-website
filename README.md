@@ -158,3 +158,5 @@ The site includes `jekyll-seo-tag` plugin which automatically:
 - DNS changes can take 24-48 hours to propagate
 - Verify CNAME file contains only your domain (no http://)
 - Check GitHub Pages settings in repository
+
+<!-- Cache bypass trigger - Jan 2025 -->
