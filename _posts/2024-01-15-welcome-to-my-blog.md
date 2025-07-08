@@ -2,9 +2,8 @@
 layout: post
 title: "Welcome to My Blog!"
 date: 2024-01-15 10:00:00 +0000
-categories: personal introduction
+categories: [Personal, Introduction]
 tags: [welcome, blogging, jekyll]
-author: Your Name
 ---
 
 Welcome to my personal blog! This is my first post, and I'm excited to start sharing my thoughts and experiences with you.
@@ -35,4 +34,4 @@ Thanks for stopping by, and I hope you'll find something valuable here!
 
 ---
 
-*This blog is built with Jekyll and hosted on GitHub Pages. You can find the source code [on GitHub](https://github.com/yourusername/yourblog).* 
+*This blog is built with Jekyll and hosted on GitHub Pages. You can find the source code [on GitHub](https://github.com/WasingOfWill/wadbrantblog).* 

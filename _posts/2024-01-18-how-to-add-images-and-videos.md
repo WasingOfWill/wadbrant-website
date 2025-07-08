@@ -2,9 +2,8 @@
 layout: post
 title: "Adding Images and Videos to Your Posts"
 date: 2024-01-18 14:30:00 +0000
-categories: tutorial blogging
+categories: [Tutorial, Blogging]
 tags: [images, videos, markdown, html]
-author: Your Name
 ---
 
 One of the great things about Jekyll is how easy it is to include multimedia content in your posts. Here's how you can add images and videos.
@@ -81,7 +80,7 @@ You can add custom CSS to style your images. Create a file `assets/css/style.scs
 ---
 ---
 
-@import "minima";
+@import "jekyll-theme-chirpy";
 
 .center {
   display: block;
