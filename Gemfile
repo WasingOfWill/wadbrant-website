@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-# Chirpy theme - use this instead of github-pages for Chirpy compatibility
-gem "jekyll-theme-chirpy", "~> 6.0", ">= 6.0.1"
+# Chirpy theme - stable version
+gem "jekyll-theme-chirpy", "~> 6.5"
 
 # Jekyll version compatible with Chirpy
 gem "jekyll", "~> 4.3.0"
