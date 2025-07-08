@@ -118,22 +118,6 @@ Your post content here...
 - Write in VS Code, Typora, or other Markdown editor  
 - Best if you prefer GUI tools
 
-## Content Ideas for Your Publishing Schedule
-
-**Twice weekly posting suggestions:**
-
-### Monday Posts (Technical/Tutorial)
-- "How I built..." project walkthroughs
-- Technology tutorials and guides
-- Tool reviews and comparisons
-- Code snippets and tips
-
-### Thursday Posts (Personal/Opinion)
-- Personal experiences and lessons learned
-- Industry observations and opinions
-- Book reviews and recommendations
-- Career insights and advice
-
 ## Customization Tips
 
 ### Changing Colors

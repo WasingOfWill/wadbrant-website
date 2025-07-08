@@ -9,6 +9,7 @@ url: "https://wadbrant.com" # Change this to your actual domain
 
 twitter_username: WilliamWadbrant
 github_username: WasingOfWill
+linkedin_username: Wadbrant
 
 # Build settings
 markdown: kramdown
@@ -39,7 +40,7 @@ exclude:
 collections:
   posts:
     output: true
-    permalink: /:year/:month/:day/:title/
+    permalink: /:day/:month/:year/:title/
 
 # Default layouts
 defaults:
@@ -56,10 +57,11 @@ defaults:
 
 # Social media and customization
 social:
-  name: Your Name
+  name: Will Wadbrant
   links:
-    - https://twitter.com/your_twitter
-    - https://github.com/your_github
+    - https://twitter.com/WilliamWadbrant
+    - https://github.com/WasingOfWill
+    - https://www.linkedin.com/in/wadbrant/
 
 # SEO settings
-google_analytics: # Add your Google Analytics ID here if you want tracking 
+google_analytics: G-HVDB517FPM

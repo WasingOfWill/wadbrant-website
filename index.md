@@ -3,9 +3,8 @@ layout: home
 title: Home
 ---
 
-Welcome to my personal blog! This is where I share my thoughts, experiences, and portfolio work.
-
-I write about various topics including technology, personal insights, and projects I'm working on. Feel free to browse around and get in touch if you'd like to connect.
+This is my personal site where I write about projects I work on, Product Management, the Gaming Industry, AI, Teach, and Leadership.
+Endless curiosity, love to enable others, & doing what matters.
 
 ## Recent Posts
 
