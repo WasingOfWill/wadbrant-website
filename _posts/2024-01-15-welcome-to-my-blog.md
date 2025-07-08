@@ -33,5 +33,3 @@ I'm planning to publish new content twice a week. Some posts will be longer deep
 Thanks for stopping by, and I hope you'll find something valuable here!
 
 ---
-
-*This blog is built with Jekyll and hosted on GitHub Pages. You can find the source code [on GitHub](https://github.com/WasingOfWill/wadbrantblog).* 
