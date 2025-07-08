@@ -1,13 +1,10 @@
 source "https://rubygems.org"
 
-# Use Jekyll for GitHub Pages deployment  
-gem "jekyll", "~> 4.3.0"
-
-# GitHub Pages gem for better compatibility
-gem "github-pages", group: :jekyll_plugins
-
-# Chirpy theme
+# Chirpy theme - use this instead of github-pages for Chirpy compatibility
 gem "jekyll-theme-chirpy", "~> 6.0", ">= 6.0.1"
+
+# Jekyll version compatible with Chirpy
+gem "jekyll", "~> 4.3.0"
 
 # Essential Jekyll plugins
 group :jekyll_plugins do
@@ -23,11 +20,6 @@ end
 group :test do
   gem "html-proofer", "~> 4.0"
 end
-
-# Ruby 3.4.0 compatibility - required standard library gems
-gem "base64"
-gem "logger"
-gem "csv"
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
 # and associated library.
