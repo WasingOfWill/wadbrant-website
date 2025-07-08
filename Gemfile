@@ -1,18 +1,27 @@
 source "https://rubygems.org"
 
-# Use Jekyll 4.x for GitHub Actions deployment
+# Use Jekyll for GitHub Pages deployment  
 gem "jekyll", "~> 4.3.0"
+
+# GitHub Pages gem for better compatibility
+gem "github-pages", group: :jekyll_plugins
 
 # Chirpy theme
 gem "jekyll-theme-chirpy", "~> 6.0", ">= 6.0.1"
 
-# If you have any plugins, put them here!
+# Essential Jekyll plugins
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-sitemap"
   gem "jekyll-seo-tag"
   gem "jekyll-archives"
   gem "jekyll-paginate"
+  gem "jekyll-include-cache"
+end
+
+# Testing and development gems
+group :test do
+  gem "html-proofer", "~> 4.0"
 end
 
 # Ruby 3.4.0 compatibility - required standard library gems
