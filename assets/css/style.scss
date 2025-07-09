@@ -1,6 +1,25 @@
 ---
 ---
 
+/* ==========================================================================
+   SASS VARIABLE OVERRIDES
+   Override theme variables BEFORE importing the theme
+   ========================================================================== */
+
+// Example variable overrides (uncomment and modify as needed):
+// $primary-color: #007bff;
+// $body-bg: #ffffff;
+// $text-color: #333333;
+// $link-color: #007bff;
+// $border-color: #dee2e6;
+
+@import "jekyll-theme-chirpy";
+
+/* ==========================================================================
+   CUSTOM CSS OVERRIDES
+   Place all your custom CSS below this line
+   ========================================================================== */
+
 /* Custom link styling - remove underlines but keep blue color */
 a {
   text-decoration: none !important;
@@ -18,4 +37,34 @@ a:hover {
 
 .post-content a:hover {
   text-decoration: underline !important;
+}
+
+/* ==========================================================================
+   ADDITIONAL CUSTOM STYLES
+   Add your custom component styles here
+   ========================================================================== */
+
+/* Example: Custom button styling */
+.custom-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #0056b3;
+}
+
+/* Example: Custom post styling */
+.post-content {
+  /* Add any post-specific styles here */
+}
+
+/* Example: Custom sidebar modifications */
+.sidebar {
+  /* Add sidebar customizations here */
 } 
