@@ -1,0 +1,61 @@
+<!-- The sidebar navigation -->
+<aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
+  <header class="profile-wrapper">
+    <a href="/" id="avatar" class="rounded-circle">
+      <img src="{{ site.avatar | relative_url }}" width="112" height="112" alt="avatar" onerror="this.style.display='none'">
+    </a>
+
+    <h1 class="site-title">
+      <a href="/">
+        WADBRANT
+      </a>
+    </h1>
+    <p class="site-subtitle fst-italic mb-0">{{ site.tagline }}</p>
+  </header>
+  <!-- .profile-wrapper -->
+
+  <nav class="flex-column flex-grow-1 w-100 ps-0">
+    <ul class="nav">
+      <!-- home -->
+      <li class="nav-item">
+        <a href="/" class="nav-link">
+          <i class="fa-fw fas fa-home"></i>
+          <span>HOME</span>
+        </a>
+      </li>
+      <!-- the real tabs -->
+      {% for tab in site.tabs %}
+        <li class="nav-item">
+          <a href="{{ tab.url | relative_url }}" class="nav-link">
+            <i class="fa-fw {{ tab.icon }}"></i>
+            {% capture tab_name %}{{ tab.title }}{% endcapture %}
+
+            <span>{{ tab_name | upcase }}</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="sidebar-bottom d-flex flex-wrap align-items-center w-100">
+    {% if site.theme_mode %}
+      <button type="button" class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+      {% if site.data.contact.size > 0 %}
+        {% assign link_types = '' %}
+        {% for entry in site.data.contact %}
+          {% capture type %}{{ entry.type }}{% endcapture %}
+          {% unless link_types contains type %}
+            {% capture link_types %}{{ link_types }}{{ type }}{% endcapture %}
+          {% endunless %}
+        {% endfor %}
+        {% assign link_types = link_types | split: '' | uniq | join: ',' %}
+        {% include mode-toggle.html %}
+      {% endif %}
+    {% endif %}
+  </div>
+  <!-- .sidebar-bottom -->
+</aside>
+<!-- #sidebar --> 

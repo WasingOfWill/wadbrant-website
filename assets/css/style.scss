@@ -1,4 +1,21 @@
 ---
 ---
 
-@import "main"; 
+/* Custom link styling - remove underlines but keep blue color */
+a {
+  text-decoration: none !important;
+}
+
+/* Ensure links still have hover effects for better UX */
+a:hover {
+  text-decoration: underline !important;
+}
+
+/* Optional: Custom styling for post content links */
+.post-content a {
+  text-decoration: none !important;
+}
+
+.post-content a:hover {
+  text-decoration: underline !important;
+} 

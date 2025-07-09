@@ -14,3 +14,10 @@ Endless curiosity, love to enable others, & doing what matters.
 - **Twitter:** [@WilliamWadbrant](https://twitter.com/WilliamWadbrant)
 - **GitHub:** [WasingOfWill](https://github.com/WasingOfWill)
 - **LinkedIn:** [Wadbrant](https://www.linkedin.com/in/wadbrant/) 
+
+## Useful Links
+- [Yaengard](https://store.steampowered.com/app/1545830/Yaengard/) on Steam
+
+
+Powered by [Jekyll](https://jekyllrb.com). Theme by [Chirpy](https://github.com/cotes2020/jekyll-theme-chirpy).
+
