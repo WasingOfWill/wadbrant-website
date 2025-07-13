@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Welcome to My Blog!"
-date: 2024-01-15 10:00:00 +0000
-categories: [Personal, Introduction]
-tags: [welcome, blogging, jekyll]
+title: "How to design characterization"
+date: 2025-07-09
+categories: [Game Design, RPG]
+tags: [game design]
 ---
 
 Welcome to my personal blog! This is my first post, and I'm excited to start sharing my thoughts and experiences with you.
