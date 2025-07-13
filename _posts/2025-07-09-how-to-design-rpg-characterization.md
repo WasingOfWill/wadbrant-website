@@ -3,10 +3,10 @@ layout: post
 title: "How to design characterization"
 date: 2025-07-09
 categories: [Game Design, RPG]
-tags: [game design]
+tags: [Game design]
 ---
 
-Welcome to my personal blog! This is my first post, and I'm excited to start sharing my thoughts and experiences with you.
+
 
 ## What You Can Expect
 
