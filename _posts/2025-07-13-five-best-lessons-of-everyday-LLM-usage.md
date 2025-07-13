@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "5 best lessons of making your life better with LLMs"
+title: "Five greatest tips for LLMs"
 date: 2025-07-13
 categories: [AI, Using LLMs]
 tags: [ai, llm, doing things]
@@ -17,7 +17,7 @@ Whenever you try a new type of task (examples being a new type of coding challen
 **Learning 1**
 ```Learn quickly when AI models and LLM agents are useful, and what tasks break them. Do this by experimenting quickly, and recording what works and what does not.```
 
-## Have A LOT of context
+## Give more context
 AI models thrive on context. Provide as much as possible to ensure accurate outputs. Insufficient context leads to errors, while abundant context, paired with clear prompts, keeps the model focused.
 
 When asking an AI to draft an email, include the recipient’s role, the email’s purpose, and relevant background details (such as prior responses or project context) to avoid generic or off-topic responses. By providing a lot of text you have written, you can also prompt it to use your writing style (if it has enough of your own writing).
@@ -25,7 +25,7 @@ When asking an AI to draft an email, include the recipient’s role, the email�
 **Learning 2**
 ```Context is critical for successful output. Always make sure to give the LLM as much context as possible. More context is usually better.```
 
-## Your prompts matter a lot
+## Prompt quality changes everything
 High-quality prompts drive better AI results. Vague or poor prompts lead to subpar outputs. To improve outcomes, ALWAYS ask the AI to break down complex tasks into smaller steps, clarify details through follow-up questions, and then address each step systematically.
 
 My own prompt component (added to other prompts) for this is:
@@ -35,10 +35,10 @@ I have this prompt in my prompt library, iterating on it, and quickly adding it 
 
 
 **Learning 3**
-```raming in prompts impacts output quality a lot, especially when there is a lot of context. Write prompts in ways where the task is approached in the right way and the goal is not forgotten. Ask the AI to break down the problem, and solve each subtask.
-```
+```raming in prompts impacts output quality a lot, especially when there is a lot of context. Write prompts in ways where the task is approached in the right way and the goal is not forgotten. Ask the AI to break down the problem, and solve each subtask.```
 
-## Make your prompt framings repeatable, tested, and accessible
+
+## Repeatable, tested, and accessible prompts
 
 Writing prompts from scratch is time-consuming. A prompt library saves effort by storing reusable, tested prompts in an accessible format, like a customizable Notion page, for quick copying and pasting across devices.
 
