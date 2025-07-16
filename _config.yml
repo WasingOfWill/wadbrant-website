@@ -140,6 +140,9 @@ defaults:
 
 sass:
   style: compressed
+  implementation: sass-embedded
+  sourcemap: never
+  quiet_deps: true
 
 compress_html:
   clippings: all
@@ -169,6 +172,11 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+# Feed configuration to prevent conflicts
+feed:
+  path: feed.xml
+  excerpt_only: true
 
 # Build settings
 plugins:

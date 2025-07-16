@@ -55,9 +55,11 @@ However, it requires the game to be actively multiplayer. It is about ownership 
 - Call of Duty: Warzone (Activision)
 
 **Positive Incentive**
+
 Players who care about the game and community are motivated to buy cosmetics because they feel invested and want to stand out. To increase monetization, studios 
 
 **Negative Incentive**
+
 Cosmetic monetization leads to a decrease in visual quality for non-paying players. There is an incentive for the studio to make free-to-play players have fewer and worse options. By limiting styles and cool looks by players who aren’t paying, you increase the likelihood of converting buyers. The studio has an anti-incentive to improve the visuals for players who do not pay.
 Most games can be perfectly fine even if they give in to this negative incentive. Games which sell cosmetics will over time have uglier and less interesting visuals for non-paying players.
 
@@ -75,9 +77,11 @@ Due to the (weirdly) positive player optics and insanely lucrative monetization 
 - Clash of Clans (Supercell)
 
 **Positive Incentive**
+
 Players with limited time can enjoy more of the game without spending hours grinding, in the short term.
 
 **Negative Incentive**
+
 Monetizing the purchase of progress is one of the most deceptively toxic ways to monetize a game.
 While buying progress to “save time” for players with more money than free-time seems innocent, it leads to major game design corruption long term as the studio is incentives to increase grind and time-waste. Paying players will even say they want this monetization mechanic (“I want to play the endgame but I only have 2 hours a week to play”), not realizing that the studio has caused the problem (making the game progression slow and boring, selling the shortcut) and selling the solution.
 Games monetizing by selling progress will overtime become grinder, slower, and more boring, to get players to pay to skip the gameplay. The studio is incentivised to cater to the meta “endgame”, and make everything else unfun.
@@ -93,9 +97,11 @@ A game which is pay-to-win is nearly dead on arrival in my eyes. It has fundamen
 - Summoners War (Com2uS)
 
 **Positive Incentive**
+
 None. A game selling wins has no positive incentives. 
 
 **Negative Incentive**
+
 It destroys fair competition and drives away players unwilling or unable to pay. It replaces the game with swiping player's credit cards. No game can survive being pay-to-win and still be a game which puts game design first. Pay-to-win games will over time become harder and grindier, incentivizing players to pay to win. If it is competitive, it will also slowly (and painfully) churn the non-payers as they can't compete.
 
 ## Battlepasses
@@ -110,9 +116,11 @@ Encourages regular play and rewards dedication. It grants players a reward for j
 - PUBG Mobile (Tencent)
 
 **Positive Incentive**
+
 Create a game which is fun and engaging, connecting progress with playing the game. A boring and unengaging game will not be successful with a battlepass.
 
 **Negative Incentive**
+
 Battlepasses incentives studios to slow down progress, encouraging the paid battlepass. Games monetizing with battlepasses will likely slow down to grinds. Additionally, we'll almost always get seasonal gameplay (which isn't inherently bad) to keep players on the "treadmill" with new battlepasses. 
 Games using battlepasses will overtime become slower and grinder, but attempt to refresh the game with seasons or leagues (which isn't bad for players!).
 
@@ -127,9 +135,11 @@ Especially as a "hardcore" gamer (in the commercial gaming industry, everything 
 - Hill Climb Racing (Fingersoft)
 
 **Positive Incentive**
+
 Monetizing with ads actually has major positive incentives. You must make a game where many players will play for long periods of time, even though their gameplay is disrupted by ads. Strangely enough, ads create the most positive incentive in F2P monetization.
 
 **Negative Incentive**
+
 The only negative incentive from interstitial ads is ruining the game. However, this is self-correcting as a massive amount of ads will make players churn. The incentives thus become to balance the interstitial ad volume.
 Interstitial ads do not have long-term negative changes, however many players despise any interstitial ads in their games and will simply churn day 0.
 For rewarded ads it's a bit worse. It causes much less player churn as the ads are player-initiated and fully optional, but it does create an incentive to make the game harder, and "sell" bonuses using ad views. This can be mitigated by selling a one-time purchase to remove all ads, which I've seen be the largest revenue driver for some commercial mobile games.
@@ -138,15 +148,15 @@ Games monetizing on rewarded ads will overtime become grinder and harder while a
 ## Conclusion
 Monetization shapes the design, pacing, and perception of free-to-play games. Each method has strengths and risks depending on how it is implemented. But humans will optimize, so we always see games change based on their choice of monetization:
 
->Selling cosmetics leads to non-paying players getting worse and worse visuals, skins, and personalizations.
+>Selling _cosmetics_ leads to non-paying players getting worse and worse visuals, skins, and personalizations.
 
->Selling progress bypasses, currencies, and level-ups actively leads to the non-endgame gameplay being worse, slower, and grinder.
+>Selling _progress_ bypasses, currencies, and level-ups actively leads to the non-endgame gameplay being worse, slower, and grinder.
 
->Pay-to-win games will slowly turn the game into garbage unless you’re paying, until the only gameplay mechanic which remains is paying. Studios however will do everything they can to walk a fine line.
+>_Pay-to-win_ games will slowly turn the game into garbage unless you’re paying, until the only gameplay mechanic which remains is paying. Studios however will do everything they can to walk a fine line.
 
->Battlepasses lead to games becoming slower and grinder, but always try to refresh the game with seasons and leagues to get players excited and having fun.
+>_Battlepasses_ lead to games becoming slower and grinder, but always try to refresh the game with seasons and leagues to get players excited and having fun.
 
->Interstitial ads have no long term effects, while rewarded ads lead to harder and harder games (until it is no longer fair for players). They also have to have ads, which let’s be honest, sucks.
+>_Interstitial ads_ have no long term effects, while _rewarded ads_ lead to harder and harder games (until it is no longer fair for players). They also have to have ads, which let’s be honest, sucks.
 
 I just think it’s interesting to think about incentives in all things, but it becomes crystal clear when it's applied to monetization. Money doesn’t lie, and humans in organizations will always optimize for money long term. We don’t have to pretend it is not true, but we can design our games around it.
 

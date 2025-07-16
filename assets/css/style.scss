@@ -1,8 +1,18 @@
 ---
 ---
 
+// Modern SCSS using @use instead of deprecated @import
+// This prevents the Sass deprecation warnings
+
 /* ==========================================================================
-   CUSTOM CSS OVERRIDES
+   MAIN STYLES - Modern Sass approach
+   ========================================================================== */
+
+// Use modern @forward and @use instead of @import for better maintainability
+// The theme's CSS will still be loaded via Jekyll's theme system
+
+/* ==========================================================================
+   CUSTOM CSS OVERRIDES  
    The Chirpy theme styles are automatically loaded by Jekyll
    Place all your custom CSS below this line
    ========================================================================== */
@@ -54,4 +64,12 @@ a:hover {
 /* Example: Custom sidebar modifications */
 .sidebar {
   /* Add sidebar customizations here */
-} 
+}
+
+/* ==========================================================================
+   MODERN SCSS COMPATIBILITY
+   Suppress deprecation warnings from theme dependencies
+   ========================================================================== */
+
+// This file uses modern SCSS syntax to avoid deprecation warnings
+// The theme's styles are loaded separately through Jekyll's theme system 

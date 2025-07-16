@@ -18,9 +18,13 @@ end
 
 # Performance and reliability gems
 gem "webrick", "~> 1.7"
+
+# Ruby 3.4+ compatibility gems (removed from standard library)
 gem "csv", "~> 3.2"
 gem "base64", "~> 0.1"
+gem "bigdecimal", "~> 3.1"
 gem "logger", "~> 1.5"
+gem "uri", "~> 0.12"
 
 # Windows support
 platforms :mingw, :x64_mingw, :mswin, :jruby do
