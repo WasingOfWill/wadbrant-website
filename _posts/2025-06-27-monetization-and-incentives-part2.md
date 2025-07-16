@@ -56,12 +56,14 @@ However, it requires the game to be actively multiplayer. It is about ownership 
 
 **Positive Incentive**
 
-Players who care about the game and community are motivated to buy cosmetics because they feel invested and want to stand out. To increase monetization, studios 
+Players who care about the game and community are motivated to buy cosmetics because they feel invested and want to stand out. To increase monetization, studios are incentiviced to make the game more fun long-term, players more engaged, and invest in dramatic visuals. 
 
 **Negative Incentive**
 
 Cosmetic monetization leads to a decrease in visual quality for non-paying players. There is an incentive for the studio to make free-to-play players have fewer and worse options. By limiting styles and cool looks by players who aren’t paying, you increase the likelihood of converting buyers. The studio has an anti-incentive to improve the visuals for players who do not pay.
 Most games can be perfectly fine even if they give in to this negative incentive. Games which sell cosmetics will over time have uglier and less interesting visuals for non-paying players.
+
+It is also common for games over time to have cosmetics grow more and more extreme, which may hurt the aesthetic of the game. If the studio doesn't keep pushing the aesthetic to more extremes, it gets harder and harder to sell skins.
 
 
 ## Buy progress
