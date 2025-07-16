@@ -8,13 +8,20 @@ tags: [AI, LLM, Doing things]
 
 Working as a Product Manager through the rise of AI in software development, I feel like I missed an opportunity to build the first AI products. I always try to be curious, and nearly instantly began using the early models; InstructGPT, ChatGPT 1.0, first versions of Grok. Even if I didn’t jump on the AI hype train for product features, I realized quite quickly that it wasn’t vaporware. It actively saves you time, if used correctly. AI models and LLM agents aren’t magic (“fancy autocomplete” isn’t too far off), but they can save an inhuman amount of effort when applied where they are a smidge away from magic.
 
+> Summary
+1. Actively try to break AI agents and models, to learn what they can’t do.
+2. Provide maximum possible context.
+3. Prompt instructions matter a ton. Use well-tested and refined ones. Iterate on them.
+4. Make your prompt framings accessible with a prompt library.
+5. Whenever possible, give context in markdown languages or similar structures.
+
 
 ## Learn when AI breaks by intentionally breaking them
 Listening and reading what those who work deep in the AI / LLM space are saying, one of the fastests ways to improve your use of AI (both in simple workflow and coding) is learning when the models break. I found it to be absurdly accurate. People who dislike the use of AI, or who stop using it for day-to-day tasks usually (in my experience) try to use the tool for something it’s not good for (such as finding facts), and then write the entire concept of LLMs off.
 
 Whenever you try a new type of task (examples being a new type of coding challenge or writing something new), try to push the model until it breaks. It’ll teach you what you can do, and what you can’t. Give it more ambitious tasks with way too much context, or with way too little contexts (although the latter risks hallucinations rather than failure), and see if the model breaks. Once you know the boundaries of what the model can do and what it can’t do, you’ll know when to use it. In the same way as any tool, really.
 
-**Learning 1**
+**Learning 1: Try to break the models!**
 ```text
 Learn quickly when AI models and LLM agents are useful, and what tasks break them.
 Do this by experimenting quickly, and recording what works and what does not.
@@ -25,7 +32,7 @@ AI models thrive on context. Provide as much as possible to ensure accurate outp
 
 When asking an AI to draft an email, include the recipient’s role, the email’s purpose, and relevant background details (such as prior responses or project context) to avoid generic or off-topic responses. By providing a lot of text you have written, you can also prompt it to use your writing style (if it has enough of your own writing).
 
-**Learning 2**
+**Learning 2: MORE CONTEXT**
 ```text
 Context is critical for successful output.
 Always make sure to give the LLM as much context as possible.
@@ -36,15 +43,14 @@ More context is usually better.
 High-quality prompts drive better AI results. Vague or poor prompts lead to subpar outputs. To improve outcomes, ALWAYS ask the AI to break down complex tasks into smaller steps, clarify details through follow-up questions, and then address each step systematically.
 
 My own prompt component (added to other prompts) for this is:
-`“Break down this task into subtasks. Then, create a solution for each subtask itself. If at that point something is unclear, ask follow up questions about the original task. After doing all of those things, complete the task.”`
+>Break down this task into subtasks. Then, create a solution for each subtask itself. If at that point something is unclear, ask follow up questions about the original task. After doing all of those things, complete the task.
 
 I have this prompt in my prompt library, iterating on it, and quickly adding it to other prompts.
 
 
-**Learning 3**
+**Learning 3: Good prompts are great**
 ```text
-Framing prompts correctly massively impacts output quality. 
-Epecially when there is a lot of context.
+Good prompts  massively impacts output quality, especially with tons of context.
 Write prompts in ways where the task is approached in the right way and the goal is not lost.
 Ask the AI to break down the problem, and solve each subtask.
 ```
@@ -56,8 +62,10 @@ Writing prompts from scratch is time-consuming. A prompt library saves effort by
 
 Create a document or personal wiki with prompts which you often reuse. I organize mine under use cases, and keep generally useful prompts (such as the “break-down-problems-into-subtasks” above) easily accessible. Tools are just as good as they are easy to use.
 
+Similar to DRY, do not repeat yourself. Save good prompts and reuse aggresivly. 
 
-**Learning 4**
+
+**Learning 4: PROMPT LIBRARY**
 ```text
 Providing the right context with the right framing takes a lot of time and cognitive effort.
 Saving or automating recurring prompts makes all the difference in day-to-day practice.
@@ -71,7 +79,7 @@ Sometimes, data is lost in the context because the structure of the context isn�
 When inputting customer data for analysis, use a CSV format like name,age,purchase;John,25,coffee instead of a plain text list to help the AI process it accurately. I especially like JSON or XML formats (and you can even use LLM prompts to turn data into this format)
 
 
-**Learning 5**
+**Learning 5: Markdown languages for context**
 ```text
 Speak the language an LLM speaks, especially when you have a lot of context.
 When inputting a lot of context, find ways to use markdown languages, JSON, CSV, etc.
@@ -88,7 +96,7 @@ In a CRM system, export customer interaction logs as a JSON file to feed into an
 Actively search for ways to export the right and large amount of context wherever you work. When you find a workflow where you can export the context in an AI-appropriate format, you’ll nearly always find great productive use-cases for AI/LLMs.
 
 
-**BONUS**
+**BONUS: Look for places where context is exportable**
 ```text
 Always look for places where context is readily available and easily exportable.
 There are likely places where AI can be a gamechanger there!
@@ -98,10 +106,11 @@ I often find new places where AI/LLMs can be game-changers not by finding the us
 
 ## Summary
 As a summary, this leaves us with 6 learnings to 
-Actively try to break AI agents and models, to learn what they can’t do.
-Provide maximum possible context.
+1. Actively try to break AI agents and models, to learn what they can’t do.
+2. Provide maximum possible context.
+3. Prompt instructions matter a ton. Use well-tested and refined ones. Iterate on them.
+4. Make your prompt framings accessible with a prompt library.
+5. Whenever possible, give context in markdown languages or similar structures.
 
-Prompt instructions matter a ton. Use well-tested and refined ones. Iterate on them.
-Make your prompt framings accessible with a prompt library.
-Whenever possible, give context in markdown languages or similar structures.
+And look for places where data can be (made) exportable in machine-appropriate formats; these are the places where LLMs will change the game, even if you can't see how right now!
 
