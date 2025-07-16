@@ -20,5 +20,4 @@ Endless curiosity, love to enable others, & doing what matters.
 
 
 Powered by [Jekyll](https://jekyllrb.com). Theme by [Chirpy](https://github.com/cotes2020/jekyll-theme-chirpy).
-Sample [article]({%3000-08-08-write-a-new-post-and-how-to-do-markdown.md%}).
 

@@ -1,7 +1,7 @@
 ---
 title: Writing a New Post
 author: cotes
-date: 23000-08-08 14:10:00 +0800
+date: 2050-08-08 14:10:00 +0800
 categories: [Random]
 tags: [random]
 render_with_liquid: false
