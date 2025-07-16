@@ -23,7 +23,7 @@ In this part 1 article we’ll look at paid games. In part 2 we’ll look at fre
 - Battlepasses
 - Ads
 
-[Read part 2 here!]({% post_url 2025-06-21-monetization-and-incentives-part2 %})
+[Read part 2 here!]({% post_url 2025-06-27-monetization-and-incentives-part2 %})
 
 
 ## Incentives
@@ -75,4 +75,4 @@ We made the games free. That's where the real money was.
 
 Crazy.
 
-Read: [Monetization & Incentives (Part 2): Free-to-play Games]({% post_url 2025-06-21-monetization-and-incentives-part1 %})
+Read: [Monetization & Incentives (Part 2): Free-to-play Games]({% post_url 2025-06-27-monetization-and-incentives-part2 %})
