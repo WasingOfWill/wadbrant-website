@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Why 90% of indie games fail"
+title: "Why 90% of Indie Games Fail"
 date: 2025-09-18
 categories: [Game Industry, Indie]
 tags: [Product Management, Game Industry, Indie Games]
 ---
 
-Steam is the #1 platform for PC gaming. Many game developers see it as the only target to release on (even if both Epic and GoG is slowly growing). But Steam is brutal to those who go in with nothing but a dream to make a game. My indie game ([Yaengard, the Personality Trait RPG](https://store.steampowered.com/app/1545830/Yaengard/)) sold about 6000 copies. It was around our expectations. We needed about double to justify building game #2, which would have been exciting. But life happens, and whop-bam I go into commercial cross-platform gaming instead. We decided yearly that Yaengard was a passion-first project. "Business is secondary" was said multiple times. 
+Steam is the #1 platform for PC gaming. Many game developers see it as the only target to release on (even if both Epic and GoG is slowly growing). But Steam is brutal to those who go in with nothing but a dream to make a game. My indie game ([Yaengard, the Personality Trait RPG](https://store.steampowered.com/app/1545830/Yaengard/)) sold about 6000 copies. It was around our expectations. We decided early that Yaengard was a passion-first project. "Business is secondary" was said multiple times. We needed about double to justify building game #2, which would have been exciting. But life happens, and whop-bam I go into commercial cross-platform gaming instead. 
 
 I felt like Yaengard was a failure on the business side (even if that was the intention!). Yet, Yaengard was in the top 4% of games released on Steam during 2022. That makes me think: "If I think Yaengard was a failure, what happened to the 96% of games that had worse releases?".
 
@@ -26,7 +26,7 @@ These are all true, even though 16% (7000 games) of games were free, and 58% (~2
 In large, this is due to game development being accessible, and many gamers dreaming of adding their creation to Steam. But for those of us not just dreaming, but trying to build games for a living, it becomes a sobering truth.
 
 ![Genre Matters](assets/images/steamGraph.png)
-More and more games are being released as gaming grows, kids grow up dreaming of making games, and it is easier now than ever. Additionally, both tools and distribution is much mroe accessible than it once were.
+More and more games are being released as gaming grows, kids grow up dreaming of making games, and it is easier now than ever. Additionally, both tools and distribution is much more accessible than it once were (including the arrival of coding LLMs).
 
 **Pricing Mistakes**
 - As a business guideline, higher price is nearly always better on Steam. However, your game must match the tier of its pricing.
