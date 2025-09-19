@@ -20,6 +20,7 @@ Let's break down what happens to most games on Steam.
 - 42% (~18 000 games) never sold 100 copies.
 - 66% (~28K games) never made $1000.
 - 83% of games in this span makes less than $10 000. This becomes $5600 after sales tax, local pricing, and Steams 30% cut.
+- On average, 16% of bought games are refunded on Steam. (Yaengard was more!)
 
 These are all true, even though 16% (7000 games) of games were free, and 58% (~23K games) cost $4.99 or less. An additional 22% (9K games) sold for between $5 and $10.
 In large, this is due to game development being accessible, and many gamers dreaming of adding their creation to Steam. But for those of us not just dreaming, but trying to build games for a living, it becomes a sobering truth.
@@ -51,7 +52,7 @@ I come from business, product, and have a lot of experience from the "evil" side
 - Where most games fail (It is lack of scoping!)
 - Where released games fail (It is in business and marketing!)
 - Becoming the best in the world
-- Player feedback and engagement
+- Player feedback and engagement (& refunds!)
 - Being an indie gaming company (by funding game #2)
 - Signing publishers & investors
 
