@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to NOT pick the wrong game genre
+title: How to NOT Pick the Wrong Game Genre
 categories:
 - Game Industry
 - Indie
