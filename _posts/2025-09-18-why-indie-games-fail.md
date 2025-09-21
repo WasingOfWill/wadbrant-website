@@ -8,6 +8,9 @@ image:
   path: assets/images/cover/yaengardStore.png
 ---
 
+## This Article
+*Most indie games on Steam fail due to oversupply, low sales, and cheap pricing. Nearly half sell under 100 copies and most earn under $10,000.Higher prices, more reviews, and smart choices like console releases or localization improve survival. Passion helps, but business sense is essential.*
+
 Steam is the #1 platform for PC gaming. Many game developers see it as the only target to release on (even if both Epic and GoG is slowly growing). But Steam is brutal to those who go in with nothing but a dream to make a game. My indie game ([Yaengard, the Personality Trait RPG](https://store.steampowered.com/app/1545830/Yaengard/)) sold about 6000 copies. It was around our expectations. We decided early that Yaengard was a passion-first project. "Business is secondary" was said multiple times. We needed about double to justify building game #2, which would have been exciting. But life happens, and whop-bam I go into commercial cross-platform gaming instead. 
 
 I felt like Yaengard was a failure on the business side (even if that was the intention!). Yet, Yaengard was in the top 4% of games released on Steam during 2022. That makes me think: "If I think Yaengard was a failure, what happened to the 96% of games that had worse releases?".
