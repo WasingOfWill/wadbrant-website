@@ -37,19 +37,22 @@ bundle exec jekyll unpublish _posts/YYYY-MM-DD-your-post-title.md
 
 ```yaml
 ---
-title: Your Title Here
-date: YYYY-MM-DD HH:MM:SS +/-TTTT
+layout: post
+title: "Your Title Here"
+date: YYYY-MM-DD
 categories: [MainCategory, SubCategory]
-tags: [tag1, tag2]     # always lowercase
+tags: [tag1, tag2]    # always lowercase
 image:
-  path: assets/images/cover/...
+  path: assets/images/cover/image-name.png
   alt: Image description
+---
+
+# Optional Front Matter
 math: true           # enable math support
 mermaid: true       # enable mermaid diagrams
 pin: true           # pin to top of posts list
 comments: false     # disable comments
 toc: false          # remove table of contents
----
 ```
 
 ## Categories & Tags
@@ -69,12 +72,24 @@ toc: false          # remove table of contents
 ## Local Development
 
 ```bash
-# Start local server
+# Start local server (without drafts)
 bundle exec jekyll serve
+
+# Start server with drafts visible
+bundle exec jekyll serve --drafts
+
+# Start server with drafts and auto-reload
+bundle exec jekyll serve --drafts --livereload
 
 # View site at
 http://localhost:4000
 ```
+
+The `--drafts` flag will:
+- Show all drafts as if they were posts
+- Date them with today's date
+- List them with your other posts
+- Only show locally, not on the live site
 
 ## Writing Tips
 
@@ -83,6 +98,23 @@ http://localhost:4000
 3. Include images with descriptive alt text
 4. Use categories and tags consistently
 5. Add a brief description in front matter
+
+## Linking Between Posts
+
+To link to another post in your blog:
+```markdown
+[Link text]({% post_url YYYY-MM-DD-post-name %})
+```
+
+Example:
+```markdown
+[See my first post]({% post_url 2025-09-18-why-indie-games-fail %})
+```
+
+Important:
+- Don't include the .md extension
+- Use the exact filename without the extension
+- The post must exist for the link to work
 
 ## File Organization
 

@@ -1,17 +1,11 @@
 ---
-title: TITLE
-date: DATE
+layout: post
+title: "TITLE"
 categories: [Category1, Category2]
-tags: [tag1, tag2]     # TAG names should always be lowercase
+tags: [tag1, tag2]    # always lowercase
 image:
-  path: /path/to/image
+  path: assets/images/cover/image-name.png
   alt: Image description
-# math: true           # Enable math support
-# mermaid: true       # Enable mermaid diagrams
-# pin: true           # Pin to top of posts list
-# comments: false     # Disable comments for this post
-# toc: false         # Remove table of contents
-# render_with_liquid: false  # Disable liquid processing
 ---
 
 ## Overview

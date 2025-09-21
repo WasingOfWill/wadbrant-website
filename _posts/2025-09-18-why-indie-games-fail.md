@@ -21,24 +21,24 @@ Let's break down what happens to most games on Steam.
 **Releases & Sales**
 - In the span of 2023 and September 2025 (now), 42 126 games were released on Steam.
 - 42% (~18 000 games) never sold 100 copies.
-- 66% (~28K games) never made $1000.
-- 83% of games in this span makes less than $10 000. This becomes $5600 after sales tax, local pricing, and Steam's 30% cut.
+- 66% (~28 000 games) never made $1000.
+- 83% of games in this span makes less than $10 000. This becomes $5600 after sales tax, local pricing, and Steam's 30% cut. ($312 pre-tax salary per month for a 18-month development cycle)
 - On average, 16% of bought games are refunded on Steam. (Yaengard was more, ~17.2%)
 
 In large, this is due to game development being accessible, and many gamers dreaming of adding their creation to Steam. But for those of us not just dreaming, but trying to build games for a living, it becomes a sobering truth.
 
-![Genre Matters](assets/images/steamGraph.png)
+![Genre Matters](assets/images/article/steamGraph.png)
 More and more games are being released as gaming grows, kids grow up dreaming of making games, and it is easier now than ever. Additionally, both tools and distribution is much more accessible than it once were (including the arrival of coding LLMs).
 
 **Pricing Mistakes**
-- ~95% o games on Steam costs less than $20.
-- 16% (7000 games) of games were free (2023 - 2025).
+- ~95% of games on Steam costs less than $20.
+- 16% (7K games) of games were free (2023 - 2025).
 - 58% (~23K games) cost $4.99 or less. 
 - 22% (9K games) sold for between $5 and $10.
 - Only 1.5% of theses games costs $40 or more.
 - Less than 0.2% of these games have AAA pricing (>$60)
 
-![Genre Matters](assets/images/reviewsSteam.png)
+![Genre Matters](assets/images/article/reviewsSteam.png)
 For each steam review (positive or negative), about 50-60 copies are sold (Funnily enough, my indie game sold EXACTLY 50 copies per review in its first year). You need about 500 reviews for a game release to sustain a tiny indie development team. Double it if you have a publisher, which generally takes a 50/50 revenue split these days for indie game companies. 
 
 ## Consider your business options. Don't go in blind.
