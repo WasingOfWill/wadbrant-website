@@ -1,12 +1,16 @@
 ---
 layout: post
 title: How to NOT pick the wrong game genre
-categories: [Game Industry, Indie]
-tags: [Game Industry, Indie Games]
+categories:
+- Game Industry
+- Indie
+tags:
+- Game Industry
+- Indie Games
 image:
   path: assets/images/cover/steamtags.jpg
+date: 2025-09-21 12:22 -0400
 ---
-
 ## This Article
 *Picking the right game genre is critical for indie success. Your audience depends on both how many people could play your game and how many will actually see it. Some genres are oversaturated with too many strong competitors, while others are so niche they have no real audience. Both make it harder to get discovered and earn enough to sustain a studio. Passion matters, but if you want your game to succeed, you need to understand the market, your competition, and the financial realities of each genre and tag before choosing where to place your game.*
 
