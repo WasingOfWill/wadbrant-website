@@ -4,6 +4,8 @@ title: "Monetization & Incentives (Part 2): Free-to-Play Games"
 date: 2025-06-27
 categories: [Game Industry, Strategy]
 tags: [Product Management, Game Industry]
+image:
+  path: assets/images/cover/mobileGameMonetization.png
 ---
 
 This is part 2 of how game design and strategy are affected by the incentives created by how your game is monetized. While monetization is necessary to sustain development, overly aggressive methods can undermine the quality and enjoyment of a game. This is a hot topic when we now get to free-to-play game studios, which I have spent the last 3 years working with and building product for.

@@ -4,6 +4,9 @@ title: "Monetization & Incentives (Part 1): Paid Games"
 date: 2025-06-21
 categories: [Game Industry, Strategy]
 tags: [Product Management, Game Industry]
+image:
+  path: assets/images/cover/steamHome.jpg
+
 ---
 
 One of my biggest areas of expertise is game design and the business of gaming. As I also enjoy playing games, dealing with monetization methods becomes very central. It is an awful feeling playing a game and enjoying it, just to notice predatory monetization strategies. At that point it simply feels as if the developer is trying to squeeze players dry. It is no longer about the game and gaming experience, as the studio has shown that money takes precedence over the quality of the game. 
