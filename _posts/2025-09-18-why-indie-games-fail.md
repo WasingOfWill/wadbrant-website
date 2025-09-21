@@ -42,8 +42,9 @@ Most indie games will fail. That is a truth, and it is okey. We all build games 
 
 But did you know that if you release your game on consoles, the median result is a 1:1 sales ratio between PC and consoles (very region and game dependent)? In many cases it is much higher, with console sales dominating for example europe. Yet, 95% of games are single-platform games. To build a indie game development studio, you need to re-adjust your thinking. It can't be all passion project. You have to learn how the game is played, and then decide what % should be business and what % should be passion.
 
-**Facts to consider**
-Making some basic assumptions of income and development time (~12-16 months), here are some facts to consider
+## Facts to consider
+
+Making some basic assumptions of income and development time (~12-16 months), here are some facts to consider:
 - For a 1-2 people game studio, you need to reach ~40 000 wishlist and hit ~200 reviews. 
 - For a 4-5 people game studio, you need ~90 000 wishlists, and hit ~500+ reviews.
 
