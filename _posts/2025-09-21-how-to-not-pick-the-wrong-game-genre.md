@@ -38,7 +38,7 @@ Game genres, tags, and categories on Steam vastly vary. Different genres has dif
 
 ![Game Categories Quadrants](assets/images/article/2025-09-quadrants.png)
 
-Optimally, you release your game in categores where there are a lot of players, and too few games. This massively increases the likelyhood that your game will sell, it lowers the requirements on quality/polish, and overall makes life much easier for you.
+Optimally, you release your game in categores where there are a lot of players, and too few games (top right). This massively increases the likelyhood that your game will sell, it lowers the requirements on quality/polish, and overall makes life much easier for you.
 
 ## Let's look at shit genres
 
@@ -50,7 +50,7 @@ I have my massive dataset over Steam tags, their performance, and estimations on
 ![Game Categories Quadrants](assets/images/article/Screenshot2025-09-21-122301.png)
 
 There are two types of bad categories here, which is reflected in our quadrants.
-- Oversaturated tags (bottom left, many players but many games), where there are so many games that the audience isn't accessable ("Combat", "Arcade", "Minimalist", "Linear"). 
+- Oversaturated tags (bottom right, many players but many games), where there are so many games that the audience isn't accessable ("Combat", "Arcade", "Minimalist", "Linear"). 
 - Niche tags (top left, few competing games but also few players), where there isn't really a meaningful audience to reach ("Pool", "Snow", "Bird", "Utilities", "360 Video").
 *(You can of course have both. I'd avoid the genres with few buying players and a ton of competing games.)*
 
