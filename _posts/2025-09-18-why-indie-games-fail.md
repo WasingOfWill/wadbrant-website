@@ -14,6 +14,7 @@ Ouch.
 
 Let's break down what happens to most games on Steam. 
 
+## Some truths about Steam
 
 **Releases & Sales**
 - In the span of 2023 and September 2025 (now), 42 126 games were released on Steam.
@@ -56,12 +57,12 @@ Scout around for games in these ranges, and find out what your benchmark must be
 - Localizing your game and pricing can nearly double your sales and playerbase, once again cutting the benchmarks in half.
 - If you cut your development time in half (by reducing the scope), your required sales is also reduced by the same amount.
 
-## What you can do
+## What you can do as an indie dev
 If you want to have a chance to build a future in the gaming industry as a independent game developer, you need your eyes open. As I am once again considering building a game, I will document my journey and thoughts to share with others. My white whale in game development has always been the game that does fine in sales, but ALWAYS puts the players first. I believe it can be done.
 
 I come from business, product, and have a lot of experience from the "evil" side of game development. But it isn't really evil. It is just business. That's alright. Knowing the business and industry can let passion project bloom into something that changes the industry we love. I wish more indie game developers could learn just enough of the business side that they thrive, and build the next generation of fantastic blows-AAA-out-of-the-FUCKING-water indie games.
 
-**Upcoming:**
+## Upcoming Articles on Indie Game Development
 - How to begin building an indie game (Wishlists!)
 - Picking the right genre
 - Where most games fail (It is failure of scoping and maintaing that scope!)
