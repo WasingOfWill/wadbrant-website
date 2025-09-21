@@ -50,8 +50,9 @@ I have my massive dataset over Steam tags, their performance, and estimations on
 ![Game Categories Quadrants](assets/images/article/Screenshot2025-09-21-122301.png)
 
 There are two types of bad categories here, which is reflected in our quadrants.
-- Oversaturated tags, where there are so many games that the audience isn't accessable ("Combat", "Arcade", "Minimalist", "Linear"). 
-- Niche tags, where there isn't really a meaningful audience to reach ("Pool", "Snow", "Bird", "Utilities", "360 Video").
+- Oversaturated tags (bottom left, many players but many games), where there are so many games that the audience isn't accessable ("Combat", "Arcade", "Minimalist", "Linear"). 
+- Niche tags (top left, few competing games but also few players), where there isn't really a meaningful audience to reach ("Pool", "Snow", "Bird", "Utilities", "360 Video").
+*(You can of course have both. I'd avoid the genres with few buying players and a ton of competing games.)*
 
 Note that either of these categoires are fine to release in. There are tons of successful minimalist games, and I am sure there are snow games that overperform (I fucking love Snowrunner). But these are red flags. If a genre is oversatured, it must make up for it in another way. If a niche genre is perfect for your game it's 100% fine to build; but the genre will not do you favors. It is a price you pay to do something you want. (Remember the %business vs. %passion from [the why indie games fail article]({% post_url 2025-09-18-why-indie-games-fail %}))
 
