@@ -37,23 +37,38 @@ More and more games are being released as gaming grows, kids grow up dreaming of
 ![Genre Matters](assets/images/reviewsSteam.png)
 For each steam review (positive or negative), about 50-60 copies are sold (Funnily enough, my indie game sold EXACTLY 50 copies per review in its first year). You need about 500 reviews for a game release to sustain a tiny indie development team. Double it if you have a publisher, which generally takes a 50/50 revenue split these days for indie game companies. 
 
-## What you can do
+## Consider your business options. Don't go in blind.
 Most indie games will fail. That is a truth, and it is okey. We all build games because we love games. Solo developer, pair, or a team; the data is fairly clear. For many, that is alright. They want to create a game, and in most cases 5-20 people try your game. Steam gives you the platform to do that for only $100 and a few hours of work to get going.
 
 But did you know that if you release your game on consoles, the median result is a 1:1 sales ratio between PC and consoles (very region and game dependent)? In many cases it is much higher, with console sales dominating for example europe. Yet, 95% of games are single-platform games. To build a indie game development studio, you need to re-adjust your thinking. It can't be all passion project. You have to learn how the game is played, and then decide what % should be business and what % should be passion.
 
-If you want to have a chance to build a future in the gaming industry as a indipendent game developer, you need your eyes open. As I am once again considering building a game, I will document my journey and thoughts to share with others. My white whale in game development has always been the game that does fine in sales, but ALWAYS puts the players first. I believe it can be done.
+**Facts to consider**
+Making some basic assumptions of income and development time (~12-16 months), here are some facts to consider
+- For a 1-2 people game studio, you need to reach ~40 000 wishlist and hit ~200 reviews. 
+- For a 4-5 people game studio, you need ~90 000 wishlists, and hit ~500+ reviews.
+
+Scout around for games in these ranges, and find out what your benchmark must be!
+
+- If you release with a publisher, these numbers requirements will double (40 000 / 200 -> 80 000 wishlists / 400 reviews)
+- If you release on major console platforms (Xbox, Playstation, Switch), these required numbers are cut in half (canceling out the publisher)
+- Releasing on mobile can be a gamechanger.
+- Localizing your game and pricing can nearly double your sales and playerbase, once again cutting the benchmarks in half.
+- If you cut your development time in half (by reducing the scope), your required sales is also reduced by the same amount.
+
+## What you can do
+If you want to have a chance to build a future in the gaming industry as a independent game developer, you need your eyes open. As I am once again considering building a game, I will document my journey and thoughts to share with others. My white whale in game development has always been the game that does fine in sales, but ALWAYS puts the players first. I believe it can be done.
 
 I come from business, product, and have a lot of experience from the "evil" side of game development. But it isn't really evil. It is just business. That's alright. Knowing the business and industry can let passion project bloom into something that changes the industry we love. I wish more indie game developers could learn just enough of the business side that they thrive, and build the next generation of fantastic blows-AAA-out-of-the-FUCKING-water indie games.
 
 **Upcoming:**
 - How to begin building an indie game (Wishlists!)
-- Picking the right Genre
-- Where most games fail (It is lack of scoping!)
+- Picking the right genre
+- Where most games fail (It is failure of scoping and maintaing that scope!)
 - Where released games fail (It is in business and marketing!)
-- Becoming the best in the world
-- Player feedback and engagement (& refunds!)
+- Becoming the best in the world at your fun
+- Player feedback and engagement (plus reviews & refunds!)
 - Being an indie gaming company (by funding game #2)
 - Signing publishers & investors
+- Localizing your game, marketing, and pricing
 
 
