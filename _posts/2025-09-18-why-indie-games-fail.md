@@ -4,6 +4,8 @@ title: "Why 90% of Indie Games Fail"
 date: 2025-09-18
 categories: [Game Industry, Indie]
 tags: [Product Management, Game Industry, Indie Games]
+image:
+  path: assets/images/cover/yaengardStore.png
 ---
 
 Steam is the #1 platform for PC gaming. Many game developers see it as the only target to release on (even if both Epic and GoG is slowly growing). But Steam is brutal to those who go in with nothing but a dream to make a game. My indie game ([Yaengard, the Personality Trait RPG](https://store.steampowered.com/app/1545830/Yaengard/)) sold about 6000 copies. It was around our expectations. We decided early that Yaengard was a passion-first project. "Business is secondary" was said multiple times. We needed about double to justify building game #2, which would have been exciting. But life happens, and whop-bam I go into commercial cross-platform gaming instead. 
@@ -20,20 +22,21 @@ Let's break down what happens to most games on Steam.
 - In the span of 2023 and September 2025 (now), 42 126 games were released on Steam.
 - 42% (~18 000 games) never sold 100 copies.
 - 66% (~28K games) never made $1000.
-- 83% of games in this span makes less than $10 000. This becomes $5600 after sales tax, local pricing, and Steams 30% cut.
+- 83% of games in this span makes less than $10 000. This becomes $5600 after sales tax, local pricing, and Steam's 30% cut.
 - On average, 16% of bought games are refunded on Steam. (Yaengard was more, ~17.2%)
 
-These are all true, even though 16% (7000 games) of games were free, and 58% (~23K games) cost $4.99 or less. An additional 22% (9K games) sold for between $5 and $10.
 In large, this is due to game development being accessible, and many gamers dreaming of adding their creation to Steam. But for those of us not just dreaming, but trying to build games for a living, it becomes a sobering truth.
 
 ![Genre Matters](assets/images/steamGraph.png)
 More and more games are being released as gaming grows, kids grow up dreaming of making games, and it is easier now than ever. Additionally, both tools and distribution is much more accessible than it once were (including the arrival of coding LLMs).
 
 **Pricing Mistakes**
-- As a business guideline, higher price is nearly always better on Steam. However, your game must match the tier of its pricing.
+- ~95% o games on Steam costs less than $20.
+- 16% (7000 games) of games were free (2023 - 2025).
+- 58% (~23K games) cost $4.99 or less. 
+- 22% (9K games) sold for between $5 and $10.
 - Only 1.5% of theses games costs $40 or more.
 - Less than 0.2% of these games have AAA pricing (>$60)
-- ~95% costs less than $20.
 
 ![Genre Matters](assets/images/reviewsSteam.png)
 For each steam review (positive or negative), about 50-60 copies are sold (Funnily enough, my indie game sold EXACTLY 50 copies per review in its first year). You need about 500 reviews for a game release to sustain a tiny indie development team. Double it if you have a publisher, which generally takes a 50/50 revenue split these days for indie game companies. 
@@ -51,6 +54,7 @@ Making some basic assumptions of income and development time (~12-16 months), he
 
 Scout around for games in these ranges, and find out what your benchmark must be!
 
+- As a business guideline, higher price is nearly always better on Steam. However, your game must match the tier of its pricing.
 - If you release with a publisher, these numbers requirements will double (40 000 / 200 -> 80 000 wishlists / 400 reviews)
 - If you release on major console platforms (Xbox, Playstation, Switch), these required numbers are cut in half (canceling out the publisher)
 - Releasing on mobile can be a gamechanger.
@@ -65,7 +69,7 @@ I come from business, product, and have a lot of experience from the "evil" side
 ## Upcoming Articles on Indie Game Development
 - How to begin building an indie game (Wishlists!)
 - Picking the right genre
-- Where most games fail (It is failure of scoping and maintaing that scope!)
+- Where most games fail (It i s failure of scoping and maintaing that scope!)
 - Where released games fail (It is in business and marketing!)
 - Becoming the best in the world at your fun
 - Player feedback and engagement (plus reviews & refunds!)
