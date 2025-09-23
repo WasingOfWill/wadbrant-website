@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to NOT Pick the Wrong Game Genre
+title: How to Pick the Wrong Game Genre
 categories:
 - Game Industry
 - Indie
@@ -52,9 +52,10 @@ I have my massive dataset over Steam tags, their performance, and estimations on
 There are two types of bad categories here, which is reflected in our quadrants.
 - Oversaturated tags (bottom right, many players but many games), where there are so many games that the audience isn't accessable ("Combat", "Arcade", "Minimalist", "Linear"). 
 - Niche tags (top left, few competing games but also few players), where there isn't really a meaningful audience to reach ("Pool", "Snow", "Bird", "Utilities", "360 Video").
+
 *(You can of course have both. I'd avoid the genres with few buying players and a ton of competing games.)*
 
-Note that either of these categoires are fine to release in. There are tons of successful minimalist games, and I am sure there are snow games that overperform (I fucking love Snowrunner). But these are red flags. If a genre is oversatured, it must make up for it in another way. If a niche genre is perfect for your game it's 100% fine to build; but the genre will not do you favors. It is a price you pay to do something you want. (Remember the %business vs. %passion from [the why indie games fail article]({% post_url 2025-09-18-why-indie-games-fail %}))
+Note that either of these categories are fine to release in. There are tons of successful minimalist games, and I am sure there are snow games that overperform (I fucking love Snowrunner). But these are red flags. If a genre is oversatured, the game must make up for it in another way. If a niche genre is perfect for your game it is 100% fine to build that game; but the tags will not do you favors. It is a price you pay to do something you want to do. (Remember the %business vs. %passion from [the why indie games fail article]({% post_url 2025-09-18-why-indie-games-fail %}))
 
 >Let's also adress "Free-to-play", where the average revenue is massive, but the failure rate is 91%. Releasing high-quality games F2P with microstransactions is the #1 way to make bank. It is however shared with thousands of games that are nonsense or passion project, simply released for free. Most free-to-play games never make any revenue. Releasing your game as a monetized F2P game requires multiple other articles, which we may get to one day. 
 
@@ -86,7 +87,6 @@ As of 2025, here are a set of Steam tags which are on average underperforming:
 
 I am sure many of you look at these and think "What? This makes no sense. Games with X is great!". And you're right !
 This table does not tell the full story. But, for some reason, these tags are underperforming. Often, it's due to them being niche (no real audience), or oversatured (too many high-quality options for players). It is up to you to find the reason before you decide what game you're trying to build a game studio on top of.
-
 
 
 ## Build the game you want to build, but investigate the space first
@@ -122,6 +122,7 @@ I mean, who plays ALL the "pool" games.
 
 
 ## Summary
+Don't pick the wrong game genre for your game. It is devestating. 
 - Be mindful about the business side of things. Just because you are passionate doesn't mean we can't try to get you successful as well.
 - Genre can make or break indie games, so pick the right category and tags for your game.
 - Understand each genre, category, and tag you expect your game to have.

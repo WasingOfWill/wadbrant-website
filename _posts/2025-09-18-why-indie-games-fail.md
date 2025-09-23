@@ -66,6 +66,8 @@ Scout around for games in these ranges, and find out what your benchmark must be
 - Localizing your game and pricing can nearly double your sales and playerbase, once again cutting the benchmarks in half.
 - If you cut your development time in half (by reducing the scope), your required sales is also reduced by the same amount.
 
+This means that the target numbers (40 000 wishlists on Steam, ~+200 reviews) - if you release without a publisher, localized, on all the consoles -- become just 10 000 wishlists and ~50 reviews. In reality, it's likley a bit higher than that. After all, you need viable marketing and following. But it helps to illustrate how much is in your control if you plan for it.
+
 ## What you can do as an indie dev
 If you want to have a chance to build a future in the gaming industry as a independent game developer, you need your eyes open. As I am once again considering building a game, I will document my journey and thoughts to share with others. My white whale in game development has always been the game that does fine in sales, but ALWAYS puts the players first. I believe it can be done.
 
@@ -74,7 +76,7 @@ I come from business, product, and have a lot of experience from the "evil" side
 ## Upcoming Articles on Indie Game Development
 - How to begin building an indie game (Wishlists!)
 - Picking the right genre
-- Where most games fail (It i s failure of scoping and maintaing that scope!)
+- Where most games fail (It is failure of scoping and maintaining that scope!)
 - Where released games fail (It is in business and marketing!)
 - Becoming the best in the world at your fun
 - Player feedback and engagement (plus reviews & refunds!)
