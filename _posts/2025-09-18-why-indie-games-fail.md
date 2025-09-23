@@ -84,4 +84,6 @@ I come from business, product, and have a lot of experience from the "evil" side
 - Signing publishers & investors
 - Localizing your game, marketing, and pricing
 
+As I am myself planning to exploring a potential game idea, I'll go through these from the lens of an actual fresh indie game developer.
+
 

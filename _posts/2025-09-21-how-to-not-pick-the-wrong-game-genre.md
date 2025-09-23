@@ -85,7 +85,7 @@ As of 2025, here are a set of Steam tags which are on average underperforming:
 | Nature | Boss Rush | Hand-drawn | Magic |
 | Bowling | Futuristic | Time Manipulation | Conspiracy |
 
-I am sure many of you look at these and think "What? This makes no sense. Games with X is great!". And you're right !
+I am sure many of you look at these and think "What? This makes no sense. Games with X tag are great!". And you're right !
 This table does not tell the full story. But, for some reason, these tags are underperforming. Often, it's due to them being niche (no real audience), or oversatured (too many high-quality options for players). It is up to you to find the reason before you decide what game you're trying to build a game studio on top of.
 
 
