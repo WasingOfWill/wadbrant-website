@@ -8,12 +8,15 @@ tags:
 - Game Industry
 - Indie Games
 image:
-  path: assets/images/cover/steamHome.jpg
+  path: assets/images/cover/idol.webp
 date: 2025-09-25 17:02 -0400
 ---
 I’ve been digging into how to evaluate whether a game genre is worth building for as an indie studio. My goal is to combine passion with market reality: I want to make games I love, but I also want to know if those games can sustain a small team of two to five people. Recently I used this process to explore one of my favorite game categories; narrative detective mystery puzzle games, like *Return of the Obra Dinn*, *The Roottrees are Dead*, and *Case of the Golden Idol*.
 
 Here I go through a rough but practical analysis of mystery games (with some Lovecraftian tangents), with an approach which can be applied to all games!
+
+![The Roottrees are dead is excellent](assets/images/article/roottrees.jpg)
+*THE ROOTTREES ARE DEAD.*
 
 ## My process for evaluating a genre
 
@@ -35,8 +38,9 @@ Then I layer on design realities: how hard it is to build this kind of game, how
 
 ## Showing you how I approach it
 
-Warning: Raw Impromptu Analysis!
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_wyJGKhOHII?si=c7MseQZzJ6nRc3ZM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+*Warning: Raw Impromptu Analysis!*
 
 
 ## The Mystery/Detective/Story Genre
@@ -67,6 +71,9 @@ Pricing is modest (median around $9), but many indies underprice. Even at this l
 Mystery games are hard to design. You need strong writing and puzzle design, and you can’t test if the mystery works until it’s almost finished. For a shooter game, you can test if the game is fun extremely early. But remove the narrative and mystery from *Obra Dinn*, and the game is awful. That scares off developers, makes casual projects harder, and helps keep the supply low. It is also simply a niche genre. Fewer games existing leads to fewer devs having passion for it. 
 
 But for a passionate indie willing to tackle that challenge, Lovecraftian mystery puzzle games seems to be one of the most promising underserved niches on Steam: hungry players, relatively low competition, and better success odds than crowded genres like platformers or generic puzzle games. If you love this space and can execute well, it’s a smart place to build.
+
+![The Return of the Obra Dinn is excellent](assets/images/article/obradin.jpg)
+*You'll get... EXACTLY WHAT I GIVE YOU!*
 
 ## How to Evaluate your Game Genre
 Answer all of these, and you'll have a good idea about the business reality of making your game with particular tags on Steam.
