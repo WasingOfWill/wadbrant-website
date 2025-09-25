@@ -1,13 +1,19 @@
 ---
 layout: post
 title: Picking the RIGHT game genre
-categories: [Game Industry, Indie]
-tags: [Game Industry, Indie Games]
+categories:
+- Game Industry
+- Indie
+tags:
+- Game Industry
+- Indie Games
 image:
   path: assets/images/cover/steamHome.jpg
+date: 2025-09-25 17:02 -0400
 ---
-
 I’ve been digging into how to evaluate whether a game genre is worth building for as an indie studio. My goal is to combine passion with market reality: I want to make games I love, but I also want to know if those games can sustain a small team of two to five people. Recently I used this process to explore one of my favorite game categories; narrative detective mystery puzzle games, like *Return of the Obra Dinn*, *The Roottrees are Dead*, and *Case of the Golden Idol*.
+
+Here I go through a rough but practical analysis of mystery games (with some Lovecraftian tangents), with an approach which can be applied to all games!
 
 ## My process for evaluating a genre
 
@@ -27,13 +33,13 @@ Once I have the numbers, I look at player behavior and try to form hypotheses ar
 
 Then I layer on design realities: how hard it is to build this kind of game, how testable it is during development, and how competitive is the field, etc.
 
-## Showing you how I approach it (Analysis)
-Skip the video if you just want the conclusions!
+## Showing you how I approach it
 
+Warning: Raw Impromptu Analysis!
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_wyJGKhOHII?si=c7MseQZzJ6nRc3ZM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
-## What I found about mystery & detective puzzle games
+## The Mystery/Detective/Story Genre
 
 This genre fascinates me but has some unique traits:
 
@@ -51,13 +57,28 @@ When I combined tags, the picture got better. Lovecraftian + mystery + story-ric
 - Failure drops to ~61% (well below average).
 - Success jumps to 25–35% (which is sky high)
 - Competition is light: about 1,000 Lovecraftian games exist compared to 11,000 platformers. And that is for pure volume. Platformers also has an incredibly high density of top-quality games you have to compete with (Celeste, Hollow Knight(s), Ori, Rayman, Super Meat Boy, and endless more).
+- The genre of mystery/detective games is incredibly specific. All games are very similar at their heart, with similar target audiences (even if themes differ). This means that the audience will enjoy similar games at a very high rate, meaning Steam can easily find new buyers for your game.
 
 
 Pricing is modest (median around $9), but many indies underprice. Even at this level, the market supports small studios if the game is in the top 30-40% in quality and marketing.
 
-## Why do I think the supply of Mystery games is so low?
+## Why is the supply of Mystery games low?
 
 Mystery games are hard to design. You need strong writing and puzzle design, and you can’t test if the mystery works until it’s almost finished. For a shooter game, you can test if the game is fun extremely early. But remove the narrative and mystery from *Obra Dinn*, and the game is awful. That scares off developers, makes casual projects harder, and helps keep the supply low. It is also simply a niche genre. Fewer games existing leads to fewer devs having passion for it. 
 
 But for a passionate indie willing to tackle that challenge, Lovecraftian mystery puzzle games seems to be one of the most promising underserved niches on Steam: hungry players, relatively low competition, and better success odds than crowded genres like platformers or generic puzzle games. If you love this space and can execute well, it’s a smart place to build.
 
+## How to Evaluate your Game Genre
+Answer all of these, and you'll have a good idea about the business reality of making your game with particular tags on Steam.
+Then, if you are doing it for passion, do it no matter what! 
+But there is no reason to do something more difficult if you have to, especially if you have multiple game ideas you're picking between.
+
+1. What is the failure rate of the genre?
+2. What is the success rate of the genre?
+3. Which related tags are most valuable?
+4. Does the tags contain one or multiple audiences?
+5. How much competition is there? How much of that competition is really high quality (10 000 positive reviews or more)? 
+7. What are the buying patterns? (Do users play multiple of the same game, or re-play their favorites) 
+8. What are the characteristics of the tags (game length, game price, mechanics, atmosphere, target audience)?
+
+By learning to understand the category of games you're betting your indie game studio future on, you can not only go in with your eyes open, but you can also make better decisions throughout the process!

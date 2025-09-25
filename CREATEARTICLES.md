@@ -31,6 +31,22 @@ bundle exec jekyll publish _drafts/your-draft-title.md
 
 # Unpublish a post (move to drafts)
 bundle exec jekyll unpublish _posts/YYYY-MM-DD-your-post-title.md
+
+## Local Development
+
+```bash
+# Start local server (without drafts)
+bundle exec jekyll serve
+
+# Start server with drafts visible
+bundle exec jekyll serve --drafts
+
+# Start server with drafts and auto-reload
+bundle exec jekyll serve --drafts --livereload
+
+# View site at
+http://localhost:4000
+
 ```
 
 ## Front Matter Options
