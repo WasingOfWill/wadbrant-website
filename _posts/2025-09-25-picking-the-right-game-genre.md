@@ -7,6 +7,7 @@ categories:
 tags:
 - Game Industry
 - Indie Games
+- Doing things
 image:
   path: assets/images/cover/idol.webp
 date: 2025-09-25 17:02 -0400

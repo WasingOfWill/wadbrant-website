@@ -7,6 +7,7 @@ categories:
 tags:
 - Game Industry
 - Indie Games
+- Doing things
 image:
   path: assets/images/cover/steamtags.jpg
 date: 2025-09-21 12:22 -0400
