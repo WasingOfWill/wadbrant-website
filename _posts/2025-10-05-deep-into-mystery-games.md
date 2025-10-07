@@ -9,10 +9,10 @@ tags:
 - Product Management
 - doing-things
 image:
-  path: assets/images/cover/refrence.png
+  path: assets/images/article/mysterygames/refrence.png
 date: 2025-10-05 12:00 -0400
 ---
-![Return of the Obra Dinn](assets/images/article/mysterygames/obradin.jpg)
+![Return of the Obra Dinn](assets/images/article/mysterygames/obradinn.jpg)
 *Return of the Obra Dinn - One of the most successful Fill-it-Out Mystery games*
 
 ## How Does a "Fill-it-Out" Mystery Game Work?
