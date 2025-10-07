@@ -139,8 +139,7 @@ I don't like that version as much because it is a homage to an Elon Musk Memo fr
 ![Image description](/assets/images/article/smfw.png)
 
 SMFW is ALMOST a many internet and texting acronyms, but manages to be none of them. Your brain wants it to make sense, but it has no meaning.
-
->"SMFW", the title of the comic and an initialism used as the caption, is very close to a number of other common initialisms, including:
+"SMFW", the title of the comic and an initialism used as the caption, is very close to a number of other common initialisms, including:
 
 >"MFW", meaning "my face when..." used in similar sentence constructions to this comic's caption, to indicate that the image represents one's face when the specified thing happens.
 "SFW", meaning "safe/suitable for work", denoting that something does not have suggestive content.
