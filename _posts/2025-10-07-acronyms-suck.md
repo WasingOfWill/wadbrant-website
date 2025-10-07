@@ -38,6 +38,9 @@ It is what wall street investment banks, military organizations, and tech teams 
 
 *All in the name of "faster communication". But it is not.*
 
+You'll sit in a meeting with 10 people, and 5 doesn't know what is going on due to accronyms. But they don't ask. They need to belong to this club. They can't look stupid. So they nod. And an hour meeting is wasted until one new intern asks "What does GTM mean?" and half the room breathes out.
+Now they understand. But without the intern, the that's 10 man-hours wasted.
+
 - Acronym creep is REAL in organizations. It starts with five, and grows until acro-speak is the work language.
 - Onboarding becomes a nightmare, new team members feel stupid, and less productive.
 - Those who doesn't know the accronyms feels like they aren't part of the club, judging themselves as 'dumb'.
@@ -48,6 +51,8 @@ It is what wall street investment banks, military organizations, and tech teams 
 Does it?
 
 - Unless it is a personal message, a text will most likely be read by more people than written. To communicate efficiently, consider how quickly recipients can understand the text. If acronyms have to be looked up (or even asked for the meaning) by several readers, using acronyms cost overall more time in communication.
+
+- For many internal acronyms, people can't even google what they mean. It is lost, forever, until they slowly guess what they are over months and months.
 
 - Especially those people that use acronyms excessively write a lot. They type fast. You'll be fine typing 3 to 10 more characters.
 
@@ -88,17 +93,17 @@ And there is always acronyms you don't know.
 | Internet   | Banking | Military | Software           | Tech         |
 | ---------- | ------- | -------- | ------------------ | ------------ |
 | BRB        | ETF     | AWOL     | API                | DNS          |
-| SMH        | IPO     | ROE      | SQL                | HTML         |
+| SMH        | IPO     | ROE      | MVP                | HTML         |
 | TL;DR      | FDIC    | IED      | SaaS               | HTTPS        |
 | IMO / IMHO | ROI     | UAV      | ML                 | VPN          |
 | DM         | APR     | MIA      | GUI                | IoT          |
 | FWIW       | AML     | SITREP   | IDE                | FTP          |
 | NSFW       | KYC     | FOB      | SDK                | IP           |
-| TTYL       | CDO     | SOCOM    | OOP                | LAN          |
+| TTYL       | CDO     | SOCOM    | CDN                | LAN          |
 | IRL        | SEC     | OPSEC    | CI/CD              | TCP/IP       |
 | YOLO       | LIBOR   | NATO     | JSON               | AI           |
 
-I could go on forever.
+I could go on forever. 
 
 | Healthcare      | Education | Business | Engineering | Government | Aviation |
 | --------------- | --------- | -------- | ----------- | ---------- | -------- |
