@@ -31,6 +31,22 @@ This is the opposite of what we want with our communication.
 
 ([xkcd.com/1460](https://xkcd.com/1460))
 
+>Randall gives some examples of confusing initialisms (technically not acronyms) that closely resemble more commonly-used initialisms. He depicts Cueball apparently puzzling over the meaning of one such initialism.
+
+>"SMFW", the title of the comic and an initialism used as the caption, is very close to a number of other common initialisms, including:
+
+>"MFW", meaning "my face when..." used in similar sentence constructions to this comic's caption, to indicate that the image represents one's face when the specified thing happens.
+"SFW", meaning "safe/suitable for work", denoting that something does not have suggestive content.
+"SMH", meaning "shaking my head" or "so much hate", used to indicate dismay.
+"SMF", meaning "so much fun".
+"NSFW", meaning "not safe for work", the opposite of "SFW".
+The title text contains more examples of imaginary initialisms of a similar nature:
+
+>"WTFW" is a combination of "WTF" ("What the fuck") and "TFW" ("That feel when..." or "That face when...", used in a similar nature to "MFW"), and possibly "FTW" ("For The Win") and "FWIW" ("For What It's Worth").
+"SMHO" is a combination of "SMH" ("shake my head") and "IMHO" ("In my humble/honest opinion...").
+"TBFH" is a combination of "TBF" ("to be fair") and "TBH" ("to be honest").
+"IMDB" is, of course, the Internet Movie Database, but also resembles "IMHO".
+
 ### Acronyms corrupts organizations
 
 Acronyms is very common in corporate situations, technical teams, business teams, and organizations as a whole.
