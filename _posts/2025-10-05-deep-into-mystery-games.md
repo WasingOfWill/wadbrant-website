@@ -12,7 +12,7 @@ image:
   path: assets/images/cover/idol.webp
 date: 2025-10-05 12:00 -0400
 ---
-![Return of the Obra Dinn](assets/images/article/obradin.jpg)
+![Return of the Obra Dinn](assets/images/article/mysterygames/refrence.png)
 *Return of the Obra Dinn - One of the most successful Fill-it-Out Mystery games*
 
 ## How Does a "Fill-it-Out" Mystery Game Work?

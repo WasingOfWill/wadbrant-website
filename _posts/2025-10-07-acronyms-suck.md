@@ -36,11 +36,11 @@ This is the opposite of what we want with our communication.
 Acronyms is very common in corporate situations, technical teams, business teams, and organizations as a whole.
 It is what wall street investment banks, military organizations, and tech teams use to make what they do seem fancier than it is.
 
-*In the name of "faster communication".*
+*All in the name of "faster communication". But it is not.*
 
 - Acronym creep is REAL in organizations. It starts with five, and grows until acro-speak is the work language.
 - Onboarding becomes a nightmare, new team members feel stupid, and less productive.
-- Those who doesn't know the accronyms feels like they aren't part of the club, judging themselves dumb.
+- Those who doesn't know the accronyms feels like they aren't part of the club, judging themselves as 'dumb'.
 - Acronyms is the foundation of elitism, letting people feel faux smart and superior. Belonging is nice, superiority isn't.
 
 ### But acronyms save us so much time in writing!
