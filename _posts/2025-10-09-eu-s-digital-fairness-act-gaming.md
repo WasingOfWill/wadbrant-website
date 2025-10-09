@@ -8,7 +8,7 @@ image:
 
 ## Europe’s Digital Fairness Act
 
-![Read the entire act yourself here](https://www.digital-fairness-act.com/).
+[Read the entire act yourself here](https://www.digital-fairness-act.com/).
 
 1. Prevent dark patterns in software which unfairly influences or pressures consumers. (HARD TO BE A UX DESIGNER)
 
