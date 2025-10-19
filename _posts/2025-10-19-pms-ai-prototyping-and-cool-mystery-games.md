@@ -3,7 +3,7 @@ layout: post
 title: AI Prototyping a Mystery Games in 2 hours
 date: 2025-10-19 07:37 -0400
 image:
-  path: assets/images/cover/discovery.png
+  path: assets/images/article/mysterygames/discovery.png
 ---
 
 
@@ -24,7 +24,7 @@ But that boundary doesn’t make much sense anymore. I think it is everyone's jo
 
 I love making games. It is in fact possibly my favorite thing in the world. Recently I have been researching the fundamental concepts of mystery game writing, and been writing one myself. I playtested it with pen-and-paper-and-a-friend, but wanted to try with 5-10 people for my 2nd iteration. Enter, Vercel v0.
 
-![V0 AI Mystery Game](assets/images/article/mysterygames/v0Morthallow.png)
+![V0 AI Mystery Game](assets/images/article/other/v0Morthallow.png)
 *I built Morthallow, Mystery Solving Game using $5 of free credits in v0 Vercel*
 
 - First version in 5 minutes.
@@ -68,7 +68,7 @@ Not because we need to replace designers, but because we need to communicate vis
 
 Imagine running a feature kickoff where instead of slides, you share a living, clickable flow that shows what users actually experience. Everyone’s energy shifts from “what are we building?” to “how can we make this better?”
 
-![V0](assets/images/article/mysterygames/v0.png)
+![V0](assets/images/article/other/v0.png)
 *V0, Loveable, or just cursor. Basic project setup is absurdly easy today.*
 
 
