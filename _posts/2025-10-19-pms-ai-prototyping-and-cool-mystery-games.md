@@ -42,6 +42,7 @@ Is it buggy? Yes.
 
 Does it work? Hell yes.
 
+[Can anyone play it? Yes.](https://morthallow.vercel.app/)
 
 ## For Product Managers
 I do think this is for everyone, but as a PM for a full team, I approach it around why it changes so much for product teams.
