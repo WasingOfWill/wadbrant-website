@@ -2,10 +2,11 @@
 # the default layout is 'page'
 icon: fas fa-info-circle
 order: 4
+description: "Will Wadbrant - Game developer and Product Manager. Articles on gaming industry, product management, AI, and leadership."
 ---
 
-I am Will Wadbrant, indie game developer and cross-platform gaming product manager.
-This is my personal site where I write about projects I work on, product management, the gaming industry, AI, and leadership.
+I am Will Wadbrant, (Indie) Game Developer and Cross-Platform Gaming Product Manager.
+I write about projects I work on, AI, Product Management, the gaming industry, and nonsense.
 
 Professionally I do many things, but my heart is in the gaming industry.
 Endless curiosity, love to enable others, & doing what matters.
