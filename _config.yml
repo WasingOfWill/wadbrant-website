@@ -9,17 +9,17 @@ theme: jekyll-theme-chirpy
 lang: en
 
 # Change to your timezone › https://kevinnovak.github.io/Time-Zone-Picker
-timezone: America/New_York
+timezone: Stockholm
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
 title: WADBRANT
 
-tagline: Will Wadbrant.      Stay Curious.
+tagline: Will Wadbrant.      Be Endlessly Curious.
 
 description: >- # this means to ignore newlines until "baseurl:"
-  Endless curiosity, love to enable others, & doing what matters. Product Management, Gaming Industry, & AI.
+  Articles on Product Managment, Gaming Industry, and AI. By Will Wadbrant.
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
@@ -163,6 +163,7 @@ exclude:
   - LICENSE
   - rollup.config.js
   - package*.json
+  - writing-style-guide.txt
 
 jekyll-archives:
   enabled: [categories, tags]
