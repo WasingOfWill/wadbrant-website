@@ -2,12 +2,22 @@
 
 A Jekyll-powered blog hosted on GitHub Pages. Forked from the Chirpy's site theme.
 
-```
-# Serve locally
+## Local Development
+
+```bash
+# Start local server (without drafts)
 bundle exec jekyll serve
 
-# Visit http://localhost:4000
-```
+# Start server with drafts visible
+bundle exec jekyll serve --drafts
+
+# Start server with drafts and auto-reload
+bundle exec jekyll serve --drafts --livereload
+
+# View site at
+http://localhost:4000
+
+
 
 ## Writing Posts
 
@@ -135,35 +145,3 @@ The site includes `jekyll-seo-tag` plugin which automatically:
 - Verify CNAME file contains only your domain (no http://)
 - Check GitHub Pages settings in repository
 
-<!-- Build trigger - Fixed action versions - Jan 2025 -->
-
-## Quick Start Repo
-
-### 1. Repository Setup
-1. Create a new repository on GitHub (name it whatever you like)
-2. Clone this repository content to your new repo
-3. Push to GitHub
-
-### 2. GitHub Pages Configuration
-1. Go to your repository Settings
-2. Navigate to "Pages" in the left sidebar
-3. Under "Source", select "GitHub Actions"
-4. The site will automatically build and deploy using the included workflow
-
-### 3. Custom Domain Setup
-1. In your repository, edit the `CNAME` file to contain your domain (e.g., `yourdomain.com`)
-2. In your domain registrar's DNS settings, add these records:
-   - Type: A, Name: @, Value: 185.199.108.153
-   - Type: A, Name: @, Value: 185.199.109.153
-   - Type: A, Name: @, Value: 185.199.110.153
-   - Type: A, Name: @, Value: 185.199.111.153
-   - Type: CNAME, Name: www, Value: yourdomain.com
-
-### 4. Customize Your Site
-Edit `_config.yml` and update:
-- `title`: Your blog title
-- `email`: Your email address
-- `description`: Description of your blog
-- `url`: Your custom domain
-- `twitter_username`: Your Twitter handle
-- `github_username`: Your GitHub username

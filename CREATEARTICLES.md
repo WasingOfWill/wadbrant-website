@@ -17,7 +17,7 @@ Articles:
 - Should be complete and ready for public viewing
 - Date determines display order on the blog
 
-## Quick Commands
+## Quick Commands ---------------------------------------------------
 
 ```bash
 # Create a new post
@@ -32,7 +32,7 @@ bundle exec jekyll publish _drafts/your-draft-title.md
 # Unpublish a post (move to drafts)
 bundle exec jekyll unpublish _posts/YYYY-MM-DD-your-post-title.md
 
-## Local Development
+## Local Development --------------------------------------------------
 
 ```bash
 # Start local server (without drafts)
@@ -49,7 +49,23 @@ http://localhost:4000
 
 ```
 
-## Front Matter Options
+## Review articles jobs --------------------------------------------------
+
+```bash
+# Setup (first time)
+bash jobs/setup.sh
+
+# Review new/modified articles only
+python jobs/content_review.py
+
+# Force review all articles
+python jobs/content_review.py --force
+
+# Check what's been reviewed
+cat jobs/checked_articles.json
+```
+
+## Front Matter Options ---------------------------------------------------
 
 ```yaml
 ---

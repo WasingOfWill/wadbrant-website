@@ -1,7 +1,9 @@
 ---
 layout: post
-title: AI Prototyping a Mystery Games in 2 hours
+title: "AI Prototyping a Mystery Game in 2 Hours"
 date: 2025-10-19 07:37 -0400
+categories: [Product Management, AI]
+tags: [Product Management, AI, Using LLMs, Doing Things]
 image:
   path: assets/images/article/mysterygames/discovery.png
 ---
@@ -23,7 +25,7 @@ But that boundary doesn't make much sense anymore. I think it is everyone's job 
 
 ## How I prototyped my Mystery Game
 
-I love making games. It is in fact possibly my favorite thing in the world. Recently I have been researching the fundamental concepts of mystery game writing, and been writing one myself. I playtested it with pen-and-paper-and-a-friend, but wanted to try with 5-10 people for my 2nd iteration. Enter, Vercel v0.
+I love making games. It is in fact possibly my favorite thing in the world. Recently I have been researching the fundamental concepts of mystery game writing, and been writing one myself. I playtested it with pen-and-paper-and-a-friend, but wanted to try with 5–10 people for my 2nd iteration. Enter, Vercel v0.
 
 ![V0 AI Mystery Game](assets/images/article/other/v0Morthallow.png)
 *I built Morthallow, Mystery Solving Game using $5 of free credits in v0 Vercel*
@@ -52,14 +54,14 @@ Shared context early.
 AI prototypes give everyone a visual anchor. Designers see structure. Engineers understand complexity. Stakeholders get the "aha" moment sooner. Everyone gets to see the vision of what you're trying to create, allowing for feedback earlier.
 
 
-### (1) Cheaper iteration.
+### (1) Cheaper iteration
 You can explore five different versions of an idea before anyone touches production code. That saves time, and even more importantly, prevents tunnel vision. You also don't have to mind deployment or iteration, as the AI app building tools are built to reduce that friction to 0 (with drawbacks which do not matter to prototypes)
 
 
-### (2) Fewer translation layers.
+### (2) Fewer translation layers
 Most misalignment happens between words and visuals. A rough prototype removes that gap. It doesn't have to be perfect. We just need to share the vision more easily.
 
-### (3) Faster feedback loops.
+### (3) Faster feedback loops
 You can drop a prototype in Slack, test it with a few users, and refine your thinking in hours. The feedback becomes concrete, not theoretical.
 
 
@@ -84,7 +86,7 @@ Write out the flow in plain language in a document. Describe features, and the c
 
 Use an AI design or app builder to visualize it. Give your design document to it.
 
-Do 1-3 iterations with the AI. Back and forth. Test features. Make sure the prototype communicates the core value and vision of your idea. Then deploy and share it with other people. Flawed and instantly.
+Do 1–3 iterations with the AI. Back and forth. Test features. Make sure the prototype communicates the core value and vision of your idea. Then deploy and share it with other people. Flawed and instantly.
 
 You'll notice something subtle happen: the conversation gets sharper, faster, and more collaborative. People "get it" in minutes instead of days. Get feedback on the day.
 
