@@ -71,7 +71,7 @@ theme_mode: # [light|dark]
 img_cdn:
 
 # Favicon configuration
-favicon: /assets/img/favicons/favicon.svg
+favicon: /assets/img/favicons/favicon.png
 
 # the avatar on sidebar, support local or CORS resources
 avatar: /assets/images/willDrawn.svg
