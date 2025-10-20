@@ -35,13 +35,14 @@ Do NOT:
 
 Style grounding:
 
-1. Before editing, read at least three other posts in `_posts` to learn tone, capitalization, and symbol usage.
-2. Apply that style consistently to all edits.
+1. Before editing, read writing-style-guide.md to learn the style of my writing.
+2. Apply that style consistently to all edits. If it does not make sense to apply, ask follow up questions. Do not presume.
 
 Uncertainty handling:
 
 - If any fix is ambiguous or would require larger rewrites, pause and ask follow-up questions.
 - If a recurring pattern requires a preference (e.g., tag capitalization, number formatting), ask once, then apply consistently.
+- If you ask follow up questions, add my response to the writing-style-guide.md file.
 
 Output:
 
