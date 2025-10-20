@@ -7,7 +7,7 @@ categories:
 tags:
 - Game Industry
 - Indie Games
-- Doing things
+- Doing Things
 image:
   path: assets/images/cover/steamtags.jpg
 date: 2025-09-21 12:22 -0400
@@ -16,14 +16,14 @@ date: 2025-09-21 12:22 -0400
 *Picking the right game genre is critical for indie success. Your audience depends on both how many people could play your game and how many will actually see it. Some genres are oversaturated with too many strong competitors, while others are so niche they have no real audience. Both make it harder to get discovered and earn enough to sustain a studio. Passion matters, but if you want your game to succeed, you need to understand the market, your competition, and the financial realities of each genre and tag before choosing where to place your game.*
 
 ## Game genre is critical
-Games are not made alike. Categories aren't either. Any time a game is made, there is an adressable audience who would ever play your game. There is also a reachable audience, which is the small % of the adressable audience who will ever see your game. Both these two audiences is what will make or break a game. 
+Games are not made alike. Categories aren't either. Any time a game is made, there is an addressable audience who would ever play your game. There is also a reachable audience, which is the small % of the addressable audience who will ever see your game. Both of these audiences are what will make or break a game. 
 
 But your game isn't the only one. There are hundreds of thousands of games on Steam. Your game will be buried in a sea of alternatives. This is where picking the right genre can make or break your game release.
 
 Let's talk about it.
 
 ## Why it matters
-Genre, categories, and tags matter on Steam (and other platforms) because the algorithm's will recommend games that are similar to players. If a player loves Baldur's Gate 3, the algorithm will find games (like Dragon Age: Inquisition or Pillars of Eternities) of similar tags and recommend them.
+Genre, categories, and tags matter on Steam (and other platforms) because the algorithms will recommend games that are similar to players. If a player loves Baldur's Gate 3, the algorithm will find games (like Dragon Age: Inquisition or Pillars of Eternity) with similar tags and recommend them.
 
 This becomes key when you release your game, and need the initial traffic. It will also bundle your games during sales and events, further helping the right players discover your game.
 
@@ -32,33 +32,33 @@ This becomes key when you release your game, and need the initial traffic. It wi
 
 
 ## Categories are not made the same
-Game genres, tags, and categories on Steam vastly vary. Different genres has different pricing, different average playtime, and fanbases. However, when I analyze what genres I'd like to explore, I mainly care about three things:
+Game genres, tags, and categories on Steam vary widely. Different genres have different pricing, different average playtime, and different fanbases. However, when I analyze what genres I'd like to explore, I mainly care about three things:
 - How many players buy games in the genre?
 - How many games are being released in the genre?
 - Quality-to-pricing expectations
 
 ![Game Categories Quadrants](assets/images/article/2025-09-quadrants.png)
 
-Optimally, you release your game in categores where there are a lot of players, and too few games (top right). This massively increases the likelyhood that your game will sell, it lowers the requirements on quality/polish, and overall makes life much easier for you.
+Optimally, you release your game in categories where there are a lot of players and too few games (top right). This massively increases the likelihood that your game will sell, lowers the requirements on quality/polish, and overall makes life much easier for you.
 
 ## Let's look at shit genres
 
-I have my massive dataset over Steam tags, their performance, and estimations on their average financial success. Game development is more complicated than this, but bare with me. For the sake of argument here, I deem:
-- Failure: Games which sold less than $10 000 before fees. This cannot sustain a 5-person game studio.
-- Medicore: Games which sold between $10K and $50K before fees. This is alright, but won't fund a game #2.
+I have my massive dataset over Steam tags, their performance, and estimations on their average financial success. Game development is more complicated than this, but bear with me. For the sake of argument here, I deem:
+- Failure: Games which sold less than $10,000 before fees. This cannot sustain a 5-person game studio.
+- Mediocre: Games which sold between $10K and $50K before fees. This is alright, but won't fund a game #2.
 - Success: Games with >$50K in sales before fees. This will sustain a 5-person indie game studio.
 
 ![Game Categories Quadrants](assets/images/article/Screenshot2025-09-21-122301.png)
 
 There are two types of bad categories here, which is reflected in our quadrants.
-- Oversaturated tags (bottom right, many players but many games), where there are so many games that the audience isn't accessable ("Combat", "Arcade", "Minimalist", "Linear"). 
+- Oversaturated tags (bottom right, many players but many games), where there are so many games that the audience isn't accessible ("Combat", "Arcade", "Minimalist", "Linear"). 
 - Niche tags (top left, few competing games but also few players), where there isn't really a meaningful audience to reach ("Pool", "Snow", "Bird", "Utilities", "360 Video").
 
 *(You can of course have both. I'd avoid the genres with few buying players and a ton of competing games.)*
 
-Note that either of these categories are fine to release in. There are tons of successful minimalist games, and I am sure there are snow games that overperform (I fucking love Snowrunner). But these are red flags. If a genre is oversatured, the game must make up for it in another way. If a niche genre is perfect for your game it is 100% fine to build that game; but the tags will not do you favors. It is a price you pay to do something you want to do. (Remember the %business vs. %passion from [the why indie games fail article]({% post_url 2025-09-18-why-indie-games-fail %}))
+Note that either of these categories are fine to release in. There are tons of successful minimalist games, and I am sure there are snow games that overperform (I fucking love SnowRunner). But these are red flags. If a genre is oversaturated, the game must make up for it in another way. If a niche genre is perfect for your game it is 100% fine to build that game; but the tags will not do you favors. It is a price you pay to do something you want to do. (Remember the %business vs. %passion from [the why indie games fail article]({% post_url 2025-09-18-why-indie-games-fail %}))
 
->Let's also adress "Free-to-play", where the average revenue is massive, but the failure rate is 91%. Releasing high-quality games F2P with microstransactions is the #1 way to make bank. It is however shared with thousands of games that are nonsense or passion project, simply released for free. Most free-to-play games never make any revenue. Releasing your game as a monetized F2P game requires multiple other articles, which we may get to one day. 
+>Let's also address "Free-to-play", where the average revenue is massive, but the failure rate is 91%. Releasing high-quality games F2P with microtransactions is the #1 way to make bank. It is, however, shared with thousands of games that are nonsense or passion projects, simply released for free. Most free-to-play games never make any revenue. Releasing your game as a monetized F2P game requires multiple other articles, which we may get to one day. 
 
 ## Do not select genres which do not serve you
 Making games and earning enough money to sustain your team is difficult. If you build for a game category which is either too niche, or too oversaturated, you start in the negative. It is hard as it is. Releasing games in categories with less than 15% success rate and >80% failure rate means you're trying to do something very difficult, and beginning uphill.
@@ -87,7 +87,7 @@ As of 2025, here are a set of Steam tags which are on average underperforming:
 | Bowling | Futuristic | Time Manipulation | Conspiracy |
 
 I am sure many of you look at these and think "What? This makes no sense. Games with X tag are great!". And you're right !
-This table does not tell the full story. But, for some reason, these tags are underperforming. Often, it's due to them being niche (no real audience), or oversatured (too many high-quality options for players). It is up to you to find the reason before you decide what game you're trying to build a game studio on top of.
+This table does not tell the full story. But, for some reason, these tags are underperforming. Often, it's due to them being niche (no real audience), or oversaturated (too many high-quality options for players). It is up to you to find the reason before you decide what game you're trying to build a game studio on top of.
 
 
 ## Build the game you want to build, but investigate the space first
@@ -123,12 +123,12 @@ I mean, who plays ALL the "pool" games.
 
 
 ## Summary
-Don't pick the wrong game genre for your game. It is devestating. 
+Don't pick the wrong game genre for your game. It is devastating. 
 - Be mindful about the business side of things. Just because you are passionate doesn't mean we can't try to get you successful as well.
 - Genre can make or break indie games, so pick the right category and tags for your game.
 - Understand each genre, category, and tag you expect your game to have.
-- Some genres are oversatured with too many good games for your to compete.
-- Some genres are so niche they hurt your games discoverability.
+- Some genres are oversaturated with too many good games for you to compete.
+- Some genres are so niche they hurt your game's discoverability.
 - Some genres have strange price-to-quality expectations, making it harder to financially sustain the studio.
 
 Next article will be how to pick the RIGHT genre. Or at least how I do it.

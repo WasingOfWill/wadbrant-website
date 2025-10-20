@@ -7,29 +7,29 @@ categories:
 tags:
 - Product
 - Nonsense
-date: 2025-09-29 17:02 -0400
+
 ---
 
 You probably got the link to this page from someone who wanted to make you aware of the problems of using acronyms.
-Or perhaps they just hate them as much as I do. I really dislike how they make communication worse, makes me feel stupid when I don't know them, and closes off groups to new people who doesn't know the jargon.
+Or perhaps they just hate them as much as I do. I really dislike how they make communication worse, make me feel stupid when I don't know them, and close off groups to new people who don't know the jargon.
 
 Either way...
 
 *Please stop relying on acronyms.*
 
-### Why does acronyms suck.
+### Why acronyms suck.
 
 - You can never be sure that the recipient of your message knows the acronym you want to use.
-- They are often unclear. Even if they are looked up by the person, there are +10 meanings per acronym.
-- 90% of the time, they won't look them up. They'll nod their head, pretend they know to not look stupid.
+- They are often unclear. Even if they are looked up by the person, there are 10+ meanings per acronym.
+- 90% of the time, they won't look them up. They'll nod their head, pretend they know so as not to look stupid.
 
 This is the opposite of what we want with our communication.
 
-> Did you now that having languages which are difficult to follow makes it harder to learn? Similarly to how [Danish takes danish children two years longer than average to learn because it is so difficult hearing the words sperated](https://theconversation.com/danish-children-struggle-to-learn-their-vowel-filled-language-and-this-changes-how-adult-danes-interact-161143).
+> Did you know that having languages which are difficult to follow makes it harder to learn? Similarly to how [Danish takes Danish children two years longer than average to learn because it is so difficult hearing the words separated](https://theconversation.com/danish-children-struggle-to-learn-their-vowel-filled-language-and-this-changes-how-adult-danes-interact-161143).
 
 ![Image description](/assets/images/article/smfw.png)
 
-([xkcd.com/1460](https://xkcd.com/1460). Explaination at the bottom of this article.)
+([xkcd.com/1460](https://xkcd.com/1460). Explanation at the bottom of this article.)
 
 
 ### Acronyms corrupts organizations
@@ -39,13 +39,13 @@ It is what wall street investment banks, military organizations, and tech teams 
 
 *All in the name of "faster communication". But it is not.*
 
-You'll sit in a meeting with 10 people, and 5 doesn't know what is going on due to accronyms. But they don't ask. They need to belong to this club. They can't look stupid. So they nod. And an hour meeting is wasted until one new intern asks "What does GTM mean?" and half the room breathes out.
-Now they understand. But without the intern, the that's 10 man-hours wasted.
+You'll sit in a meeting with 10 people, and 5 don't know what is going on due to acronyms. But they don't ask. They need to belong to this club. They can't look stupid. So they nod. And an hour meeting is wasted until one new intern asks "What does GTM mean?" and half the room breathes out.
+Now they understand. But without the intern, that's 10 man-hours wasted.
 
-- Acronym creep is REAL in organizations. It starts with five, and grows until acro-speak is the work language.
-- Onboarding becomes a nightmare, new team members feel stupid, and less productive.
-- Those who doesn't know the accronyms feels like they aren't part of the club, judging themselves as 'dumb'.
-- Acronyms is the foundation of elitism, letting people feel faux smart and superior. Belonging is nice, superiority isn't.
+- Acronym creep is REAL in organizations. It starts with five and grows until acro-speak is the work language.
+- Onboarding becomes a nightmare; new team members feel stupid and less productive.
+- Those who don't know the acronyms feel like they aren't part of the club, judging themselves as 'dumb'.
+- Acronyms are the foundation of elitism, letting people feel faux smart and superior. Belonging is nice; superiority isn't.
 
 ### But acronyms save us so much time in writing!
 
@@ -69,7 +69,7 @@ Does it?
 
 ### And what about such common acronyms like FYI, OTOH, LMK, LGTM, WDYT …?
 
-When you are sure that the readers know the acronyms then probably yes.
+When you are sure that the readers know the acronyms, then probably yes.
 
 However, you usually can't be sure. I even find that I have to look up these every once in a while. All time saving annihilated.
 
@@ -80,16 +80,16 @@ Let's not save 1.5 seconds and make life harder for those trying to learn.
 
 ### And if I can't/won't avoid an acronym?
 
-If for some reason you can't or don't want to do without an acronym (e.g. because of limited space), at least link the meaning if somehow possible.
+If for some reason you can't or don't want to do without an acronym (e.g., because of limited space), at least link the meaning if somehow possible.
 
-Or just write it, I am a random guy not the grammar police.
+Or just write it; I am a random guy, not the grammar police.
 
 Do what you want :) 
 
 ### BUT ME AND MY TEAM KNOWS THE ACRONYMS!
 
-But anyone you work with outside the org doesn't. And new members doesn't. 
-And there is always acronyms you don't know.
+But anyone you work with outside the org doesn't. And new members don't. 
+And there are always acronyms you don't know.
 
 | Internet   | Banking | Military | Software           | Tech         |
 | ---------- | ------- | -------- | ------------------ | ------------ |
@@ -129,16 +129,16 @@ How many do you not know?
 
 Inspired by my lifelong hate for acronyms and feeling stupid when I don't know them.
 
-Having this on a website is inspired by ASS (Acronyms Seriously Suck, by Dr. Cornelius Ludmann. See [acronyms-suck.com](https://acronyms-suck.com/)).
+Having this on a website is inspired by ASS (Acronyms Seriously Suck), by Dr. Cornelius Ludmann. See [acronyms-suck.com](https://acronyms-suck.com/).
 
-I don't like that version as much because it is a homage to an Elon Musk Memo from 2010. And everything Elon becomes to exhaustingly political. For a fair reason.
+I don't like that version as much because it is a homage to an Elon Musk memo from 2010. And everything Elon becomes too exhaustingly political. For a fair reason.
 
 
 ### XKCD 1460
 
 ![Image description](/assets/images/article/smfw.png)
 
-SMFW is ALMOST a many internet and texting acronyms, but manages to be none of them. Your brain wants it to make sense, but it has no meaning.
+SMFW is ALMOST many internet and texting acronyms, but manages to be none of them. Your brain wants it to make sense, but it has no meaning.
 "SMFW", the title of the comic and an initialism used as the caption, is very close to a number of other common initialisms, including:
 
 >"MFW", meaning "my face when..." used in similar sentence constructions to this comic's caption, to indicate that the image represents one's face when the specified thing happens.
@@ -148,7 +148,7 @@ SMFW is ALMOST a many internet and texting acronyms, but manages to be none of t
 "NSFW", meaning "not safe for work", the opposite of "SFW".
 The title text contains more examples of imaginary initialisms of a similar nature:
 
->"WTFW" is a combination of "WTF" ("What the fuck") and "TFW" ("That feel when..." or "That face when...", used in a similar nature to "MFW"), and possibly "FTW" ("For The Win") and "FWIW" ("For What It's Worth").
+>"WTFW" is a combination of "WTF" ("What the fuck") and "TFW" ("That feel when..." or "That face when...", used in a similar nature to "MFW"), and possibly "FTW" ("For the win") and "FWIW" ("For what it's worth").
 "SMHO" is a combination of "SMH" ("shake my head") and "IMHO" ("In my humble/honest opinion...").
 "TBFH" is a combination of "TBF" ("to be fair") and "TBH" ("to be honest").
 "IMDB" is, of course, the Internet Movie Database, but also resembles "IMHO".

@@ -5,7 +5,7 @@ permalink: /cv/
 ---
 
 # Will Wadbrant
-## Senior Product Manager | Gaming Industry | AI Enthusiast
+## Product Manager | Gaming Industry | AI PM
 
 ---
 
@@ -20,7 +20,7 @@ permalink: /cv/
 ---
 
 ### Professional Summary
-I am nerdy, love R&D, and specialize in enabling developers to build software & games leading to business-valuable outcomes.
+I am nerdy, love R&D, and specialize in enabling developers to build software & games leading to business-valuable outcomes. People over process, and outcome over output. Velocity is how we stumble quickly and learn a lot even quicker.
 
 ---
 

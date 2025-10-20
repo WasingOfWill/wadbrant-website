@@ -8,7 +8,7 @@ image:
   path: assets/images/cover/mobileGameMonetization.png
 ---
 
-This is part 2 of how game design and strategy are affected by the incentives created by how your game is monetized. While monetization is necessary to sustain development, overly aggressive methods can undermine the quality and enjoyment of a game. This is a hot topic when we now get to free-to-play game studios, which I have spent the last 3 years working with and building product for.
+This is part 2 of how game design and strategy are affected by the incentives created by how your game is monetized. While monetization is necessary to sustain development, overly aggressive methods can undermine the quality and enjoyment of a game. This is a hot topic now that we get to free-to-play game studios, which I have spent the last 3 years working with and building product for.
 
 [Read part 1 here!]({% post_url 2025-06-21-monetization-and-incentives-part1 %})
 
@@ -33,8 +33,8 @@ Somewhere between 2005 and 2015, the gaming industry realized that truly engaged
 
 - **2013–2014:** League of Legends and World of Tanks demonstrated F2P dominance even in hardcore PC gaming, with revenues over $1 billion/year.
 
-## Lootboxes
-Before we get into the monetization methods, let's mention the elephant-in-the-room; RNG.
+## Loot boxes
+Before we get into the monetization methods, let's mention the elephant in the room: RNG.
 
 Lootboxes are a way to sell random rewards for real money, hiding the odds and exploiting gambling psychology. They can be applied to cosmetics, power, progress or any other content and are always harmful when tied to real money. Progressive countries are already regulating or banning real-money loot boxes due to their predatory nature.
 
@@ -56,11 +56,11 @@ However, it requires the game to be actively multiplayer. It is about ownership 
 - Valorant (Riot Games)
 - Call of Duty: Warzone (Activision)
 
-**Positive Incentive**
+**Positive incentive**
 
-Players who care about the game and community are motivated to buy cosmetics because they feel invested and want to stand out. To increase monetization, studios are incentiviced to make the game more fun long-term, players more engaged, and invest in dramatic visuals. 
+Players who care about the game and community are motivated to buy cosmetics because they feel invested and want to stand out. To increase monetization, studios are incentivized to make the game more fun long-term, players more engaged, and invest in dramatic visuals. 
 
-**Negative Incentive**
+**Negative incentive**
 
 Cosmetic monetization leads to a decrease in visual quality for non-paying players. There is an incentive for the studio to make free-to-play players have fewer and worse options. By limiting styles and cool looks by players who aren’t paying, you increase the likelihood of converting buyers. The studio has an anti-incentive to improve the visuals for players who do not pay.
 Most games can be perfectly fine even if they give in to this negative incentive. Games which sell cosmetics will over time have uglier and less interesting visuals for non-paying players.
@@ -69,7 +69,7 @@ It is also common for games over time to have cosmetics grow more and more extre
 
 
 ## Buy progress
-This model lets players pay to speed up or skip grindy parts of the game, such as building, crafting, or unlocking areas. It appeals to those with less time or patience, but risks making the game feel like a chore to push purchases. The classic argument for this monetization
+This model lets players pay to speed up or skip grindy parts of the game, such as building, crafting, or unlocking areas. It appeals to those with less time or patience but risks making the game feel like a chore to push purchases. The classic argument for this monetization
 It can however be incredibly lucrative for the studios, especially as money players will incorrectly deem it not to be pay-to-win. Long term, it fundamentally undermines the game design. A game which monetizes skipping gameplay also directly monetizes the production of a frustrating/slow/boring game.
 Due to the (weirdly) positive player optics and insanely lucrative monetization rate, selling progress to players is the best way to squeeze a ton of money out of a successful game, while corrupting it long-term. This is why we have seen massive games such as WoW, Escape from Tarkov, and Runescape adopt this method from the F2P mobile game industry.
 
@@ -87,8 +87,8 @@ Players with limited time can enjoy more of the game without spending hours grin
 **Negative Incentive**
 
 Monetizing the purchase of progress is one of the most deceptively toxic ways to monetize a game.
-While buying progress to “save time” for players with more money than free-time seems innocent, it leads to major game design corruption long term as the studio is incentives to increase grind and time-waste. Paying players will even say they want this monetization mechanic (“I want to play the endgame but I only have 2 hours a week to play”), not realizing that the studio has caused the problem (making the game progression slow and boring, selling the shortcut) and selling the solution.
-Games monetizing by selling progress will overtime become grinder, slower, and more boring, to get players to pay to skip the gameplay. The studio is incentivised to cater to the meta “endgame”, and make everything else unfun.
+While buying progress to “save time” for players with more money than free time seems innocent, it leads to major game design corruption long-term as the studio is incentivized to increase grind and time-waste. Paying players will even say they want this monetization mechanic (“I want to play the endgame but I only have 2 hours a week to play”), not realizing that the studio has caused the problem (making the game progression slow and boring, selling the shortcut) and selling the solution.
+Games monetizing by selling progress will overtime become grindier, slower, and more boring, to get players to pay to skip the gameplay. The studio is incentivised to cater to the meta “endgame”, and make everything else unfun.
 
 ## Pay to win
 Pay to win means selling gameplay advantages, such as stronger characters, better weapons, or exclusive abilities, for real money. It directly impacts fairness and competitive balance, favoring paying players. This method can alienate the community and shorten a game's lifespan.
@@ -106,11 +106,11 @@ None. A game selling wins has no positive incentives.
 
 **Negative Incentive**
 
-It destroys fair competition and drives away players unwilling or unable to pay. It replaces the game with swiping player's credit cards. No game can survive being pay-to-win and still be a game which puts game design first. Pay-to-win games will over time become harder and grindier, incentivizing players to pay to win. If it is competitive, it will also slowly (and painfully) churn the non-payers as they can't compete.
+It destroys fair competition and drives away players unwilling or unable to pay. It replaces the game with swiping players' credit cards. No game can survive being pay-to-win and still be a game which puts game design first. Pay-to-win games will over time become harder and grindier, incentivizing players to pay to win. If it is competitive, it will also slowly (and painfully) churn the non-payers as they can't compete.
 
-## Battlepasses
-A battlepass is a timed progression system where players unlock rewards by completing challenges during a season. It combines cosmetics, premium currency, and exclusive items to keep players engaged over time. It rewards both playtime and payment, making it a popular modern model.
-It combines gameplay-granted progress (play to get things) with paid progress (pay to get things). Similarly to loot boxes, it's more of a format as you can add whatever to the battlepass; pay-to-win, currency, cosmetics. However for most games using it, the primary gain is cosmetics and in-game currency. That said, it is worth a spot in the list of monetization mechanics as it creates a unique incentive.: game progress.
+## Battle passes
+A battle pass is a timed progression system where players unlock rewards by completing challenges during a season. It combines cosmetics, premium currency, and exclusive items to keep players engaged over time. It rewards both playtime and payment, making it a popular modern model.
+It combines gameplay-granted progress (play to get things) with paid progress (pay to get things). Similarly to loot boxes, it's more of a format as you can add whatever to the battle pass; pay-to-win, currency, cosmetics. However for most games using it, the primary gain is cosmetics and in-game currency. That said, it is worth a spot in the list of monetization mechanics as it creates a unique incentive: game progress.
 Encourages regular play and rewards dedication. It grants players a reward for just playing, but a leveraged reward for the payers. It aligns the incentives of the studio (to monetize) and players (to play), which is why it has become popular in the last years is serious high-quality free-to-play games.
 
 >Examples:
@@ -121,16 +121,16 @@ Encourages regular play and rewards dedication. It grants players a reward for j
 
 **Positive Incentive**
 
-Create a game which is fun and engaging, connecting progress with playing the game. A boring and unengaging game will not be successful with a battlepass.
+Create a game which is fun and engaging, connecting progress with playing the game. A boring and unengaging game will not be successful with a battle pass.
 
 **Negative Incentive**
 
-Battlepasses incentives studios to slow down progress, encouraging the paid battlepass. Games monetizing with battlepasses will likely slow down to grinds. Additionally, we'll almost always get seasonal gameplay (which isn't inherently bad) to keep players on the "treadmill" with new battlepasses. 
-Games using battlepasses will overtime become slower and grinder, but attempt to refresh the game with seasons or leagues (which isn't bad for players!).
+Battle passes incentivize studios to slow down progress, encouraging the paid battle pass. Games monetizing with battle passes will likely slow down to grinds. Additionally, we'll almost always get seasonal gameplay (which isn't inherently bad) to keep players on the "treadmill" with new battle passes. 
+Games using battle passes will overtime become slower and grindier, but attempt to refresh the game with seasons or leagues (which isn't bad for players!).
 
 ## Ads
 Ad-based monetization shows players video or banner ads, either as interstitials during breaks or as rewarded ads offering in-game bonuses. This allows completely free access while still earning revenue. 
-Especially as a "hardcore" gamer (in the commercial gaming industry, everything on Steam is "hardcore"), you'd think I hate ads. But I don't. It will make sense when we look at the incentives. The reality of ads is that many gamers simply will refuse to play games if ads are present (especially on Steam/Epic/Console). But where it is more accepted (mobile / web gaming), it actually makes a ton of sense.
+Especially as a "hardcore" gamer (in the commercial gaming industry, everything on Steam is "hardcore"), you'd think I hate ads. But I don't. It will make sense when we look at the incentives. The reality of ads is that many gamers will simply refuse to play games if ads are present (especially on Steam/Epic/Console). But where it is more accepted (mobile/web gaming), it actually makes a ton of sense.
 
 >Examples:
 - Subway Surfers (Sybo)

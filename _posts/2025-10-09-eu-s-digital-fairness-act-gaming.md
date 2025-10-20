@@ -10,11 +10,11 @@ image:
 
 [Read the entire act yourself here](https://www.digital-fairness-act.com/).
 
-1. Prevent dark patterns in software which unfairly influences or pressures consumers. (HARD TO BE A UX DESIGNER)
+1. Prevent dark patterns in software that unfairly influence or pressure consumers. (HARD TO BE A UX DESIGNER)
 
-2. Addictive design of digital services that pushes consumers to keep using the service or spending more money (LOOT BOXES).
+2. Addictive design of digital services that push consumers to keep using the service or spending more money (LOOT BOXES).
 
-3. Personalised targeting that takes advantage of consumers' vulnerabilities (TARGETED ADS)
+3. Personalized targeting that takes advantage of consumers' vulnerabilities (TARGETED ADS)
 
 4. Difficulties with managing digital subscriptions, for example, when companies make it excessively hard to unsubscribe. (HOLY CRAP WE WANT THIS)
 
@@ -23,19 +23,21 @@ image:
 
 ## What’s New and What’s at Stake
 
-The European Commission is accelerating its push to regulate features in digital products (gAeMs) it sees as risky: in-game currencies, loot boxes (“uncertainty-based rewards” haha), and pay-to-progress/pay-to-win mechanics. It is especially for minors who may not grasp the real-world costs involved.
+The European Commission is accelerating its push to regulate features in digital products (games) it sees as risky: in-game currencies, loot boxes ("uncertainty-based rewards" haha), and pay-to-progress/pay-to-win mechanics. It is especially for minors who may not grasp the real-world costs involved.
 
 By redefining in-game currencies as digital representations of value akin to Bitcoin, the new rules would treat every use of your premium gems as a real-money purchase. That triggers popups for confirmation/legal. For minors, parental consent would be needed every time. The friction on the experience is obvious, especially to those of us who has worked on F2P game monetization.
 
-Supercell, EGDF, and many studios are rightly alarmed (it will affect them), but in the end regulation is there to protect you and me. They'll continue treating premium gems as casino coins, and it'll still be effective for them even if a new screen is necessary (making the spending of gems a big higher friction).
+Supercell, EGDF, and many studios are rightly alarmed (it will affect them), but in the end regulation is there to protect you and me. They'll continue treating premium gems as casino coins, and it'll still be effective for them even if a new screen is necessary (making the spending of gems a bit higher friction).
 
 ## Why I Lean Optimistic
 
 Despite the risks, I believe Europe can, and should, land on the right side of history.
 
-Consumers win: these rules, if carefully calibrated, force greater transparency. For those spending on digital content, often without full awareness, that’s a win.
+Consumers win: these rules, if carefully calibrated, force greater transparency. For those spending on digital content, often without full awareness, that's a win.
+
 Industry can adapt: game design evolves. If the regulation forces new monetization patterns, smart studios will find new mechanics that comply and still delight.
-Regulation as signal: when the EU asserts it cares about how digital flows impact people, that’s meaningful for the broader tech ecosystem.
+
+Regulation as signal: when the EU asserts it cares about how digital flows impact people, that's meaningful for the broader tech ecosystem.
 
 
 ## What matters to game development in Europe
@@ -48,15 +50,15 @@ Second, user confirmation requirements could make live operations far more compl
 
 Third, stricter parental consent rules risk discouraging monetization in youths altogether. Screw any game executive arguing against this one. 
 
-Finally, Europe’s competitiveness is at stake. While Asian and American studios iterate freely, European developers could find themselves bound by extra friction that limits experimentation, creative risk, and long-term scaling. It is very hard to say what real-life impact this has. All of that said, non-european studios still has to follow these rules when selling to players in the EU, and European studios can disregard the rules for players outside.
+Finally, Europe's competitiveness is at stake. While Asian and American studios iterate freely, European developers could find themselves bound by extra friction that limits experimentation, creative risk, and long-term scaling. It is very hard to say what real-life impact this has. All of that said, non-European studios still have to follow these rules when selling to players in the EU, and European studios can disregard the rules for players outside.
 
-It does increase the cost of development and maintance though. But that seems fine to me.
+It does increase the cost of development and maintenance though. But that seems fine to me.
 
 ## Carefully glad
 
-I work in the commercial cross-platform gaming space. This affects me, my partners, friends, and customers. But in the end, I believe it is moves in the right direction. But I am glad for regulation. Especially that which protects registred minors. 
+I work in the commercial cross-platform gaming space. This affects me, my partners, friends, and customers. But in the end, I believe it moves in the right direction. But I am glad for regulation. Especially that which protects registered minors. 
 
 Protect consumers without undermining the innovation incentives that make the sector thrive. It could be fair to define clear thresholds and exemptions for small spends, microtransactions, or cosmetic items. But honestly, in the grand scheme, it doesn't matter.
 
-Players will play. Some will pay. It is alright. 
+Players will play. Some will pay. It is all right.
 If this is the thing that breaks EU tech, us in European tech have bigger worries.

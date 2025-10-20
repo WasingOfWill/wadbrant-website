@@ -7,7 +7,7 @@ categories:
 tags:
 - Game Industry
 - Product Management
-- doing-things
+- Doing Things
 image:
   path: assets/images/article/mysterygames/refrence.png
 date: 2025-10-05 12:00 -0400
@@ -25,7 +25,7 @@ I like to call this type of game a Fill-it-Out Mystery. You start with a little 
 
 All of these mechanics are used across mystery games. However, any can be skipped. In my experience, it ALWAYS leads to a worse game. The most beloved games in the genre has all of them, or skip maximum one or two.
 
-> WARNING: THIS ARTICLE CONTAINS SCREENSHOTS WHICH MAY SPOILT SOME OF THE GAMES DISCUSSED. DO NOT THINK TOO HARD ON THE IMAGES.
+> WARNING: THIS ARTICLE CONTAINS SCREENSHOTS WHICH MAY SPOIL SOME OF THE GAMES DISCUSSED. DO NOT THINK TOO HARD ON THE IMAGES.
 
 Here are the mechanics that almost every Fill-it-Out Mystery game in this genre leans on:
 
