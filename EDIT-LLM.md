@@ -12,17 +12,18 @@ Scope of fixes:
 - Language and naming consistency (e.g., “GOG”, “SnowRunner”, “Pillars of Eternity”, “Steam”).
 - Heading syntax (e.g., “## A …”, not “##A …”).
 - Number formatting and symbols:
-    - Use thousands separators: 10,000 not 10 000.
-    - Currency with commas: $1,000 not $1000.
+    - Use space as thousands separators: 10 000 instead of 10,000.
+    - Currency without commas: $1000 not $1,000.
     - Use en dashes for numeric ranges (2019–2022, 10–20).
+    - Format dates as year-month-day or dayth Month
     - Percent as “%” with no preceding space (e.g., 70%).
 - Capitalization rules:
     - Front matter:
         - title: Title Case (keep deliberate stylization if present)
         - categories: Capitalized (e.g., “Game Industry”, “Indie”)
         - tags: Title Case (e.g., “Doing Things”, “Game Design”)
-    - In text: “markdown” lowercase.
     - Proper nouns correctly capitalized (product and game names).
+    - Headers should be in Pascal case, but lower case filler words. Examples: "This is a Header" "Best Game I've Ever Seen" 
 - List and table consistency (commas, periods, spacing) without reordering.
 - YAML front matter validity and indentation preserved.
 
