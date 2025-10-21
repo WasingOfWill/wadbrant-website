@@ -43,6 +43,9 @@ Standard tags I use: Doing Things, Game Industry, Indie Games, LLM, My Product, 
 1. Tags should be capitalized at the start of each word.
 2. If I use a tag which I have never used before, that is likely an error. Ask a follow up question if I'd like to add a new tag. If I say yes, add it to the list above.
 
+Categories:
+All articles should have two categories. The first category should always be "Game Industry", "Product Management", "AI", and "Whatever". The second category can be whatever, as long as each word is categorized.
+
 Uncertainty handling:
 
 - If any fix is ambiguous or would require larger rewrites, pause and ask follow-up questions.
