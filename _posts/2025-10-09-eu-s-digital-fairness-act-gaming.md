@@ -2,6 +2,8 @@
 layout: post
 title: EU's Digital Fairness Act & Gaming
 date: 2025-10-09 14:40 -0400
+categories: [Game Industry]
+tags: [Game Industry]
 image:
   path: assets/images/cover/digitalfairnessact.png
 ---

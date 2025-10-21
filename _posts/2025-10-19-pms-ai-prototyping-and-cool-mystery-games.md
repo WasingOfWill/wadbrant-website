@@ -3,7 +3,7 @@ layout: post
 title: "AI Prototyping a Mystery Game in 2 Hours"
 date: 2025-10-19 07:37 -0400
 categories: [Product Management, AI]
-tags: [Product Management, AI, Using LLMs, Doing Things]
+tags: [Product Management, Using AI, Doing Things]
 image:
   path: assets/images/article/mysterygames/discovery.png
 ---

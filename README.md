@@ -1,9 +1,23 @@
-# Will's Blog & Website
+# Blog Commands & Reference
 
-A Jekyll-powered blog hosted on GitHub Pages. Forked from the Chirpy's site theme.
+## Terminal Commands
 
-## Local Development
+### Content Management
+```bash
+# Create a new post
+bundle exec jekyll post "Your Post Title"
 
+# Create a draft
+bundle exec jekyll draft "Your Draft Title"
+
+# Publish a draft
+bundle exec jekyll publish _drafts/your-draft-title.md
+
+# Unpublish a post (move to drafts)
+bundle exec jekyll unpublish _posts/YYYY-MM-DD-your-post-title.md
+```
+
+### Local Development
 ```bash
 # Start local server (without drafts)
 bundle exec jekyll serve
@@ -14,98 +28,83 @@ bundle exec jekyll serve --drafts
 # Start server with drafts and auto-reload
 bundle exec jekyll serve --drafts --livereload
 
-# View site at
-http://localhost:4000
-
-
-
-## Writing Posts
-
-### Creating a New Post
-1. Create a new file in `_posts/` directory
-2. Name it: `YYYY-MM-DD-title-of-post.md`
-3. Add front matter (see examples in existing posts)
-4. Write your content in Markdown
-
-### Post Front Matter Template
-```yaml
----
-layout: post
-title: "Your Post Title"
-date: 2024-01-15 10:00:00 +0000
-categories: category1 category2
-tags: [tag1, tag2, tag3]
-author: Your Name
----
+# View site at http://localhost:4000
 ```
-
-### Adding Images
-1. Place images in `assets/images/` directory
-2. Reference in posts: `![Alt text](/assets/images/filename.jpg)`
-3. Or use HTML for more control: `<img src="/assets/images/filename.jpg" alt="Alt text" class="post-image center">`
-
-### Adding Videos
-- **YouTube**: Use the embed code from YouTube
-- **Self-hosted**: Place in `assets/videos/` and use HTML5 video tag
-
-## Local Development
-
-### Prerequisites
-- Ruby (2.7+)
-- Bundler
 
 ### Setup
 ```bash
 # Install dependencies
 bundle install
-
-# Serve locally
-bundle exec jekyll serve
-
-# Visit http://localhost:4000
 ```
 
-### Installing Ruby on Windows
-1. Download Ruby+Devkit from [rubyinstaller.org](https://rubyinstaller.org/)
-2. Run the installer and select "Add Ruby executables to your PATH"
-3. Open a new PowerShell window
-4. Install bundler: `gem install bundler`
-5. Navigate to your blog directory and run `bundle install`
+## Drafts vs Articles
 
-## Writing Workflow Options
+**Drafts:**
+- Stored in `_drafts/` folder
+- No date in filename required
+- Not visible on the live site
+- Perfect for work in progress
+- Preview with `bundle exec jekyll serve --drafts`
 
-### Option 1: Direct GitHub Editing
-- Edit files directly on GitHub.com
-- Commits automatically trigger site rebuilds
-- Best for: Quick posts and minor edits
+**Articles:**
+- Stored in `_posts/` folder
+- Require date in filename (YYYY-MM-DD-title.md)
+- Visible on the live site immediately
+- Should be complete and ready for public viewing
 
-### Option 2: Git + Local Editor
-- Clone repository locally
-- Write posts in your favorite editor
-- Commit and push to trigger rebuilds
-- Best for: Longer posts and offline writing
+## Front Matter Template
 
-### Option 3: GitHub Desktop + Editor
-- Use GitHub Desktop for Git operations
-- Write in VS Code, Typora, or other Markdown editor
-- Best for: Those who prefer GUI tools
+```yaml
+---
+layout: post
+title: "Your Title Here"
+date: YYYY-MM-DD
+categories: [MainCategory, SubCategory]
+tags: [tag1, tag2]    # always lowercase
+image:
+  path: assets/images/cover/image-name.png
+  alt: Image description
+---
 
-## Customization
+# Optional Front Matter
+math: true           # enable math support
+mermaid: true       # enable mermaid diagrams
+pin: true           # pin to top of posts list
+comments: false     # disable comments
+toc: false          # remove table of contents
+```
 
-### Changing Colors
-Edit `assets/css/style.scss` and modify the `$brand-color` variable.
+## Content Guidelines
 
-### Adding Pages
-Create new `.md` files in the root directory with proper front matter.
+### Categories & Tags
+- Categories: Maximum 2 levels deep
+- Tags: Use lowercase, can have multiple
+- Both help with navigation and SEO
 
-### Modifying Layout
-- Override theme files by creating files in `_layouts/`
-- Add custom includes in `_includes/`
-- See [Minima documentation](https://github.com/jekyll/minima) for details
+### Images
+1. Place images in: `assets/images/posts/YYYY-MM-DD-title/`
+2. Reference in post:
+```markdown
+![Alt text](/assets/images/posts/YYYY-MM-DD-title/image.jpg)
+```
+
+### Linking Between Posts
+```markdown
+[Link text]({% post_url YYYY-MM-DD-post-name %})
+```
+Example:
+```markdown
+[See my first post]({% post_url 2025-09-18-why-indie-games-fail %})
+```
+
+**Important:**
+- Don't include the .md extension
+- Use the exact filename without the extension
+- The post must exist for the link to work
 
 ## Publishing Schedule
 
-Plan to publish twice a week. Here are some content ideas:
+Plan to publish twice a week:
 
 ### Post Types
 - **Personal experiences**: Life lessons, insights
@@ -145,3 +144,9 @@ The site includes `jekyll-seo-tag` plugin which automatically:
 - Verify CNAME file contains only your domain (no http://)
 - Check GitHub Pages settings in repository
 
+### Installing Ruby on Windows (required to build, not to edit)
+1. Download Ruby+Devkit from [rubyinstaller.org](https://rubyinstaller.org/)
+2. Run the installer and select "Add Ruby executables to your PATH"
+3. Open a new PowerShell window
+4. Install bundler: `gem install bundler`
+5. Navigate to your blog directory and run `bundle install`

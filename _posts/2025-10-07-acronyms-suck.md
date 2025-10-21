@@ -5,7 +5,7 @@ date: 2025-10-07 04:29 -0400
 categories:
 - Product Management
 tags:
-- Product
+- Product Management
 - Nonsense
 
 ---

@@ -38,6 +38,11 @@ Style grounding:
 1. Before editing, read writing-style-guide.md to learn the style of my writing.
 2. Apply that style consistently to all edits. If it does not make sense to apply, ask follow up questions. Do not presume.
 
+Tags:
+Standard tags I use: Doing Things, Game Industry, Indie Games, LLM, My Product, Nonsenes, My Project, Product Management, Using AI
+1. Tags should be capitalized at the start of each word.
+2. If I use a tag which I have never used before, that is likely an error. Ask a follow up question if I'd like to add a new tag. If I say yes, add it to the list above.
+
 Uncertainty handling:
 
 - If any fix is ambiguous or would require larger rewrites, pause and ask follow-up questions.

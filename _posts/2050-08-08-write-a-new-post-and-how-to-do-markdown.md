@@ -3,7 +3,7 @@ title: Writing a New Post
 author: cotes
 date: 2050-08-08 14:10:00 +0800
 categories: [Random]
-tags: [random]
+tags: [Doing Things]
 render_with_liquid: false
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title: "Five Greatest Tips for LLMs"
 date: 2025-07-13
-categories: [AI, Using LLMs]
+categories: [Using LLMs]
 tags: [AI, LLM, Doing Things]
 ---
 
