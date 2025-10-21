@@ -5,7 +5,7 @@ date: 2025-10-20
 categories: [Product Management, AI]
 tags: [Using LLMs, Product Management, Doing Things]
 image:
-  path: assets/images/article/cursor-journey.png
+  path: assets/images/cover/default.png
 ---
 
 There's a recurring pain point in content creation that we all quietly accept:
