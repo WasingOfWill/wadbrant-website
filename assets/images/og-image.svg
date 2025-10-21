@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#1a1a1a"/>
+  
+  <!-- Main content area -->
+  <rect x="50" y="50" width="1100" height="530" fill="#2a2a2a" rx="20"/>
+  
+  <!-- Title -->
+  <text x="600" y="200" font-family="Arial, sans-serif" font-size="80" font-weight="bold" text-anchor="middle" fill="#ffffff">WADBRANT</text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="280" font-family="Arial, sans-serif" font-size="40" text-anchor="middle" fill="#cccccc">Will Wadbrant</text>
+  
+  <!-- Tagline -->
+  <text x="600" y="350" font-family="Arial, sans-serif" font-size="30" text-anchor="middle" fill="#999999">Be Endlessly Curious</text>
+  
+  <!-- Topics -->
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#777777">Product Management • Gaming Industry • AI</text>
+  
+  <!-- Decorative W -->
+  <text x="100" y="500" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#444444">W</text>
+</svg>

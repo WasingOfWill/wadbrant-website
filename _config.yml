@@ -44,6 +44,9 @@ social:
 
 google_site_verification: # fill in to your verification string
 
+# Default Open Graph image for social sharing
+image: /assets/images/willDawn.svg
+
 # ↑ --------------------------
 # The end of `jekyll-seo-tag` settings
 
