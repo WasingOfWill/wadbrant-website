@@ -1,7 +1,7 @@
 ---
 # the default layout is 'page'
 icon: fas fa-info-circle
-order: 4
+order: 6
 description: "Will Wadbrant - Game developer and Product Manager. Articles on gaming industry, product management, AI, and leadership."
 ---
 
