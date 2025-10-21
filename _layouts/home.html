@@ -41,7 +41,7 @@ layout: default
                 {% assign words = post.content | number_of_words %}
                 {% assign reading_time = words | divided_by: 200.0 | ceil %}
                 <i class="far fa-clock fa-fw me-1 ms-3"></i>
-                <span>{{ reading_time }} min read</span>
+                <span>{{ reading_time }} min </span>
                 
                 <!-- categories -->
                 {% if post.categories.size > 0 %}
@@ -96,7 +96,7 @@ layout: default
                 {% assign words = post.content | number_of_words %}
                 {% assign reading_time = words | divided_by: 200.0 | ceil %}
                 <i class="far fa-clock fa-fw me-1 ms-3"></i>
-                <span>{{ reading_time }} min read</span>
+                <span>{{ reading_time }} min</span>
                 
                 <!-- categories -->
                 {% if post.categories.size > 0 %}
