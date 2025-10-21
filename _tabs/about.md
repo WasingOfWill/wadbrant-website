@@ -20,7 +20,9 @@ Endless curiosity, love to enable others, & doing what matters.
 
 ## Useful Links
 - [Yaengard](https://store.steampowered.com/app/1545830/Yaengard/) on Steam
+- [Pley.com](http://pley.com/) (Lead PM)
+- [Pley Developer Docs](http://docs.pley.com/)
 
 
-Powered by [Jekyll](https://jekyllrb.com). Theme base by [Chirpy](https://github.com/cotes2020/jekyll-theme-chirpy).
+
 
