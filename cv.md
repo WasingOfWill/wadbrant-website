@@ -29,8 +29,8 @@ I am nerdy, love R&D, and specialize in enabling developers to build software & 
 **<a href="https://www.pley.com/" target="_blank">Pley</a>** | *Lead Product Manager* | **2023 – Present** | Stockholm
 - Lead product strategy and vision for web gaming platform
 - Managed cross-functional teams handling roadmap, discovery, stakeholder & customer communication
-- Focused on product strategy, prioritization, & hands-on execution
-- Established foundational product management processes and workflows
+- Focused on product strategy, prioritization, & being the voice of customers
+- Established foundational product management & customer cusccess processes and workflows
 
 **<a href="https://www.pley.com/" target="_blank">Pley</a>** | *Product Manager* | **Sep. 2022 – 2023** | Stockholm
 - Ported & launched first 15 mobile games on web, which together generate >$50M annually cross-platform
@@ -44,10 +44,9 @@ I am nerdy, love R&D, and specialize in enabling developers to build software & 
 - Achieved total game sales over >3 MSEK
 - Signed and managed 20+ consulting projects (>2 MSEK)
 
-**KBSS** | *Organization Lead* | **Sep. 2018 – May 2019** | Stockholm
-- Led non-profit KTH organization with 70+ members
-- Managed leadership, finance, and organizational operations
-- Secured 400KSEK+ in sponsorship funding
+**KBSS (Non-Profit)** | *Organization Lead* | **Sep. 2017 – May 2019** | Stockholm
+- 70+ members, 400KSEK+ in sponsorship
+
 
 ---
 

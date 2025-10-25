@@ -22,6 +22,7 @@ Endless curiosity, love to enable others, & doing what matters.
 - [Yaengard](https://store.steampowered.com/app/1545830/Yaengard/) on Steam
 - [Pley.com](http://pley.com/) (Lead PM)
 - [Pley Developer Docs](http://docs.pley.com/)
+- [My CV](/cv/)
 
 
 
