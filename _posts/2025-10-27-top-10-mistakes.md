@@ -12,6 +12,19 @@ Few skills is as important for a product manager as self-reflection. It is the P
 
 I've long wanted to put together my top 10 list of mistakes as a PM to try to learn from them in the future. This is that!
 
+Here is that list.
+
+1. Always label experiments versus long-term product bets so teams know what to build and when to kill it.
+2. Pour effort only into areas where we can realistically be best-in-class; otherwise, buy or partner with another service.
+3. Validate the problem, target outcomes, and success metrics before writing code.
+4. Plan distribution so every feature actually reaches the users who need it.
+5. Seek out churned or unhappy users and learn why they left.
+6. Avoid integrating with big partners who suddently pivots and leave you holding the bag.
+7. Spend more  time with your users.
+8. Stay close to sales and customer success conversations for real-world feedback.
+9. Understand customer pain and product market before reacting to competitor moves.
+10. Ship fewer things, but demand exceptional quality from anything in your product.
+
 
 ### #1 What Is Experimentation and What Are Low-Confidence Products?
 
