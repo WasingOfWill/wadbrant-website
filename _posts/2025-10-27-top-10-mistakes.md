@@ -8,6 +8,11 @@ image:
   path: assets/images/cover/default.png
 ---
 
+Few skills is as important for a product manager as self-reflection. It is the PMs job to stop and change when things aren't working. 
+
+I've long wanted to put together my top 10 list of mistakes as a PM to try to learn from them in the future. This is that!
+
+
 ### #1 What Is Experimentation and What Are Low-Confidence Products?
 
 It is a mistake to not differentiate between time-limited experiments and low-confidence product development. Treating every idea like a product instead of a hypothesis leads to wasted time, unclear learnings, and blurred accountability.
