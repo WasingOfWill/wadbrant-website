@@ -18,6 +18,7 @@ Prompts are monologues. Multi-agents are more like cross-functional software tea
 The shift happening in AI right now is that we’re finally treating these systems like complex tools instead of crystal balls. The best frameworks, LangGraph, Google ADK, n8n are all converging on the same playbook: plan the work, route the work, do the work, check the work. Exactly what we expect from a real product team. It is *very* cool.
 
 ## The Pieces that makes GPT-wrappers into something sophisticated
+Let's begin by learning some key industry terms.
 
 - Prompt Chaining. Split complex prompts into multiple steps, avoiding breakdowns, each steps output feeding into then next input. By chaining prompts (one LLM feeds into another), we avoid context-rot when prompts become complicated.
 
@@ -29,14 +30,16 @@ The shift happening in AI right now is that we’re finally treating these syste
 
 - Planning. This was the game-changer for Cursor and my #1 LLM advice before it became core to all the reasoning models. (1) Break down the job into sub tasks, (2) review it and ask follow up questions if needed, (3) do the work. By planning before executing, the model hits the right output MUCH more often.
 
+- Recursion. Allow models to call themselves with an input if the output isn't up to par. Can also be used in a multi-model setup where two models call each other recursively (Model A outputs, model B reviews and calls Model A.)
+
 - Tools. Give the agent access to search engines, APIs, database calls, etc.
 
 - Multi-agent. Chain multiple of these together into a big flow.
 
 ![Agent Terms](assets/images/article/pley/pleyai_parentagents.png)
 
-> ### Context Rot.
-“Context rot” is a hard-to-define issue in language models where performance degrades as context grows. Though benchmarks like RULER show strong recall even in long contexts, users still notice models seeming to “get dumber” in extended chats or large code histories. It’s a familiar but poorly measurable failure mode. A proposed fix is to split large contexts into smaller model calls and merge results — the idea behind a recursive language model.
+> ### What is Context Rot?
+“Context rot” is a hard-to-define issue in language models where performance degrades as context grows. Even for strong benchmarking setups like RULER works great even in massive contexts, users still notice models seeming to “get dumber” in extended chats or large code histories. Try chatting with the same instance of Chat GPT for 100+ messages about the same topic, and watch it derail. It’s a familiar but poorly measurable failure mode. A proposed fix is to split large contexts into smaller model calls and merge results, the idea behind a recursive language model.
 
 
 ## Prompt Wrappers Aren’t Products
