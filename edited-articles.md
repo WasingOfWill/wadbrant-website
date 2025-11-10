@@ -11,3 +11,4 @@
 2025-10-19-pms-ai-prototyping-and-cool-mystery-games.md
 2050-08-08-write-a-new-post-and-how-to-do-markdown.md
 2025-10-25-2025-10-26-pleyconnect.md
+2025-10-27-top-10-mistakes.md

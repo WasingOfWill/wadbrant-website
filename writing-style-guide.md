@@ -3,6 +3,12 @@
 ## Overview
 This guide captures the distinctive writing style of Will Wadbrant, a game industry professional and product manager. His writing combines technical expertise with conversational tone, personal anecdotes, and direct business insights. This guide should be used by LLMs when editing or writing content in his voice.
 
+## Quality Assurance
+- Make sure all headers makes sense for the texts beneath them. 
+- Make sure the article name matches
+- Make sure that the URL (name of the _post file) is similar enough to the main article (often it is shorter, but date should always match).
+- Make sure spelling and grammar is correct. (Without changing any meaning or context. Do not add any symbols)
+
 ## Core Voice Characteristics
 
 ### 1. Conversational and Direct
@@ -273,3 +279,4 @@ I freaking love mystery games."
 - "Indie game developer" (not "indie developer")
 
 This style guide should be used to maintain consistency with Will's authentic voice while editing or creating content. The key is balancing technical expertise with conversational accessibility, maintaining his passionate but realistic perspective on the gaming industry.
+
