@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Step Above Chat-GPT Wrappers
-date: 2025-11-10 09:00 -0500
+date: 2025-11-10 09:00
 categories: [AI, Product Management]
 tags: [Product Management, Using AI, Doing Things]
 image:
