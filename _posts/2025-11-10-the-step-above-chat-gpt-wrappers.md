@@ -3,6 +3,8 @@ title: The Step Above Chat-GPT Wrappers
 date: 2025-11-10 09:00 -0500
 categories: [AI, Product Management]
 tags: [Product Management, Using AI, Doing Things]
+image:
+  path: assets/images/cover/llm.webp
 ---
 
 All product managers worth their salt has understood the basics of large-language-models (LLMs). It is a new way to interface with information, and it opens a lot of door which weren't easy to go through before. Then, the good PMs realize that the average users of LLMs are awful. They try some prompt, it generates some awful generic output with factual errors. So they come up with the idea; if I take OpenAI's API, feed it some actually good well-tested prompts, I can sell it to both users and investors as the new hot AI startup and make $millions. Pretty smart.
