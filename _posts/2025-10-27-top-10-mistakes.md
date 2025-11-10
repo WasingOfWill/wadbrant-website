@@ -47,7 +47,7 @@ Not making it a core requirement to push Pley features to players, and failing t
 
 Coming from the gaming industry, this one isn't surprising. What may be surprising is that even though I know distribution is everything in my bones, I still mess it up.
 
-> TLDR: Make sure that features you build actually reach their target audience. If a tree falls in the woods... It is your job as a product manager to make sure everyone hears your tree falling.
+> TLDR: Make sure that features you build actually reach their target audience. If a tree falls in the woods, does it make a sound?... It is your job as a product manager to make sure everyone hears your tree falling.
 
 ### #5 Talk to Your Unhappy Users
 
@@ -59,15 +59,17 @@ Not talking to churning customers and players to learn their pains, because it�
 
 Integrating with large organizations because their name carries weight, only to find ourselves catching up when they change direction and don’t care about our timelines.
 
-Unfortunately, we did this over and over at Pley. Mostly around game distribution. Big companies (Microsoft, Discord, Google, Meta) look fancy and we fight to partner with them. But even if they're excited at first, they may change over time. And you either kill your integration or change with them.
+Unfortunately, we did this over and over at Pley. Mostly around game distribution. Big companies (Microsoft, Discord, Google, Meta) look fancy and we fight to partner with them. But even if they're excited at first, they may change over time. Many times they deployed changes, which broke our platform, and we had to play catchup. And you either kill your integration or change with them. 
 
-The cost of maintaining that technical relationship is terribly expensive.
+The cost of maintaining that technical relationship is terribly expensive. But once you tell your customers and stakeholders, killing integrations no longer becomes an option. So think long and hard before jumping into bed with a big organization.
 
 > TLDR: Do not hitch yourself to big organizations unless you have to. The cost of doing so is 10x what you expect.
 
 ### #7 Time with Users Is Always Time Well Spent
 
-Not spending enough time with players to systematically understand their psychology and behavior. Insights decay quickly if not continuously refreshed through real conversations.
+Not spending enough time with players to systematically understand their psychology and behavior. Insights decay quickly if not continuously refreshed through real conversations. It became to core to my day to day to talk to B2B customers, and not players.
+
+In the end, game companies live and die by their player experience, even if they have to sell to the studios first.
 
 Words cannot explain how important this is.
 
@@ -75,7 +77,7 @@ Words cannot explain how important this is.
 
 ### #8 Spend More Time in Sales and Customer Success
 
-Not spending enough time with customers in the sales pipeline. We did spend a lot, but time with customers is always time well spent.
+Not spending enough time with customers in the sales pipeline. I did spend a lot of time with B2B customers, but more time with customers is always time well spent.
 
 Again, words cannot explain how important this is. I just happened to have two customer bases after becoming product lead (B2B game studios and B2C players).
 
@@ -87,14 +89,16 @@ Chasing competitors into product markets before deeply understanding what our ow
 
 It was rare, but once or twice we saw what a competitor was doing and knee-jerk began building it ourselves. It made sense to us, and the fact that someone else was investing in it gave us false confidence.
 
-However, companies have entire teams to make it look like they know what they're doing. If you have worked with a marketing or product marketing team before, you know that it is true. People selling confidence do not always know what is going on. And people building don't always validate either. Product by "pulling things out of your ass" is tried and true.
+However, companies have entire teams to make it look like they know what they're doing. If you have worked with a marketing or product marketing team before, you know that it is true. People selling confidence do not always know what is going on. And people building don't always validate either. Product by "pulling things out of your ass" is tried and true. It doesn't work. 
+
+We can only know what to do when things go bad, by knowing how we got ourselves into the situation.
 
 > TLDR: Understand first, then build. Do not assume competitors have validated or done strong discovery.
 
 ### #10 Hold Yourself to an Uncompromising Standard
 
-Not holding the product to a higher bar — doing too many things at average quality instead of fewer things at excellence. We should demand greatness from each other and be proud of what we ship.
+Not holding the product to a higher bar, doing too many things at average quality instead of fewer things at high excellence. We should demand greatness from each other and be proud of what we ship. 
 
-Occasionally, when trying to move quickly, we said things like "It just needs to work", or "Let's fix it later". But now years later, I wish we never did.
+Occasionally, when trying to move quickly, we said things like "It just needs to work", or "Let's fix it later". But now years later, I wish we never did. I wish anything we declared as a "platform feature" was held up to the highest of standard.
 
 > TLDR: Build fewer things, but make sure the quality is sky high. Be the best in the world at the specific thing your users buy or sign up for.
