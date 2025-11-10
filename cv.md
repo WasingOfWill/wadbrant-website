@@ -20,17 +20,18 @@ permalink: /cv/
 ---
 
 ### Professional Summary
-I am nerdy, love R&D, and specialize in enabling developers to build software & games leading to business-valuable outcomes. People over process, and outcome over output. Velocity is how we stumble quickly and learn a lot even quicker.
+I am nerdy, love technology, AI and product. I specialize in enabling developers to build software & games leading to business-valuable outcomes. People over process, and outcome over output. Velocity is how we stumble quickly and learn a lot even quicker.
 
 ---
 
 ### Experience
 
 **<a href="https://www.pley.com/" target="_blank">Pley</a>** | *Lead Product Manager* | **2023 – Present** | Stockholm
-- Lead product strategy and vision for web gaming platform
-- Managed cross-functional teams handling roadmap, discovery, stakeholder & customer communication
-- Focused on product strategy, prioritization, & being the voice of customers
-- Established foundational product management & customer cusccess processes and workflows
+- Grew player base (30K to 1.5m), as well as doubling retention over 2 years.
+- Expanded revenue from $36K to est. $2 mil ARR 2025 
+- Owner of product player psychology, analytics/data, and monetization.
+- Worked with senior leadership as the voice of the customer (both B2B studios and B2C players) to prioritize, work with commercial teams, own the product vision, and lead the development org.
+- Build the foundation for AI products, both on the customer success, commercial, and engineering side.
 
 **<a href="https://www.pley.com/" target="_blank">Pley</a>** | *Product Manager* | **Sep. 2022 – 2023** | Stockholm
 - Ported & launched first 15 mobile games on web, which together generate >$50M annually cross-platform
