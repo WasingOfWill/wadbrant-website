@@ -1,3 +1,4 @@
+---
 layout: post
 title: The Step Above Chat-GPT Wrappers
 date: 2025-11-10 09:00 -0500
@@ -31,6 +32,8 @@ The shift happening in AI right now is that we’re finally treating these syste
 - Tools. Give the agent access to search engines, APIs, database calls, etc.
 
 - Multi-agent. Chain multiple of these together into a big flow.
+
+![Agent Terms](assets/images/article/pley/pleyai_parentagents.png)
 
 > ### Context Rot.
 “Context rot” is a hard-to-define issue in language models where performance degrades as context grows. Though benchmarks like RULER show strong recall even in long contexts, users still notice models seeming to “get dumber” in extended chats or large code histories. It’s a familiar but poorly measurable failure mode. A proposed fix is to split large contexts into smaller model calls and merge results — the idea behind a recursive language model.
@@ -93,8 +96,9 @@ You end up with scale without chaos. Crazy.
 One more thing: context rot is real. You’ve felt it. The agent starts sharp, then forgets what you said 30 messages ago. Recursive agents fix this by splitting work into sub-problems, spinning up fresh context for each, and stitching everything back together. Think of it as a clean-mind system. One orchestrator agent keeps the mission intact while specialists dive into their own sandbox.
 
 ## In the End
-The best agent systems today look suspiciously like well-run teams. Planner (PM), researcher (analyst), builder (engineer), reviewer (lead), router (ops). We’re not building clever prompts anymore; we’re designing organizations of intelligence. When it works, it feels eerie. The system plans, decides, executes, checks, and ships before you finish your coffee.
+The best agent systems today look suspiciously like well-run teams. Planner (PM), researcher (analyst), builder (engineer), reviewer (lead), router (ops). We’re not just writing prompts anymore; we’re designing real systems. The system plans, decides, executes, checks, and ships before you finish your coffee.
 
 You stop building chatbots. You start building workers.
+I think it is pretty cool and can solve legitimate real-life problems.
 
-That's pretty cool.
+If you identify the problems to solve.
