@@ -68,7 +68,7 @@ That small layer of decision-making is what makes the thing feel alive instead o
 ## Parallelization (Isn’t Optional)
 Sequential workflows kill good products. If your agent has to query Source A, wait, summarize, then query Source B, you’ve already burned the attention budget of every impatient user (read: all of them). The teams winning right now parallelize by default. Cognition AI runs eight tool calls in parallel per turn. That cuts a 20-second round-trip to four seconds. Four seconds is the difference between “wow, magic” and “eh, it’s thinking.”
 
-The trade-off, of course, is operational overhead. You need structured logging, clearer dependency graphs, and confidence in retries. But honestly, the same was true when we learned to build microservices. You take on orchestration complexity to buy user experience. It seems fine to me.
+The trade-off, of course, is operational overhead. You need structured logging, clearer dependency graphs, and confidence in retries. But honestly, the same was true when we learned to build microservices. You take on orchestration complexity to buy user experience. Know your product, so you know when it is worth it. 
 
 ## Reflection
 The first draft from an LLM is usually mediocre. Sometimes it’s wrong. Reflection solves that. You instrument the agent to critique its own work, or you let a second agent play reviewer. Producer ➝ Critic ➝ Revision. It’s the same loop I run on every article and every PRD, except now the system can do it without me hovering.
@@ -77,10 +77,13 @@ The first draft from an LLM is usually mediocre. Sometimes it’s wrong. Reflect
 - Self-review prompts keep tone consistent.
 - Debates merge competing answers into something sharper.
 
-Yes, it’s slower. But when quality matters (strategy docs, legal summaries, anything that hits executives) that extra loop saves you from embarrassing yourself. Ouch.
+Yes, it’s slower. But when quality matters (strategy docs, legal summaries, anything that hits executives) that extra loop saves you from embarrassing yourself. Personally, I love having a two-agent party for any output to be read by customers; one that has writing guidelines and one that has output requirements. Then, let these two call each other recursively until both are happy.
 
 ## Planning
-Planning is the difference between “assistant” and “operator.” A reactive agent waits for orders. A planning agent looks at the goal, breaks it into steps, picks tools, and adapts when something fails. Google Deep Research doesn’t just search. It plans a research project, executes, revises, and hands you the final thread. That is roadmap thinking for machines. As a PM, you should be nodding right now.
+Planning is the difference between “assistant” and “operator.” A reactive agent waits for orders. A planning agent looks at the goal, breaks it into steps, picks tools, and adapts when something fails. Google Deep Research doesn’t just search. It plans a research project, executes, revises, and hands you the final thread. That is roadmap thinking for machines. 
+
+Cursor really changed its product when it added the planning mode. If you haven't tried it, I highly recommend it. It is now default for any cursor prompt to plan, make checklists. No longer do I have to run "Break down the task, make a to-do, ask questions, and only then execute" as my system prompt.
+
 
 ## Tools Make the Work Real
 An LLM without tools is just a creative intern with no browser. It can talk, but it can’t act. The minute you add tool use (function calls, API hooks, custom code) the agent stops pretending and starts delivering. Weather? API call. Database joins? SQL agent. Screenshot diffing? Vision tool. It’s the difference between ChatGPT that explains the weather and ChatGPT that checks it.
@@ -96,7 +99,7 @@ Single agents get you far. Teams of agents get you shipped. Planner, researcher,
 You end up with scale without chaos. Crazy.
 
 ## Watch the Context Window
-One more thing: context rot is real. You’ve felt it. The agent starts sharp, then forgets what you said 30 messages ago. Recursive agents fix this by splitting work into sub-problems, spinning up fresh context for each, and stitching everything back together. Think of it as a clean-mind system. One orchestrator agent keeps the mission intact while specialists dive into their own sandbox.
+Context rot is real. You’ve felt it. The agent starts sharp, then forgets what you said 30 messages ago. Recursive agents fix this by splitting work into sub-problems, spinning up fresh context for each, and stitching everything back together. Think of it as a clean-mind system. One orchestrator agent keeps the mission intact while specialists dive into their own sandbox.
 
 ## In the End
 The best agent systems today look suspiciously like well-run teams. Planner (PM), researcher (analyst), builder (engineer), reviewer (lead), router (ops). We’re not just writing prompts anymore; we’re designing real systems. The system plans, decides, executes, checks, and ships before you finish your coffee.
