@@ -3,7 +3,7 @@ layout: post
 title: "Five Greatest Tips for LLMs"
 date: 2025-07-13
 categories: [Product Management, AI]
-tags: [AI, LLM, Doing Things]
+tags: [AI, Doing Things]
 ---
 
 Working as a Product Manager through the rise of AI in software development, I feel like I missed an opportunity to build the first AI products. I always try to be curious, and nearly instantly began using the early models; InstructGPT, ChatGPT 1.0, first versions of Grok. Even if I didn’t jump on the AI hype train for product features, I realized quite quickly that it wasn’t vaporware. It actively saves you time, if used correctly. AI models and LLM agents aren’t magic (“fancy autocomplete” isn’t too far off), but they can save an inhuman amount of effort when applied where they are a smidge away from magic.
