@@ -1,7 +1,8 @@
 This is a task that you are to do in its entirety. Before starting, plan a step-by-step plan how to complete the entire instruction.
 1. Check if there are unreviewed articles (in the _post/ folder). Any article in _posts folder which isn't listed in the edited-articles.md is unreviewed.
 2. Follow the editing instructions beneath these steps for each article.
-3. Once complete, add the name of the article to the edited-articles.md file.
+3. Go to the writing-style-guide.md file and make sure the writing style is up to par and matches my style.
+4. Once complete, add the name of the article to the edited-articles.md file.
 
 Editing Instructions:
 Edit the provided posts to improve writing quality while preserving content and structure.
@@ -39,7 +40,8 @@ Style grounding:
 2. Apply that style consistently to all edits. If it does not make sense to apply, ask follow up questions. Do not presume.
 
 Tags:
-Standard tags I use: Doing Things, Game Industry, Indie Games, LLM, My Product, Nonsenes, My Project, Product Management, Using AI
+Standard tags I use:
+Doing Things, Game Industry, Game Dev, AI, My Product, Nonsense, My Project, Product Management, Things Happening
 1. Tags should be capitalized at the start of each word.
 2. If I use a tag which I have never used before, that is likely an error. Ask a follow up question if I'd like to add a new tag. If I say yes, add it to the list above.
 

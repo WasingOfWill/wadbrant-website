@@ -3,8 +3,8 @@ layout: post
 title: Acronyms Suck
 date: 2025-10-07 04:29 -0400
 categories:
-- Product Management
-- Other
+- Whatever
+- Reflection
 tags:
 - Product Management
 - Nonsense
