@@ -18,7 +18,7 @@ Prompts are monologues. Multi-agents are more like cross-functional software tea
 The shift happening in AI right now is that we’re finally treating these systems like complex tools instead of crystal balls. The best frameworks, LangGraph, Google ADK, n8n are all converging on the same playbook: plan the work, route the work, do the work, check the work. Exactly what we expect from a real product team. It is *very* cool.
 
 ## The Pieces that makes GPT-wrappers into something sophisticated
-Let's begin by learning some key industry terms.
+Let's begin by going through some key terms.
 
 - Prompt Chaining. Split complex prompts into multiple steps, avoiding breakdowns, each steps output feeding into then next input. By chaining prompts (one LLM feeds into another), we avoid context-rot when prompts become complicated.
 
@@ -39,13 +39,13 @@ Let's begin by learning some key industry terms.
 ![Agent Terms](assets/images/article/pley/pleyai_parentagents.png)
 
 > ### What is Context Rot?
-“Context rot” is a hard-to-define issue in language models where performance degrades as context grows. Even for strong benchmarking setups like RULER works great even in massive contexts, users still notice models seeming to “get dumber” in extended chats or large code histories. Try chatting with the same instance of Chat GPT for 100+ messages about the same topic, and watch it derail. It’s a familiar but poorly measurable failure mode. A proposed fix is to split large contexts into smaller model calls and merge results, the idea behind a recursive language model.
+“Context rot” is a hard-to-define issue in language models where performance degrades as context grows. Even for strong xontext-benchmarking setups like RULER works great even in massive contexts, but you'll still notice models seeming to “get dumber” in extended chats or large code histories. Try chatting with the same instance of Chat GPT for 100+ messages about the same topic, and watch it derail. It’s a familiar but poorly measurable failure mode. A proposed fix is to split large contexts into smaller model calls and merge results, the idea behind a recursive language model.
 
 
 ## Prompt Wrappers Aren’t Products
-Every time I see a “ChatGPT wrapper” pitch, it’s the same story: we glued a nice UI on top of one prompt and called it software. Don’t get me wrong, a focused prompt can ship a useful feature. But it absolutely collapses the moment you ask it to juggle research, synthesis, and execution. Context rot sets in instantly, and output becomes garbage. The context window fills up, instructions drift, and suddenly you’re copy-pasting half its output into Google to check if anything is real.
+Every time I see a “ChatGPT wrapper” pitch, it’s the same story: they glued a nice UI on top of one prompt and called it software. I am not hating, a focused prompt can ship a useful feature. But it absolutely collapses the moment you ask it to juggle research, planning, 10 back-and-fourth prompts, and execution. Context rot sets in and output becomes garbage. The context window fills up, focus drift, and suddenly you’re copy-pasting half its output into Google to fact check hallucinations.
 
-If you want reliability, you have to turn that monologue into a pipeline, where each step can be troubleshot and improved as a unit. Break down the work. Treat each step as a contract the next step can trust, just like abstract layers in software development.
+If you want enough reliability to develop a complex product, you have to turn the ever-growing prompt into a pipeline, where each step can be troubleshot and improved as a unit. Break down the steps. Treat each one as a contract the next step can trust, just like abstract layers in software development.
 
 - Break down the task into subtasks.
 - Ask follow up questions about anything unclear.
@@ -57,7 +57,7 @@ If you want reliability, you have to turn that monologue into a pipeline, where 
 Basic? Yes. Predictable? Also yes. Predictability is the only reason you can debug an agent rather than pray.
 
 ## Let the System Route Itself
-Here’s the painful truth I tell every team: if your “AI assistant” can’t decide what to do next, it’s still a slick FAQ bot. Routing changes that. The agent needs to look at the request, pick the right tool or workflow, and hand off. That can be rule-based (fast, brittle), embedding-based (semantic, decent), or LLM-based (flexible, needs guardrails). The important part is that you don’t hardcode every branch. You let the system choose its own path, just like you trust a senior PM to know when to talk to research, data, or finance.
+Here’s the painful truth I tell every team: if your “AI assistant” can’t decide what to do next, it’s still a chat GPT FAQ bot. Users can read documentation themselves. Even more, they can copy your docs into any of the 50 AI services they use. Routing is the foundation to break away from just being a "input prompt -> output"-wrapper. The agent needs to look at the request, pick the right tool or workflow, and hand it off. That can be rule-based ("Prompt contains word X, so do Y"), embedding-based (semantic), or LLM-based (flexible, but needs guardrails. "User asked something about X, so do Y"). The important part is that you don’t hardcode every branch. You let the system choose its own path, just like you trust a PM to know when to talk to research, data, engineering, or finance when needed (and more importantly, when not to).
 
 - “Check my order status” routes to the database agent.
 - “Explain the refund policy” routes to the knowledge base agent.
@@ -68,7 +68,7 @@ That small layer of decision-making is what makes the thing feel alive instead o
 ## Parallelization (Isn’t Optional)
 Sequential workflows kill good products. If your agent has to query Source A, wait, summarize, then query Source B, you’ve already burned the attention budget of every impatient user (read: all of them). The teams winning right now parallelize by default. Cognition AI runs eight tool calls in parallel per turn. That cuts a 20-second round-trip to four seconds. Four seconds is the difference between “wow, magic” and “eh, it’s thinking.”
 
-The trade-off, of course, is operational overhead. You need structured logging, clearer dependency graphs, and confidence in retries. But honestly, the same was true when we learned to build microservices. You take on orchestration complexity to buy user experience. Know your product, so you know when it is worth it. 
+The trade-off, of course, is operational overhead. It gets token hungry, and it can become more complex to investigate after the fact. You need structured logging, clearer dependency graphs, and confidence in retries. But honestly, the same was true when we learned to build microservices. You take on orchestration complexity to buy user experience. Know your products value, so you know when it is worth the trade off. 
 
 ## Reflection
 The first draft from an LLM is usually mediocre. Sometimes it’s wrong. Reflection solves that. You instrument the agent to critique its own work, or you let a second agent play reviewer. Producer ➝ Critic ➝ Revision. It’s the same loop I run on every article and every PRD, except now the system can do it without me hovering.
@@ -107,4 +107,4 @@ The best agent systems today look suspiciously like well-run teams. Planner (PM)
 You stop building chatbots. You start building workers.
 I think it is pretty cool and can solve legitimate real-life problems.
 
-If you identify the problems to solve.
+If you identify the right problems to solve.
