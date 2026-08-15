@@ -121,6 +121,80 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   await page.close();
 }
 
+/* ------------------------------------------------------ homepage map edges */
+{
+  /*
+   * The map drawing under the hex grid must never end with a visible line.
+   * Reading the border pixels is the only way to prove that: a mask radius
+   * that looks safe at one window size reaches past the edge at another, and
+   * nothing in the CSS says so.
+   *
+   * The grid itself is hidden first. Tiles running off the edge are the point
+   * of the design, so leaving them in would measure the wrong thing.
+   */
+  for (const [width, height] of [
+    [1440, 900],
+    [1920, 1080],
+    [1280, 720],
+    [390, 844],
+  ]) {
+    const page = await browser.newPage();
+    await page.setViewport({ width, height });
+    await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
+    await new Promise((r) => setTimeout(r, 500));
+
+    const background = await page.evaluate(() => {
+      document.querySelector('.hexmap-camera').style.display = 'none';
+      return getComputedStyle(document.getElementById('hexmap')).backgroundColor;
+    });
+    const shot = await page.screenshot({ encoding: 'base64' });
+    await page.close();
+
+    const probe = await browser.newPage();
+    const worst = await probe.evaluate(
+      async (data, bg) => {
+        const image = new Image();
+        image.src = `data:image/png;base64,${data}`;
+        await image.decode();
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        context.drawImage(image, 0, 0);
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        const [er, eg, eb] = bg.match(/\d+/g).map(Number);
+
+        let max = 0;
+        const inspect = (x, y) => {
+          const at = (y * canvas.width + x) * 4;
+          max = Math.max(
+            max,
+            Math.abs(pixels[at] - er),
+            Math.abs(pixels[at + 1] - eg),
+            Math.abs(pixels[at + 2] - eb)
+          );
+        };
+        // The sidebar owns the left edge, so that side is skipped.
+        for (let x = 0; x < canvas.width; x += 4) {
+          inspect(x, 1);
+          inspect(x, canvas.height - 2);
+        }
+        for (let y = 0; y < canvas.height; y += 4) inspect(canvas.width - 2, y);
+        return max;
+      },
+      shot,
+      background
+    );
+    await probe.close();
+
+    check(
+      `map fades out before the edge at ${width}x${height}`,
+      worst <= 3,
+      `worst channel drift ${worst}`
+    );
+  }
+}
+
 await browser.close();
 
 let failed = 0;

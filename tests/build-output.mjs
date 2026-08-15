@@ -69,6 +69,55 @@ for (const href of links) {
   if (response.status >= 400) fail(href, `linked but returns ${response.status}`);
 }
 
+/*
+ * The homepage map.
+ *
+ * The grid is generated, so an arithmetic slip in the wedge maths would be
+ * invisible in a diff and obvious only to the eye. These numbers pin it down:
+ * one home tile, six regions, five territory slots each and a ring of
+ * scenery. Only the rendered SVG is measured, because the React payload
+ * further down the document repeats every attribute.
+ */
+const REGION_IDS = ['ai', 'gaming', 'industry', 'product', 'business', 'misc'];
+const TERRITORY_KINDS = ['article', 'gate', 'empty'];
+
+const canvas = home.body.match(/<svg class="hexmap-canvas"[\s\S]*?<\/svg>/)?.[0];
+if (!canvas) {
+  fail('/', 'has no hex map');
+} else {
+  const tiles = [...canvas.matchAll(/<g class="hex" data-kind="(\w+)"(?: data-region="(\w+)")?/g)].map(
+    ([, kind, region]) => ({ kind, region }),
+  );
+  const count = (predicate) => tiles.filter(predicate).length;
+
+  if (count((tile) => tile.kind === 'home') !== 1) fail('/', 'the map has no single home tile');
+  if (count((tile) => tile.kind === 'region') !== 6) fail('/', 'the map does not have six regions');
+  // Rings 4 and 5: 6 * 4 plus 6 * 5.
+  if (count((tile) => tile.kind === 'edge') !== 54) fail('/', 'the scenery rings are not 54 tiles');
+
+  for (const id of REGION_IDS) {
+    if (count((tile) => tile.kind === 'region' && tile.region === id) !== 1) {
+      fail('/', `region ${id} is missing from the map`);
+    }
+    const slots = count((tile) => tile.region === id && TERRITORY_KINDS.includes(tile.kind));
+    if (slots !== 5) fail('/', `region ${id} has ${slots} territory tiles, expected 5`);
+  }
+
+  // The map is a picture. Its text alternative has to carry the same links,
+  // or the homepage is a dead end for a screen reader and for a crawler.
+  const listed = home.body.match(/<nav id="main-content"[\s\S]*?<\/nav>/)?.[0] ?? '';
+  const articles = count((tile) => tile.kind === 'article');
+  const listedLinks = [...listed.matchAll(/href="(\/posts\/[^"]+)"/g)];
+  if (listedLinks.length !== articles) {
+    fail('/', `${articles} article tiles but ${listedLinks.length} links in the text alternative`);
+  }
+  for (const [, href] of listedLinks) {
+    if (!index.some((entry) => entry.url === href)) {
+      fail('/', `map links to ${href}, which is not a published post`);
+    }
+  }
+}
+
 // A missing page must actually 404.
 const missing = await fetch(`${BASE}/definitely-not-a-page/`);
 if (missing.status !== 404) fail('/definitely-not-a-page/', `expected 404, got ${missing.status}`);

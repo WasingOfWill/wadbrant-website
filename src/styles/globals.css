@@ -6,7 +6,8 @@
    2. The theme - design tokens and every component's look.
    3. Self-hosted webfonts.
    4. Tailwind utilities (no preflight, so they cannot reset the theme).
-   5. Site-specific rules, below.
+   5. The homepage map, which is scoped to that one page.
+   6. Site-specific rules, below.
    ========================================================================== */
 
 @import './layout.css';
@@ -15,6 +16,7 @@
 @import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 @import '@fortawesome/fontawesome-free/css/solid.min.css';
 @import '@fortawesome/fontawesome-free/css/regular.min.css';
+@import './hexmap.css';
 
 @layer theme, utilities;
 @import 'tailwindcss/theme.css' layer(theme);

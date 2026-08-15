@@ -1,0 +1,465 @@
+/* ==========================================================================
+   The homepage map.
+
+   Loaded last, so it can win against the theme without reaching for
+   !important. Nothing in here applies anywhere but the homepage: every rule
+   is scoped under #hexmap or guarded by html:has(#hexmap).
+
+   Colours come from two places. The neutrals are mixed from the mode-aware
+   tokens in theme.css, so they follow light and dark for free. The six region
+   hues are the only new colours, and they are declared for both modes below.
+   ========================================================================== */
+
+:root {
+  --region-ai: #684a8c;
+  --region-gaming: #a63528;
+  --region-industry: #445e49;
+  --region-product: #9c470d;
+  --region-business: #7f5722;
+  --region-misc: #5c554c;
+
+  /* How much of the drawn map shows through. Texture, not picture. */
+  --map-wash: 0.42;
+  --map-wash-filter: saturate(0.45) contrast(0.9);
+}
+
+html[data-mode='dark'] {
+  --region-ai: #b79ce0;
+  --region-gaming: #ef8f76;
+  --region-industry: #94bb9c;
+  --region-product: #fb923c;
+  --region-business: #d7a862;
+  --region-misc: #b0a89d;
+
+  /* The drawing is warm parchment, so it has to be pulled well down to sit
+     on a dark page without glowing. */
+  --map-wash: 0.3;
+  --map-wash-filter: saturate(0.32) brightness(0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-mode='light']) {
+    --region-ai: #b79ce0;
+    --region-gaming: #ef8f76;
+    --region-industry: #94bb9c;
+    --region-product: #fb923c;
+    --region-business: #d7a862;
+    --region-misc: #b0a89d;
+    --map-wash: 0.3;
+    --map-wash-filter: saturate(0.32) brightness(0.6);
+  }
+}
+
+/* The map fills the window and owns the scroll. It sits under the sidebar
+   (z-index 99) on purpose: the grid running behind the sidebar is the point. */
+html:has(#hexmap),
+html:has(#hexmap) body {
+  overflow: hidden;
+  height: 100%;
+}
+
+#hexmap {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: var(--main-bg);
+
+  /* Where the home tile sits. Left of centre on desktop so the right side
+     stays free for the detail panel. */
+  --map-x: 50%;
+  --map-scale: 0.8;
+
+  /* Tiles are translucent so the drawn map reads as ground underneath them
+     rather than being hidden by them. The alpha is high enough that the
+     ground can shift text contrast by only a percent or two, which is what
+     lets tests/contrast.mjs bound the result instead of guessing it. */
+  --hex-face: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--text-color) 7%, var(--main-bg)) 87%,
+    transparent
+  );
+  --hex-face-lit: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--text-color) 14%, var(--main-bg)) 92%,
+    transparent
+  );
+
+  /* The tile outline is terrain, not a control: what identifies a tile is its
+     mark and its label, and those are the two that clear the thresholds. */
+  --hex-edge: color-mix(in srgb, var(--text-color) 28%, var(--main-bg));
+  --hex-mark: color-mix(in srgb, var(--text-color) 64%, var(--main-bg));
+  --hex-ink: color-mix(in srgb, var(--text-color) 80%, var(--main-bg));
+}
+
+@media all and (min-width: 850px) {
+  #hexmap {
+    --map-x: calc(260px + (100vw - 260px) * 0.3);
+    --map-scale: 1;
+  }
+}
+
+@media all and (min-width: 1650px) {
+  #hexmap {
+    --map-x: calc(300px + (100vw - 300px) * 0.3);
+  }
+}
+
+/* The ground the grid is drawn on. Faded to texture, desaturated so the
+   region colours stay the only real hues on the page, and masked so it never
+   reaches an edge and never announces itself as a photograph. */
+#hexmap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url('/assets/images/website/map.jpg') center / cover no-repeat;
+  opacity: var(--map-wash);
+  filter: var(--map-wash-filter);
+  /*
+   * The mask has to reach zero before it reaches any edge, or the drawing
+   * stops at the window with a straight line across it and stops being
+   * ground. Centring it and keeping both radii under half the viewport
+   * guarantees that at the sides, the top, the bottom and the corners, at
+   * every window size. It does not follow --map-x for the same reason:
+   * offsetting the centre pushes the far side of the ellipse past the edge.
+   */
+  mask-image: radial-gradient(ellipse 47% 49% at 50% 50%, black 0%, transparent 100%);
+}
+
+/* Everything moves as one. Zero size so the transform origin is the home
+   tile's centre, which keeps a later zoom honest. */
+.hexmap-camera {
+  position: absolute;
+  left: var(--map-x);
+  top: 50%;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  transform: translate(var(--pan-x, 0px), var(--pan-y, 0px)) scale(var(--map-scale));
+  transform-origin: 0 0;
+  transition: transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+
+/* overflow: visible is what lets the grid run past the viewBox and off the
+   screen instead of being clipped to a neat rectangle. */
+.hexmap-canvas {
+  position: absolute;
+  left: -620px;
+  top: -560px;
+  overflow: visible;
+}
+
+/* The world dissolves at the edges rather than stopping at one. */
+#hexmap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 66% 70% at var(--map-x) 50%,
+    transparent 52%,
+    var(--main-bg) 100%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   Tiles
+   -------------------------------------------------------------------------- */
+
+.hex {
+  --region: var(--hex-mark);
+  transition: translate 180ms ease-out;
+}
+
+.hex[data-region='ai'] {
+  --region: var(--region-ai);
+}
+.hex[data-region='gaming'] {
+  --region: var(--region-gaming);
+}
+.hex[data-region='industry'] {
+  --region: var(--region-industry);
+}
+.hex[data-region='product'] {
+  --region: var(--region-product);
+}
+.hex[data-region='business'] {
+  --region: var(--region-business);
+}
+.hex[data-region='misc'] {
+  --region: var(--region-misc);
+}
+.hex[data-kind='home'] {
+  --region: var(--accent);
+}
+
+.hex-face {
+  fill: var(--hex-face);
+  transition: fill 180ms ease-out;
+}
+
+.hex-edge {
+  fill: none;
+  stroke: var(--hex-edge);
+  stroke-width: 1.5;
+  transition:
+    stroke 180ms ease-out,
+    stroke-width 180ms ease-out;
+}
+
+.hex-mark {
+  fill: none;
+  stroke: var(--hex-mark);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 180ms ease-out;
+}
+
+.hex-mark-node {
+  fill: var(--hex-mark);
+  transition: fill 180ms ease-out;
+}
+
+.hex-terrain {
+  opacity: 0;
+  transition: opacity 220ms ease-out;
+}
+
+.hex-label {
+  fill: var(--hex-ink);
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-anchor: middle;
+  transition: fill 180ms ease-out;
+}
+
+/* Terrain ink. currentColor inside a pattern resolves against the pattern
+   element, not against whatever references it, so each one is tinted here. */
+#terrain-ai path,
+#terrain-industry path,
+#terrain-product path,
+#terrain-business path {
+  fill: none;
+  stroke-width: 1.2;
+}
+#terrain-gaming path {
+  fill: none;
+  stroke-width: 1;
+}
+#terrain-ai path {
+  stroke: var(--region-ai);
+}
+#terrain-ai circle {
+  fill: var(--region-ai);
+}
+#terrain-gaming path {
+  stroke: var(--region-gaming);
+}
+#terrain-industry path {
+  stroke: var(--region-industry);
+}
+#terrain-product path {
+  stroke: var(--region-product);
+}
+#terrain-business path {
+  stroke: var(--region-business);
+}
+#terrain-misc circle {
+  fill: var(--region-misc);
+}
+
+/* Scenery. Present, never reachable, fading out as it goes. */
+.hex[data-kind='edge'] {
+  pointer-events: none;
+}
+.hex[data-kind='edge'] .hex-face {
+  fill: none;
+}
+.hex[data-kind='edge'] .hex-edge {
+  stroke: color-mix(in srgb, var(--text-color) 7%, var(--main-bg));
+}
+
+/* Unclaimed ground inside a region: drawn, not offered. */
+.hex[data-kind='empty'] {
+  pointer-events: none;
+}
+.hex[data-kind='empty'] .hex-face {
+  fill: color-mix(in srgb, var(--text-color) 3%, var(--main-bg));
+}
+.hex[data-kind='empty'] .hex-edge {
+  stroke: color-mix(in srgb, var(--text-color) 10%, var(--main-bg));
+  stroke-dasharray: 5 7;
+}
+
+/* --------------------------------------------------------------------------
+   Hover. Colour first, movement second, both small.
+   -------------------------------------------------------------------------- */
+
+@media (hover: hover) {
+  .hex[data-kind='region']:hover,
+  .hex[data-kind='article']:hover,
+  .hex[data-kind='gate']:hover,
+  .hex[data-kind='home']:hover {
+    cursor: pointer;
+    translate: 0 -3px;
+  }
+
+  .hex[data-kind='region']:hover .hex-face,
+  .hex[data-kind='article']:hover .hex-face,
+  .hex[data-kind='gate']:hover .hex-face,
+  .hex[data-kind='home']:hover .hex-face {
+    fill: var(--hex-face-lit);
+  }
+
+  .hex[data-kind='region']:hover .hex-edge,
+  .hex[data-kind='article']:hover .hex-edge,
+  .hex[data-kind='gate']:hover .hex-edge,
+  .hex[data-kind='home']:hover .hex-edge {
+    stroke: var(--region);
+    stroke-width: 2.5;
+  }
+
+  .hex[data-kind='region']:hover .hex-mark,
+  .hex[data-kind='article']:hover .hex-mark,
+  .hex[data-kind='gate']:hover .hex-mark,
+  .hex[data-kind='home']:hover .hex-mark {
+    stroke: var(--region);
+  }
+
+  .hex[data-kind='region']:hover .hex-mark-node {
+    fill: var(--region);
+  }
+
+  .hex[data-kind='region']:hover .hex-terrain,
+  .hex[data-kind='article']:hover .hex-terrain,
+  .hex[data-kind='gate']:hover .hex-terrain {
+    opacity: 0.4;
+  }
+
+  .hex[data-kind='region']:hover .hex-label {
+    fill: var(--region);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The pawn. Where you are standing.
+   -------------------------------------------------------------------------- */
+
+.hex-pawn {
+  transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  pointer-events: none;
+}
+
+.hex-pawn-dot {
+  fill: var(--accent);
+}
+
+.hex-pawn-halo {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  opacity: 0.3;
+  animation: hex-pawn-breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes hex-pawn-breathe {
+  0%,
+  100% {
+    r: 26;
+    opacity: 0.3;
+  }
+  50% {
+    r: 32;
+    opacity: 0.12;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The map as a list. Hidden until something in it takes focus, which is how
+   keyboard and screen reader users reach the same content.
+   -------------------------------------------------------------------------- */
+
+.hexmap-index {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.hexmap-index:focus-within {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: min(22rem, calc(100vw - 2rem));
+  height: auto;
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  clip-path: none;
+  white-space: normal;
+  z-index: 100;
+  padding: 1.25rem 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--main-border-color);
+  box-shadow: var(--card-shadow);
+}
+
+.hexmap-index:focus-within h1 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.hexmap-index ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hexmap-index li {
+  margin-bottom: 0.5rem;
+  color: var(--text-muted-color);
+  font-size: 0.9rem;
+}
+
+.hexmap-index a {
+  color: var(--text-color);
+}
+
+.hexmap-index a:hover {
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Without a top bar there is no hamburger, so the map carries its own.
+   -------------------------------------------------------------------------- */
+
+#hexmap-nav {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--main-border-color);
+  background: var(--card-bg);
+  color: var(--text-muted-color);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  transition: color 180ms ease-out;
+}
+
+#hexmap-nav:hover {
+  color: var(--accent);
+}
+
+@media all and (min-width: 850px) {
+  #hexmap-nav {
+    display: none;
+  }
+}

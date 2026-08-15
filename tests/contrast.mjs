@@ -30,13 +30,60 @@ const SAMPLES = [
   { route: '/categories/', selector: '#tags .tag', label: 'tag pill' },
   { route: '/archives/', selector: '#archives a', label: 'archive link' },
   { route: '/about/', selector: '.content li', label: 'about list item' },
+
+  /*
+   * The homepage map paints with `fill` and `stroke`, not `color` and
+   * `background-color`, so these samples name the tile the ink sits on.
+   * A region reveals its colour on hover, which is the state that has to be
+   * legible, so those samples ask for the hover first.
+   */
+  {
+    route: '/',
+    paint: { prop: 'fill', behind: '.hex[data-kind="region"] .hex-face' },
+    selector: '.hex[data-kind="region"] .hex-label',
+    label: 'hex label',
+  },
+  {
+    route: '/',
+    paint: { prop: 'stroke', behind: '.hex[data-kind="home"] .hex-face' },
+    selector: '.hex[data-kind="home"] .hex-mark',
+    label: 'hex mark',
+    minRatio: 3,
+  },
+  {
+    route: '/',
+    paint: { prop: 'stroke', behind: '.hex[data-kind="home"] .hex-face' },
+    selector: '.hex[data-kind="home"] .hex-edge',
+    hover: '.hex[data-kind="home"]',
+    label: 'hex edge active',
+    minRatio: 3,
+  },
+  ...['ai', 'gaming', 'industry', 'product', 'business', 'misc'].map((region) => ({
+    route: '/',
+    paint: { prop: 'fill', behind: `.hex[data-region="${region}"] .hex-face` },
+    selector: `.hex[data-kind="region"][data-region="${region}"] .hex-label`,
+    hover: `.hex[data-kind="region"][data-region="${region}"]`,
+    label: `hex ${region} active`,
+  })),
 ];
 
+/*
+ * Chrome reports anything that came from color-mix() as `color(srgb r g b)`
+ * with channels in 0..1, not as `rgb()` with channels in 0..255. Reading those
+ * floats as bytes makes every mixed colour look like near-black, which reads
+ * as a 1.00:1 failure that is not real. Both measure functions use this.
+ */
+const PARSE = `const parse = (value) => {
+  const nums = (value.match(/[\\d.]+/g) ?? []).map(Number);
+  if (value.startsWith('color(')) {
+    return { r: nums[0] * 255, g: nums[1] * 255, b: nums[2] * 255, a: nums[3] ?? 1 };
+  }
+  const [r, g, b, a = 1] = nums;
+  return { r, g, b, a };
+};`;
+
 const MEASURE = `(selector) => {
-  const parse = (value) => {
-    const [r, g, b, a = 1] = (value.match(/[\\d.]+/g) ?? []).map(Number);
-    return { r, g, b, a };
-  };
+  ${PARSE}
   const element = document.querySelector(selector);
   if (!element) return null;
   const style = getComputedStyle(element);
@@ -74,6 +121,47 @@ const MEASURE = `(selector) => {
   };
 }`;
 
+/**
+ * SVG paints with `fill` and `stroke` and has no background to walk up to, so
+ * the tile the ink sits on is named by the sample instead of discovered.
+ */
+const PAINT_MEASURE = `(sample) => {
+  ${PARSE}
+  const element = document.querySelector(sample.selector);
+  const backdrop = document.querySelector(sample.paint.behind);
+  const map = document.getElementById('hexmap');
+  if (!element || !backdrop || !map) return null;
+
+  const over = (top, under) => ({
+    r: top.r * top.a + under.r * (1 - top.a),
+    g: top.g * top.a + under.g * (1 - top.a),
+    b: top.b * top.a + under.b * (1 - top.a),
+    a: 1,
+  });
+
+  const style = getComputedStyle(element);
+  const tile = parse(getComputedStyle(backdrop).fill);
+  if (!Number.isFinite(tile.r)) return null;
+
+  /*
+   * The tiles are translucent and the drawn map shows through them, so there
+   * is no single background to measure against. The map is bounded: it can
+   * never be darker than black at --map-wash over the page, nor lighter than
+   * white at the same opacity. Compositing the tile over both extremes gives
+   * the two worst cases, and the sample has to clear the threshold on each.
+   */
+  const page = parse(getComputedStyle(map).backgroundColor);
+  const wash = parseFloat(getComputedStyle(map).getPropertyValue('--map-wash')) || 0;
+  const grounds = [0, 255].map((ink) => over({ r: ink, g: ink, b: ink, a: wash }, page));
+
+  return {
+    colour: parse(style[sample.paint.prop]),
+    backgrounds: grounds.map((ground) => over(tile, ground)),
+    fontSize: parseFloat(style.fontSize),
+    fontWeight: Number(style.fontWeight) || 400,
+  };
+}`;
+
 const luminance = ({ r, g, b }) => {
   const channel = (value) => {
     const c = value / 255;
@@ -101,7 +189,19 @@ for (const mode of ['light', 'dark']) {
     await page.goto(BASE + sample.route, { waitUntil: 'networkidle0' });
     await page.evaluate((value) => document.documentElement.setAttribute('data-mode', value), mode);
 
-    const result = await page.evaluate(new Function(`return ${MEASURE}`)(), sample.selector);
+    // Hovered colours cross-fade, so reading them straight away measures a
+    // frame part-way through the transition rather than the resting state.
+    if (sample.hover) {
+      await page.hover(sample.hover);
+      await new Promise((resolve) => setTimeout(resolve, 400));
+    }
+
+    const result = sample.paint
+      ? await page.evaluate(new Function(`return ${PAINT_MEASURE}`)(), {
+          selector: sample.selector,
+          paint: sample.paint,
+        })
+      : await page.evaluate(new Function(`return ${MEASURE}`)(), sample.selector);
     await page.close();
 
     if (!result) {
@@ -109,9 +209,11 @@ for (const mode of ['light', 'dark']) {
       continue;
     }
 
-    const ratio = contrast(result.colour, result.background);
+    // A sample may report several possible backgrounds; the worst one decides.
+    const backgrounds = result.backgrounds ?? [result.background];
+    const ratio = Math.min(...backgrounds.map((background) => contrast(result.colour, background)));
     const large = result.fontSize >= 24 || (result.fontSize >= 18.66 && result.fontWeight >= 700);
-    const required = large ? 3 : 4.5;
+    const required = sample.minRatio ?? (large ? 3 : 4.5);
     measured.push(`${mode.padEnd(5)} ${sample.label.padEnd(18)} ${ratio.toFixed(2)}:1`);
     if (ratio < required) {
       problems.push(
