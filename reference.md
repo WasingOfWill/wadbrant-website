@@ -60,10 +60,26 @@ whole grid at build time, `components/HexMap.tsx` renders it as one SVG, and
 `styles/hexmap.css` holds every rule, scoped to that page.
 
 Six regions sit on ring 1, one per compass direction: AI, Gaming, Industry,
-Product, Business, Misc. Each owns the 60 degree wedge pointing away from home,
-which is two tiles on ring 2 and three on ring 3, so five article slots. A
-region with more posts than slots spends its last slot on a gate tile to
-`/categories/`. Rings 4 and 5 are scenery that runs off the screen.
+Product, Business, Misc. Each owns the 60 degree wedge pointing away from home
+and claims as much of it as it has earned: three tiles at least, six at most,
+one per post. A region with more posts than land spends one more tile on a gate
+to `/categories/`. That is what makes the six territories different shapes, and
+`tests/build-output.mjs` fails if they all come out the same size. Beyond them,
+rings 4 to 6 are scenery, thinned by a deterministic noise function so the
+frontier is ragged rather than three neat outlines.
+
+Interaction lives in `components/HexMapView.tsx`, the only client component on
+the page. Nothing about an article is visible until you enter its region: until
+then its tile shows ground and a question mark, and cannot be picked. Choosing
+a tile moves the pawn, pans the camera halfway towards it, and fills the
+readout on the right, which is a bottom sheet on a phone. The map can also be
+dragged a quarter of the window in any direction, with a throw that carries.
+
+Two things in that file are easy to undo by accident. The tile under a press is
+recorded on `pointerdown`, because pointer capture retargets every later event
+to the capturing element. And `discovered` is read through a ref, because the
+pointer handlers are memoised and would otherwise judge every tap against the
+first render's empty set.
 
 Regions are a homepage-only grouping. Nothing in `content/` knows about them:
 `REGIONS[].matches` lists the front matter categories that feed each one, best

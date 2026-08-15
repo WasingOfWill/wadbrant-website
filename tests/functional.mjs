@@ -121,6 +121,81 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   await page.close();
 }
 
+/* ----------------------------------------------------- homepage map moves */
+{
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1440, height: 900 });
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
+  await new Promise((r) => setTimeout(r, 400));
+
+  const tap = async (selector) => {
+    const box = await (await page.$(selector)).boundingBox();
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height / 2;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.up();
+    await new Promise((r) => setTimeout(r, 500));
+  };
+
+  const start = await page.evaluate(() => ({
+    heading: document.querySelector('#hexmap-panel h2').textContent,
+    revealed: document.querySelectorAll('.hex[data-kind="article"][data-known]').length,
+  }));
+  check('map opens at home', start.heading === 'Wadbrant', start.heading);
+  check('articles start hidden', start.revealed === 0, `${start.revealed} revealed`);
+
+  // An article whose region has not been entered must not be reachable.
+  await tap('.hex[data-region="industry"][data-kind="article"]');
+  const ignored = await page.evaluate(
+    () => document.querySelector('#hexmap-panel h2').textContent
+  );
+  check('a hidden article cannot be opened', ignored === 'Wadbrant', ignored);
+
+  await tap('.hex[data-id="region-industry"]');
+  const entered = await page.evaluate(() => ({
+    heading: document.querySelector('#hexmap-panel h2').textContent,
+    revealed: document.querySelectorAll(
+      '.hex[data-region="industry"][data-kind="article"][data-known]'
+    ).length,
+    others: document.querySelectorAll(
+      '.hex[data-region="product"][data-kind="article"][data-known]'
+    ).length,
+    listed: document.querySelectorAll('#hexmap-panel .hexmap-list button').length,
+  }));
+  check('entering a region opens it', entered.heading === 'Industry', entered.heading);
+  check('entering a region reveals its articles', entered.revealed > 0, `${entered.revealed}`);
+  check('other regions stay hidden', entered.others === 0, `${entered.others} revealed`);
+  check('the region lists what it holds', entered.listed > 0, `${entered.listed} entries`);
+
+  await tap('.hex[data-region="industry"][data-kind="article"]');
+  const opened = await page.evaluate(() => {
+    const link = document.querySelector('#hexmap-panel .hexmap-go');
+    return { kicker: document.querySelector('.hexmap-kicker').textContent, href: link?.getAttribute('href') };
+  });
+  check('an article opens a readout', opened.kicker === 'Entry', opened.kicker);
+  check('the readout links to the post', /^\/posts\/.+\/$/.test(opened.href ?? ''), String(opened.href));
+
+  // Drag, then check both that it moved and that it stopped at the limit.
+  const dragged = await page.evaluate(async () => {
+    const map = document.getElementById('hexmap');
+    const camera = document.querySelector('.hexmap-camera');
+    const send = (type, x) =>
+      map.dispatchEvent(
+        new PointerEvent(type, { bubbles: true, clientX: x, clientY: 400, pointerId: 7 })
+      );
+    send('pointerdown', 200);
+    for (let x = 200; x <= 1400; x += 60) send('pointermove', x);
+    send('pointerup', 1400);
+    await new Promise((r) => setTimeout(r, 900));
+    return parseFloat(camera.style.getPropertyValue('--drag-x'));
+  });
+  check('the map can be dragged', dragged > 40, `${dragged}px`);
+  check('the drag stops at a quarter of the window', dragged <= 1440 * 0.25 + 1, `${dragged}px`);
+
+  await page.close();
+}
+
 /* ------------------------------------------------------ homepage map edges */
 {
   /*

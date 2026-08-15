@@ -102,11 +102,25 @@ export const REGIONS: Region[] = [
   },
 ];
 
-/** Rings 2 and 3, so five tiles per region. */
-const TERRITORY_RINGS = [2, 3];
+/**
+ * Rings a region may claim, nearest first. How many it actually takes depends
+ * on how much it has to show, so the six territories are different shapes and
+ * different sizes. A region is as big as it has earned.
+ */
+const TERRITORY_RINGS = [2, 3, 4];
+
+/** Smallest and largest territory, before any gate tile is added. */
+const MIN_TERRITORY = 3;
+const MAX_TERRITORY = 6;
 
 /** Scenery rings: drawn, never interactive, run past the viewport. */
-const EDGE_RINGS = [4, 5];
+const EDGE_RINGS = [4, 5, 6];
+
+/**
+ * How much of each scenery ring survives. The frontier is meant to be ragged,
+ * not a set of neat concentric outlines, and it thins as it goes.
+ */
+const EDGE_SURVIVAL: Record<number, number> = { 4: 0.88, 5: 0.62, 6: 0.34 };
 
 export type HexKind = 'home' | 'region' | 'article' | 'gate' | 'empty' | 'edge';
 
@@ -212,8 +226,24 @@ export type HexMapData = {
 };
 
 /**
- * Builds the whole map. Regions with more posts than slots give up their last
- * slot to a gate tile pointing at the category index.
+ * Deterministic value in 0..1 for a coordinate. Used to rough up the frontier.
+ * It has to be a pure function of the coordinate, not a random number, or the
+ * world would be a different shape on every build.
+ */
+function noise(q: number, r: number): number {
+  const value = Math.sin(q * 127.1 + r * 311.7) * 43758.5453;
+  return value - Math.floor(value);
+}
+
+/** How much land a region gets. More to show, more ground. */
+function territorySize(postCount: number): number {
+  return Math.max(MIN_TERRITORY, Math.min(postCount, MAX_TERRITORY));
+}
+
+/**
+ * Builds the whole map. Territories are sized by how much each region has to
+ * show, so the six are deliberately different shapes; a region with more posts
+ * than land spends its last tile on a gate to the category index.
  */
 export async function getHexMap(): Promise<HexMapData> {
   const posts = await getAllPosts();
@@ -226,15 +256,15 @@ export async function getHexMap(): Promise<HexMapData> {
     list.sort((a, b) => Number(b.pin) - Number(a.pin) || b.date.getTime() - a.date.getTime());
   }
 
-  const territory = new Map<string, Axial[]>(REGIONS.map((region) => [region.id, []]));
+  const candidates = new Map<string, Axial[]>(REGIONS.map((region) => [region.id, []]));
   for (const radius of TERRITORY_RINGS) {
     for (const cell of ring(radius)) {
-      territory.get(wedgeFor(cell).region.id)?.push(cell);
+      candidates.get(wedgeFor(cell).region.id)?.push(cell);
     }
   }
-  for (const [id, cells] of territory) {
+  for (const [id, wedge] of candidates) {
     const region = REGIONS.find((candidate) => candidate.id === id)!;
-    cells.sort((a, b) => {
+    wedge.sort((a, b) => {
       const ringDelta = distance(a) - distance(b);
       if (ringDelta !== 0) return ringDelta;
       return wedgeAngleOffset(a, region) - wedgeAngleOffset(b, region);
@@ -242,6 +272,7 @@ export async function getHexMap(): Promise<HexMapData> {
   }
 
   const cells: HexCell[] = [];
+  const claimed = new Set<string>();
 
   cells.push({
     ...place({ q: 0, r: 0 }),
@@ -264,11 +295,13 @@ export async function getHexMap(): Promise<HexMapData> {
       meta: `${posts.length} ${posts.length === 1 ? 'entry' : 'entries'}`,
     });
 
-    const slots = territory.get(region.id) ?? [];
-    const overflows = posts.length > slots.length;
+    const wedge = candidates.get(region.id) ?? [];
+    const overflows = posts.length > territorySize(posts.length);
+    const slots = wedge.slice(0, territorySize(posts.length) + (overflows ? 1 : 0));
     const shown = overflows ? posts.slice(0, slots.length - 1) : posts;
 
     slots.forEach((cell, slot) => {
+      claimed.add(`${cell.q},${cell.r}`);
       const post = shown[slot];
       if (post) {
         cells.push({
@@ -302,6 +335,8 @@ export async function getHexMap(): Promise<HexMapData> {
 
   for (const radius of EDGE_RINGS) {
     for (const cell of ring(radius)) {
+      if (claimed.has(`${cell.q},${cell.r}`)) continue;
+      if (noise(cell.q, cell.r) > EDGE_SURVIVAL[radius]) continue;
       cells.push({
         ...place(cell),
         id: `edge-${cell.q}-${cell.r}`,

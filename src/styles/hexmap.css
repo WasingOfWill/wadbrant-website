@@ -63,9 +63,14 @@ html:has(#hexmap) body {
   inset: 0;
   z-index: 1;
   background: var(--main-bg);
+  cursor: grab;
+  touch-action: none;
 
   /* Where the home tile sits. Left of centre on desktop so the right side
-     stays free for the detail panel. */
+     stays free for the detail panel. One hexagon step is the unit the grid
+     thinks in, so nudging the whole world uses it rather than a round number
+     of pixels. */
+  --hex-step: 111px;
   --map-x: 50%;
   --map-scale: 0.8;
 
@@ -86,6 +91,10 @@ html:has(#hexmap) body {
 
   /* The tile outline is terrain, not a control: what identifies a tile is its
      mark and its label, and those are the two that clear the thresholds. */
+  /* No monospace webface is self-hosted, and adding one to label six tiles
+     would not survive being asked why. The system stack is enough. */
+  --hex-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
   --hex-edge: color-mix(in srgb, var(--text-color) 28%, var(--main-bg));
   --hex-mark: color-mix(in srgb, var(--text-color) 72%, var(--main-bg));
   --hex-ink: color-mix(in srgb, var(--text-color) 88%, var(--main-bg));
@@ -93,14 +102,15 @@ html:has(#hexmap) body {
 
 @media all and (min-width: 850px) {
   #hexmap {
-    --map-x: calc(260px + (100vw - 260px) * 0.3);
+    --map-x: calc(260px + (100vw - 260px) * 0.3 - var(--hex-step));
+    --map-y: 50%;
     --map-scale: 1;
   }
 }
 
 @media all and (min-width: 1650px) {
   #hexmap {
-    --map-x: calc(300px + (100vw - 300px) * 0.3);
+    --map-x: calc(300px + (100vw - 300px) * 0.3 - var(--hex-step));
   }
 }
 
@@ -133,22 +143,39 @@ html:has(#hexmap) body {
 .hexmap-camera {
   position: absolute;
   left: var(--map-x);
-  top: 50%;
+  /* On a phone the readout takes the bottom of the screen, so the grid sits
+     high enough that the tile you just picked is not underneath it. */
+  top: var(--map-y, 34%);
   z-index: 1;
   width: 0;
   height: 0;
-  transform: translate(var(--pan-x, 0px), var(--pan-y, 0px)) scale(var(--map-scale));
+  transform: translate(
+      calc(var(--focus-x, 0px) + var(--drag-x, 0px)),
+      calc(var(--focus-y, 0px) + var(--drag-y, 0px))
+    )
+    scale(var(--map-scale));
   transform-origin: 0 0;
-  transition: transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: transform 420ms cubic-bezier(0.16, 0.84, 0.3, 1);
   will-change: transform;
+  touch-action: none;
+}
+
+/* A throw is animated frame by frame in JavaScript, so the transition has to
+   get out of the way or every frame fights it. */
+#hexmap[data-dragging] .hexmap-camera {
+  transition: none;
+}
+
+#hexmap[data-dragging] {
+  cursor: grabbing;
 }
 
 /* overflow: visible is what lets the grid run past the viewBox and off the
    screen instead of being clipped to a neat rectangle. */
 .hexmap-canvas {
   position: absolute;
-  left: -620px;
-  top: -560px;
+  left: -760px;
+  top: -700px;
   overflow: visible;
 }
 
@@ -463,5 +490,241 @@ html:has(#hexmap) body {
 @media all and (min-width: 850px) {
   #hexmap-nav {
     display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Fog.
+
+   A tile in a region you have not entered shows ground and nothing else. The
+   reveal is staggered by ring so it spreads outwards from the region you
+   picked rather than snapping on all at once.
+   -------------------------------------------------------------------------- */
+
+.hex[data-kind='article'],
+.hex[data-kind='gate'] {
+  transition:
+    translate 180ms ease-out,
+    opacity 260ms ease-out;
+}
+
+.hex[data-kind='article']:not([data-known]),
+.hex[data-kind='gate']:not([data-known]) {
+  pointer-events: none;
+}
+
+.hex-mark-faint {
+  stroke: color-mix(in srgb, var(--text-color) 22%, var(--main-bg));
+  stroke-width: 2;
+}
+
+.hex[data-known] .hex-mark,
+.hex[data-known] .hex-face {
+  transition-delay: calc(var(--ring, 0) * 70ms - 140ms);
+}
+
+/* The tile you are standing on. */
+.hex[data-selected] .hex-face {
+  fill: var(--hex-face-lit);
+}
+.hex[data-selected] .hex-edge {
+  stroke: var(--region);
+  stroke-width: 2.5;
+}
+.hex[data-selected] .hex-mark {
+  stroke: var(--region);
+}
+.hex[data-selected] .hex-mark-node {
+  fill: var(--region);
+}
+.hex[data-selected] .hex-terrain {
+  opacity: 0.4;
+}
+.hex[data-selected] .hex-label {
+  fill: var(--region);
+}
+
+/* A region carries a hint of its colour from the start, so the six read as
+   six places rather than six identical buttons. Entering one turns that hint
+   into the real thing, which is what makes discovery worth anything. */
+.hex[data-kind='region'] .hex-edge {
+  stroke: color-mix(in srgb, var(--region) 30%, var(--hex-edge));
+}
+
+.hex[data-kind='region'][data-visited] .hex-edge {
+  stroke: color-mix(in srgb, var(--region) 75%, var(--hex-edge));
+}
+
+.hex[data-kind='region'][data-visited] .hex-terrain {
+  opacity: 0.22;
+}
+
+.hex[data-kind='region'][data-visited] .hex-mark,
+.hex[data-kind='region'][data-visited] .hex-label {
+  stroke: var(--region);
+}
+
+.hex[data-kind='region'][data-visited] .hex-label {
+  fill: color-mix(in srgb, var(--region) 70%, var(--hex-ink));
+  stroke: none;
+}
+
+.hex[data-kind='region'][data-visited] .hex-mark-node {
+  fill: var(--region);
+}
+
+.hex:focus {
+  outline: none;
+}
+.hex:focus-visible .hex-edge {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+/* --------------------------------------------------------------------------
+   The panel.
+
+   Right-hand column on a desktop, a sheet from the bottom on a phone. It is
+   a readout, not a page: kicker, name, one line, then whatever the tile has.
+   -------------------------------------------------------------------------- */
+
+#hexmap-panel {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+#hexmap-panel > * {
+  pointer-events: auto;
+}
+
+.hexmap-panel-card {
+  animation: hexmap-panel-in 260ms cubic-bezier(0.16, 0.84, 0.3, 1) both;
+  padding: 1.35rem 1.5rem 1.5rem;
+  border: 1px solid var(--main-border-color);
+  border-left: 2px solid var(--region);
+  background: color-mix(in srgb, var(--main-bg) 88%, transparent);
+  /* One cut corner. Enough to say readout rather than card, and it costs
+     nothing; a backdrop filter here would re-blur on every frame of a drag. */
+  clip-path: polygon(0 0, calc(100% - 0.9rem) 0, 100% 0.9rem, 100% 100%, 0 100%);
+}
+
+@keyframes hexmap-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hexmap-kicker {
+  font-family: var(--hex-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--region, var(--accent));
+  margin: 0 0 0.5rem;
+}
+
+#hexmap-panel h2 {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+  color: var(--heading-color);
+}
+
+.hexmap-lede {
+  color: var(--text-color);
+  margin: 0 0 0.75rem;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.hexmap-meta,
+.hexmap-hint {
+  font-family: var(--hex-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted-color);
+  margin: 0 0 0.75rem;
+}
+
+.hexmap-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0;
+  border-top: 1px solid var(--main-border-color);
+}
+
+.hexmap-list li {
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.hexmap-list button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 0;
+  border: 0;
+  background: none;
+  color: var(--text-color);
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: color 160ms ease-out;
+}
+
+.hexmap-list button:hover {
+  color: var(--region, var(--accent));
+}
+
+.hexmap-go {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  color: var(--main-bg);
+  background: var(--region, var(--accent));
+  font-family: var(--hex-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(0.7rem 0, 100% 0, 100% calc(100% - 0.7rem), calc(100% - 0.7rem) 100%, 0 100%, 0 0.7rem);
+  transition: filter 160ms ease-out;
+}
+
+.hexmap-go:hover {
+  color: var(--main-bg);
+  filter: brightness(1.12);
+}
+
+@media all and (min-width: 850px) {
+  #hexmap-panel {
+    top: 50%;
+    right: max(3rem, 6vw);
+    transform: translateY(-50%);
+    width: min(23rem, 30vw);
+  }
+}
+
+/* On a phone the map keeps the top of the screen and the readout takes the
+   bottom, so both are usable with one thumb. */
+@media all and (max-width: 849px) {
+  #hexmap-panel {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.25rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, var(--main-bg) 62%, transparent);
+  }
+
+  #hexmap-panel h2 {
+    font-size: 1.3rem;
+  }
+
+  .hexmap-list {
+    max-height: 8rem;
+    overflow-y: auto;
   }
 }

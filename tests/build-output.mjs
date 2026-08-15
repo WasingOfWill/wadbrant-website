@@ -85,23 +85,40 @@ const canvas = home.body.match(/<svg class="hexmap-canvas"[\s\S]*?<\/svg>/)?.[0]
 if (!canvas) {
   fail('/', 'has no hex map');
 } else {
-  const tiles = [...canvas.matchAll(/<g class="hex" data-kind="(\w+)"(?: data-region="(\w+)")?/g)].map(
-    ([, kind, region]) => ({ kind, region }),
-  );
+  const tiles = [
+    ...canvas.matchAll(
+      /<g class="hex" data-id="([^"]+)" data-kind="(\w+)"(?: data-region="(\w+)")?[\s\S]{0,200}?transform="(translate\([^"]+\))"/g
+    ),
+  ].map(([, id, kind, region, at]) => ({ id, kind, region, at }));
   const count = (predicate) => tiles.filter(predicate).length;
 
   if (count((tile) => tile.kind === 'home') !== 1) fail('/', 'the map has no single home tile');
   if (count((tile) => tile.kind === 'region') !== 6) fail('/', 'the map does not have six regions');
-  // Rings 4 and 5: 6 * 4 plus 6 * 5.
-  if (count((tile) => tile.kind === 'edge') !== 54) fail('/', 'the scenery rings are not 54 tiles');
+  if (count((tile) => tile.kind === 'edge') < 30) fail('/', 'the frontier is too thin to read');
 
+  // Two tiles in one place would be a coordinate bug, and would look like a
+  // rendering glitch rather than the arithmetic mistake it is.
+  const places = new Set(tiles.map((tile) => tile.at));
+  if (places.size !== tiles.length) fail('/', 'two tiles share a position');
+
+  const sizes = [];
   for (const id of REGION_IDS) {
     if (count((tile) => tile.kind === 'region' && tile.region === id) !== 1) {
       fail('/', `region ${id} is missing from the map`);
     }
     const slots = count((tile) => tile.region === id && TERRITORY_KINDS.includes(tile.kind));
-    if (slots !== 5) fail('/', `region ${id} has ${slots} territory tiles, expected 5`);
+    const gated = count((tile) => tile.region === id && tile.kind === 'gate') === 1;
+    sizes.push(slots);
+
+    // MIN_TERRITORY through MAX_TERRITORY, plus one tile if the region has
+    // more posts than land and has to offer a way to the rest of them.
+    if (slots < 3 || slots > 7) fail('/', `region ${id} has ${slots} territory tiles`);
+    if (gated && slots !== 7) fail('/', `region ${id} has a gate but only ${slots} tiles`);
   }
+
+  // Territories are sized by how much each region has to show. If they all
+  // came out the same, that sizing has stopped working.
+  if (new Set(sizes).size === 1) fail('/', 'every region claimed the same amount of land');
 
   // The map is a picture. Its text alternative has to carry the same links,
   // or the homepage is a dead end for a screen reader and for a crawler.
