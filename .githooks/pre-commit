@@ -1,0 +1,6 @@
+#!/bin/sh
+# Fast checks only, about a second. The full suite runs in CI on every push.
+# Skip with: git commit --no-verify
+
+node tests/style.mjs || exit 1
+node tests/content.mjs || exit 1

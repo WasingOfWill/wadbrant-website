@@ -109,6 +109,14 @@ Four things that have already cost an afternoon each.
   any later `npm install` removes it again. That is expected; the next run
   reinstalls it.
 
+## Automation
+
+`npm install` points git at `.githooks`, so committing runs the style and
+content checks first. The full suite runs in CI on every push and pull request.
+
+Repeatable procedures live as skills in `.claude/skills/`, currently publishing
+an article and changing the styling. Add one when a job is done more than once.
+
 ## Commands
 
 ```bash

@@ -81,6 +81,33 @@ deployment. Do not update it for cosmetic tweaks, copy edits or refactors that
 change nothing observable. That file has to stay short enough to read in a
 minute.
 
+Write down what you learn. If something took real effort to work out, or a bug
+had a cause nobody would guess from reading the code, it goes into the project
+before you move on. Choose the smallest home for it:
+
+- a comment next to the code, when it only matters there
+- the Traps list in `reference.md`, when it would bite anyone touching that area
+- a rule here, when it should change how every future change is made
+- a skill in `.claude/skills/`, when it is a repeatable procedure
+
+The test is whether a fresh agent, with no memory of this session, would lose
+an afternoon without it. If yes, write it. If it is merely interesting, do not.
+Prune as readily as you add: these files earn their keep by staying short.
+
+Never solve the same thing three times. This applies to bugs, confusions,
+wrong turns, anything that costs time.
+
+- First occurrence: fix it, and write down what it was.
+- Second occurrence: stop and build the thing that prevents it. A check in
+  `tests/`, a hook, a script, a lint rule, a skill, a default that makes the
+  mistake impossible. Not a note asking people to be careful.
+- Third occurrence should not exist. If it does, the prevention was the wrong
+  shape; replace it rather than repeating the fix.
+
+The same goes for anything the user has to remember, ask for twice, or catch by
+eye. That is a defect in the process, not in them. Fix it before it reaches
+them, and prefer the fix that removes the decision entirely.
+
 Own the code. There is no upstream theme and nothing to match. Design decisions
 are ours; make them on merit and on current web best practice.
 
@@ -109,4 +136,5 @@ changed and why.
 - [ ] New behaviour has an automated check
 - [ ] No bold, no em dashes, nothing that reads as generic AI output
 - [ ] `reference.md` updated if the site's behaviour changed
+- [ ] Anything learned the hard way written into the project
 - [ ] Anything unverifiable flagged as `Needs your eyes:`

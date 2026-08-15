@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start -p 4000",
     "lint": "next lint",
+    "prepare": "node scripts/install-hooks.mjs",
     "test": "node tests/run.mjs",
     "verify": "next build && node tests/run.mjs",
     "new": "node scripts/new-post.mjs",
