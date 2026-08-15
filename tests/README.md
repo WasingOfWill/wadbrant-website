@@ -14,7 +14,7 @@ Suites, in the order they run:
 | `style.mjs` | No bold and no em dashes anywhere the project authors text | no |
 | `content.mjs` | Front matter is valid, slugs are unique, every referenced image and internal link exists | no |
 | `build-output.mjs` | Every route answers, feed and sitemap are real, the search index matches the posts, no page links to a 404, a missing page really 404s | no |
-| `functional.mjs` | 18 interface checks: dark mode, search, table of contents, related posts, lightbox, back to top, mobile sidebar and mask | yes |
+| `functional.mjs` | Interface checks: dark mode, search, table of contents, related posts, lightbox, code block padding, back to top, the homepage map, mobile sidebar and mask | yes |
 
 Puppeteer is installed on demand the first time a browser suite runs. It is
 deliberately not a dependency, because it downloads a browser and would slow

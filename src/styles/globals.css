@@ -412,6 +412,23 @@ button.category-trigger {
    Code blocks. Highlighting comes from Shiki, which writes both palettes onto
    each token as custom properties; this picks the right one per mode.
    -------------------------------------------------------------------------- */
+/* Shiki emits a plain `pre > code`, never the rouge line-number table that
+   theme.css pads through `td.rouge-code`, so without this the code sits flush
+   against the left border of its own box. */
+.highlight pre {
+  padding: 1rem 1.25rem;
+}
+
+.highlight {
+  padding-bottom: 0;
+}
+
+/* The copy button is appended into `.highlight`, which scrolls. Anchor it to
+   the wrapper instead so it stays put when a long line is scrolled. */
+div[class^='language-'] {
+  position: relative;
+}
+
 .highlight code span {
   color: var(--shiki-light);
 }

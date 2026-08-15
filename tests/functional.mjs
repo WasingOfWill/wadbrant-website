@@ -85,6 +85,40 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   await page.close();
 }
 
+/* ------------------------------------------------------------ code blocks */
+{
+  // Shiki writes a bare `pre > code`, so nothing in the rouge-era stylesheet
+  // pads it. Measure a real block rather than trusting the rule to be there.
+  const index = await fetch(`${BASE}/search.json`).then((r) => r.json());
+  const posts = index.map((entry) => entry.url ?? entry.href).filter(Boolean);
+  let withCode = null;
+  for (const url of posts) {
+    const html = await fetch(new URL(url, BASE)).then((r) => r.text());
+    if (html.includes('class="highlight"')) {
+      withCode = url;
+      break;
+    }
+  }
+
+  if (!withCode) {
+    check('code block padding', true, 'no post currently has a code block');
+  } else {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1440, height: 1000 });
+    await page.goto(new URL(withCode, BASE).href, { waitUntil: 'networkidle0' });
+    const inset = await page.evaluate(() => {
+      const block = document.querySelector('.highlight');
+      const code = block.querySelector('code');
+      const outer = block.getBoundingClientRect();
+      const inner = code.getBoundingClientRect();
+      return { left: inner.left - outer.left, right: outer.right - inner.right };
+    });
+    check('code sits clear of the left edge of its box', inset.left >= 12, `${inset.left}px`);
+    check('code sits clear of the right edge of its box', inset.right >= 12, `${inset.right}px`);
+    await page.close();
+  }
+}
+
 /* ----------------------------------------------------------------- mobile */
 {
   const page = await browser.newPage();
