@@ -12,8 +12,7 @@ export default function Footer() {
         <a href={site.author.linkedin} rel="me">
           {site.author.name}
         </a>
-        .{' '}
-        <span title={site.copyright.verbose}>{site.copyright.brief}</span>
+        .
       </p>
     </footer>
   );

@@ -1,18 +1,9 @@
 import Layout from '@/components/Layout';
-import PostCard from '@/components/PostCard';
-import { getAllPosts } from '@/lib/posts';
 
-export default async function HomePage() {
-  const posts = await getAllPosts();
-  const ordered = [...posts.filter((post) => post.pin), ...posts.filter((post) => !post.pin)];
-
-  return (
-    <Layout title="WADBRANT" crumbs={[{ label: 'Home' }]}>
-      <div id="post-list" className="flex-grow-1 px-xl-1">
-        {ordered.map((post, index) => (
-          <PostCard post={post} priority={index < 2} key={post.slug} />
-        ))}
-      </div>
-    </Layout>
-  );
+/**
+ * Intentionally empty for now. The article list lives at /articles/; this
+ * space is reserved for whatever the landing page becomes.
+ */
+export default function HomePage() {
+  return <Layout title="WADBRANT" crumbs={[{ label: 'Home' }]} />;
 }

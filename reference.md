@@ -41,11 +41,15 @@ writing/            style guide and the AI editing workflow
 
 ## Routes
 
-`/`, `/posts/[slug]/`, `/tags/`, `/tags/[slug]/`, `/categories/`,
-`/categories/[slug]/`, `/archives/`, `/about/`, `/cv/`, `/feed.xml`,
-`/sitemap.xml`, `/robots.txt`, `/search.json`.
+`/`, `/articles/`, `/posts/[slug]/`, `/categories/`, `/categories/[slug]/`,
+`/tags/[slug]/`, `/archives/`, `/about/`, `/cv/`, `/feed.xml`, `/sitemap.xml`,
+`/robots.txt`, `/search.json`.
 
 All URLs end in a trailing slash.
+
+`/` is deliberately empty for now. The article list lives at `/articles/`.
+Tags have no index of their own: the tag cloud sits at the bottom of
+`/categories/`, and `/tags/` redirects there. Individual tag pages still exist.
 
 ## Content model
 
@@ -73,6 +77,11 @@ Three layers, loaded in this order by `globals.css`: `layout.css` utilities,
 `theme.css` tokens and components, then site-specific rules in `globals.css`.
 Colour tokens live on `:root`; dark mode swaps them via `html[data-mode="dark"]`,
 set by the sidebar toggle and remembered in `localStorage`.
+
+One warm accent carries every interactive state, defined in `globals.css` as
+`--accent`. Links are never underlined: prose links are accent-coloured, links
+inside lists and panels are body-coloured and turn accent on hover.
+`tests/contrast.mjs` measures the result in both modes.
 
 Tailwind is available but scanned only in `src/app` and `src/components`. It
 must never scan the stylesheets, or it mints utilities whose names collide with

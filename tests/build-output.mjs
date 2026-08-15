@@ -42,7 +42,7 @@ const sitemap = await get('/sitemap.xml');
 if (!sitemap.body.includes('<urlset')) fail('/sitemap.xml', 'is not a sitemap');
 
 // Crawl every internal link reachable from the pages we know about.
-const seeds = ['/', '/tags/', '/categories/', '/archives/', '/about/', '/cv/', ...index.map((e) => e.url)];
+const seeds = ['/', '/articles/', '/categories/', '/archives/', '/about/', '/cv/', ...index.map((e) => e.url)];
 const seen = new Set();
 const links = new Set();
 

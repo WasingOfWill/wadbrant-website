@@ -12,7 +12,7 @@ type LayoutProps = {
   /** Text shown in the mobile top bar. */
   title: string;
   crumbs: Crumb[];
-  children: ReactNode;
+  children?: ReactNode;
   /** Rendered under the main column (related posts, post navigation…). */
   tail?: ReactNode;
   /** Table of contents entries; only post pages pass these. */

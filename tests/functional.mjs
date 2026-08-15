@@ -10,7 +10,7 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
 {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 1000 });
-  await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
+  await page.goto(`${BASE}/articles/`, { waitUntil: 'networkidle0' });
 
   // Dark mode toggle
   await page.click('.mode-toggle');
@@ -55,12 +55,12 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   await page.waitForSelector('#toc-wrapper', { timeout: 10000 });
   const post = await page.evaluate(() => ({
     toc: document.querySelectorAll('#toc .toc-link').length,
-    related: document.querySelectorAll('#related-posts article').length,
+    related: document.querySelectorAll('#related-posts .related-item').length,
     nav: document.querySelectorAll('.post-navigation a').length,
     tags: document.querySelectorAll('.post-tags .post-tag').length,
   }));
   check('post page has a table of contents', post.toc > 0, `${post.toc} entries`);
-  check('post page has related posts', post.related > 0, `${post.related}`);
+  check('post page has related posts', post.related === 3, `${post.related}`);
   check('post page has prev/next', post.nav > 0, `${post.nav}`);
   check('post page has tags', post.tags > 0, `${post.tags}`);
 
@@ -89,7 +89,7 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
 {
   const page = await browser.newPage();
   await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
-  await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
+  await page.goto(`${BASE}/articles/`, { waitUntil: 'networkidle0' });
 
   const hidden = await page.evaluate(() => {
     const rect = document.querySelector('#sidebar').getBoundingClientRect();

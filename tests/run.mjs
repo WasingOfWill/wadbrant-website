@@ -99,6 +99,7 @@ if (!hasPuppeteer()) {
 }
 
 record('interface', run(process.execPath, ['tests/functional.mjs'], { LOCAL: BASE }));
+record('contrast', run(process.execPath, ['tests/contrast.mjs'], { LOCAL: BASE }));
 
 stopServer();
 

@@ -28,61 +28,66 @@
 @source '../components/**/*.tsx';
 
 /* --------------------------------------------------------------------------
+   Accent.
+
+   One warm colour carries every interactive state. Nothing on this site is
+   blue. Both values clear 4.5:1 against their own background, which the
+   contrast suite checks on every run.
+   -------------------------------------------------------------------------- */
+:root {
+  --accent: #c2410c;
+  --accent-strong: #9a3412;
+  --accent-wash: color-mix(in srgb, var(--accent) 8%, transparent);
+
+  --link-color: var(--accent);
+  --toc-highlight: var(--accent);
+  --btn-share-hover-color: var(--accent);
+  --checkbox-checked-color: var(--accent);
+}
+
+html[data-mode='dark'] {
+  --accent: #fb923c;
+  --accent-strong: #fdba74;
+  --categories-icon-hover-color: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-mode='light']) {
+    --accent: #fb923c;
+    --accent-strong: #fdba74;
+    --categories-icon-hover-color: var(--accent);
+  }
+}
+
+/* --------------------------------------------------------------------------
    Links.
 
-   Two kinds, deliberately different:
-
-   1. Prose links inside an article keep a hairline underline so they are
-      visible mid-sentence, and darken on hover.
-   2. Every other link - lists, cards, navigation, panels - is body-coloured
-      and only picks up the accent colour on hover. No underlines, so pages
-      that are mostly links (tags, categories, archives) stay calm.
-
-   Underlines come from text-decoration only. Never add a border-bottom for
-   one: the two stack into a double rule.
+   No underlines anywhere. Links read as body text or as the accent, and
+   answer on hover with a colour shift. Lists of links stay calm; prose links
+   stand out by colour.
    -------------------------------------------------------------------------- */
 a {
-  text-decoration: none;
+  text-decoration: none !important;
+  border-bottom: 0 !important;
   transition:
     color 0.15s ease,
-    border-color 0.15s ease,
-    background-color 0.15s ease,
-    text-decoration-color 0.15s ease;
+    background-color 0.15s ease;
 }
 
-/* 1. Prose: a hairline underline that firms up on hover. */
-.content a:not(.img-link),
-.post-tail-wrapper .post-meta a {
-  border-bottom: 0 !important;
+/* Prose: accent at rest, deeper accent and a faint wash on hover. Component
+   links that happen to sit inside .content are handled below. */
+.content :where(a:not(.img-link):not(.tag):not(.post-tag)) {
+  color: var(--accent);
 }
 
-.content a:not(.img-link) {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
-  text-decoration-color: color-mix(in srgb, currentcolor 30%, transparent);
+.content :where(a:not(.img-link):not(.tag):not(.post-tag)):hover {
+  color: var(--accent-strong);
+  background: var(--accent-wash);
+  border-radius: 0.15rem;
+  box-shadow: 0 0 0 0.15rem var(--accent-wash);
 }
 
-.content a:not(.img-link):hover {
-  text-decoration-color: currentcolor;
-}
-
-/* Never underline a link that is really a control. */
-.btn,
-.post-tag,
-.tag,
-.page-link,
-.nav-link,
-.category-trigger,
-.anchor,
-#toc a,
-#breadcrumb a,
-.card a,
-a.img-link {
-  text-decoration: none !important;
-}
-
-/* 2. Everything else */
+/* Lists, cards, panels and navigation: body-coloured until hovered. */
 #archives a,
 #page-tag a,
 #page-category a,
@@ -90,10 +95,14 @@ a.img-link {
 #post-list a,
 #related-posts a,
 #search-results a,
+#toc a,
+#breadcrumb a,
 .post-tail-wrapper .post-meta a,
-.post-navigation a {
+.post-navigation a,
+.license-wrapper a,
+.content .categories a,
+.content #archives a {
   color: var(--text-color);
-  border-bottom: 0;
 }
 
 #archives a:hover,
@@ -101,9 +110,19 @@ a.img-link {
 #page-category a:hover,
 #access-lastmod a:hover,
 #search-results a:hover,
-.post-tail-wrapper .post-meta a:hover {
-  color: var(--link-color);
-  border-bottom: 0;
+#toc a:hover,
+#breadcrumb a:hover,
+.post-tail-wrapper .post-meta a:hover,
+.license-wrapper a:hover,
+.content .categories a:hover,
+.content #archives a:hover {
+  color: var(--accent);
+}
+
+/* The contents panel marks position with the accent, never with blue. */
+#toc-wrapper ul .is-active-link,
+#toc-wrapper ul .is-active-link::before {
+  color: var(--accent) !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -129,15 +148,111 @@ a.img-link {
   background: color-mix(in srgb, var(--link-color) 7%, transparent) !important;
 }
 
-/* Card titles lead with the heading colour and warm up on hover. */
-#post-list .card-title,
-#related-posts .card h4 {
+/* --------------------------------------------------------------------------
+   Further reading: three compact rows, thumbnail and title, nothing else.
+   -------------------------------------------------------------------------- */
+#related-posts {
+  margin-top: 3rem;
+}
+
+#related-posts h3 {
+  margin-bottom: 1rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted-color);
+}
+
+.related-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 850px) {
+  .related-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.related-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  height: 100%;
+  padding: 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 0.625rem;
+  color: var(--text-color) !important;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.related-item:hover {
+  border-color: var(--main-border-color);
+  background: var(--card-bg);
+  transform: translateY(-1px);
+}
+
+.related-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 3.25rem;
+  height: 3.25rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background: var(--img-bg);
+}
+
+.related-thumb img {
+  object-fit: cover;
+}
+
+.related-thumb-empty {
+  border: 1px dashed var(--main-border-color);
+  background: none;
+}
+
+.related-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.related-title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   transition: color 0.15s ease;
 }
 
-#post-list .card-wrapper:hover .card-title,
-#related-posts .card:hover h4 {
-  color: var(--link-color) !important;
+.related-item:hover .related-title {
+  color: var(--accent);
+}
+
+.related-meta {
+  display: flex;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-muted-color);
+}
+
+/* Card titles lead with the heading colour and warm up on hover. */
+#post-list .card-title {
+  transition: color 0.15s ease;
+}
+
+#post-list .card-wrapper:hover .card-title {
+  color: var(--accent) !important;
 }
 
 /* --------------------------------------------------------------------------

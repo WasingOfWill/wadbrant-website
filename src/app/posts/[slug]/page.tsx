@@ -59,24 +59,37 @@ function RelatedPosts({ posts }: { posts: Post[] }) {
 
   return (
     <aside id="related-posts" aria-labelledby="related-label">
-      <h3 className="mb-4" id="related-label">
-        Further Reading
-      </h3>
-      <nav className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
+      <h3 id="related-label">Further reading</h3>
+      <ul className="related-list">
         {posts.map((post) => (
-          <article className="col" key={post.slug}>
-            <Link href={post.url} className="post-preview card h-100">
-              <div className="card-body">
-                <time dateTime={post.date.toISOString()}>{` ${formatLongDate(post.date)} `}</time>
-                <h4 className="pt-0 my-2">{post.title}</h4>
-                <div className="text-muted">
-                  <p>{post.summary}</p>
-                </div>
-              </div>
+          <li key={post.slug}>
+            <Link href={post.url} className="related-item">
+              {post.image ? (
+                <span className="related-thumb">
+                  <Image
+                    src={post.image.path}
+                    alt=""
+                    fill
+                    sizes="112px"
+                    quality={80}
+                    aria-hidden="true"
+                  />
+                </span>
+              ) : (
+                <span className="related-thumb related-thumb-empty" aria-hidden="true" />
+              )}
+              <span className="related-text">
+                <span className="related-title">{post.title}</span>
+                <span className="related-meta">
+                  <time dateTime={post.date.toISOString()}>{formatLongDate(post.date)}</time>
+                  <span aria-hidden="true">·</span>
+                  <span>{`${post.readTime} min`}</span>
+                </span>
+              </span>
             </Link>
-          </article>
+          </li>
         ))}
-      </nav>
+      </ul>
     </aside>
   );
 }
@@ -170,7 +183,11 @@ export default async function PostPage({ params }: Params) {
                   <a href={site.author.linkedin}>{site.author.name}</a>
                 </em>
               </span>
-              <span className="readtime" title={`${post.words} words`}>
+              <span
+                className="readtime"
+                title={`${post.words.toLocaleString('en-US')} words`}
+                aria-label={`${post.readTime} minute read, ${post.words.toLocaleString('en-US')} words`}
+              >
                 <em>{post.readTime} min</em> read
               </span>
             </div>

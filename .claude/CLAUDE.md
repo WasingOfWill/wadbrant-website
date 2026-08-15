@@ -42,6 +42,24 @@ who knows the subject.
 `npm run verify` enforces the first two mechanically across everything the
 project authors. The third is on you, and on the reviewer.
 
+## Design rules
+
+Links are never underlined. Not in prose, not in lists, not anywhere. A link
+reads as body text or as the accent colour, and answers on hover with a colour
+shift. The accent is warm; nothing on this site is blue.
+
+Design for both colour modes at once. Every colour comes from a token that has
+a light and a dark value. Check a change in both before calling it done, and
+never hard-code a colour in a component.
+
+Accessibility is part of the work, not a pass afterwards. Body text clears
+4.5:1 against its real background in both modes, large text clears 3:1,
+interactive things stay reachable by keyboard with a visible focus ring, and
+motion respects `prefers-reduced-motion`. `tests/contrast.mjs` measures the
+contrast on every run; if you add a surface or a text colour, add a sample for
+it there. Keep an eye on the Lighthouse numbers in both modes: performance,
+accessibility and best practices should not move down.
+
 ## Rules
 
 Verify everything you build. A change is not done when the code is written; it

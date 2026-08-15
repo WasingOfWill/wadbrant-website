@@ -11,11 +11,13 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Old paginated URLs; the home page lists every post now.
-      { source: '/page:num(\\d+)', destination: '/', permanent: true },
+      // Old paginated URLs.
+      { source: '/page:num(\\d+)', destination: '/articles/', permanent: true },
+      // Tags now live at the bottom of the categories page.
+      { source: '/tags', destination: '/categories/', permanent: true },
       // Retired pages.
       { source: '/ai', destination: '/categories/ai/', permanent: true },
-      { source: '/product', destination: '/', permanent: true },
+      { source: '/product', destination: '/articles/', permanent: true },
     ];
   },
 };

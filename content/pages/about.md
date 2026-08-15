@@ -24,6 +24,10 @@ Endless curiosity, love to enable others, & doing what matters.
 - [Pley Developer Docs](http://docs.pley.com/)
 - [My CV](/cv/)
 
+## Licence
+
+Posts on this site are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) by Will.
+
 
 
 
