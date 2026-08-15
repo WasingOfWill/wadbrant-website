@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start -p 4000",
     "lint": "next lint",
+    "test": "node tests/run.mjs",
+    "verify": "next build && node tests/run.mjs",
     "new": "node scripts/new-post.mjs",
     "build:avatar": "node scripts/build-avatar.mjs",
     "optimize:images": "node scripts/optimize-images.mjs"

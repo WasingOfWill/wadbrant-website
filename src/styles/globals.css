@@ -2,10 +2,10 @@
    Global stylesheet.
 
    Load order matters:
-   1. Layout primitives — grid, flex and spacing utilities.
-   2. The theme — design tokens and every component's look.
+   1. Layout primitives - grid, flex and spacing utilities.
+   2. The theme - design tokens and every component's look.
    3. Self-hosted webfonts.
-   4. Tailwind utilities (no preflight, so it cannot reset the theme).
+   4. Tailwind utilities (no preflight, so they cannot reset the theme).
    5. Site-specific rules, below.
    ========================================================================== */
 
@@ -22,7 +22,7 @@
 
 /* Only look for utility classes in components. With automatic detection on,
    Tailwind reads the stylesheets too and mints utilities whose names collide
-   with the site's own classes — `.collapse` became `visibility: collapse` and
+   with the site's own classes - `.collapse` became `visibility: collapse` and
    hid the category lists. */
 @source '../app/**/*.tsx';
 @source '../components/**/*.tsx';
@@ -34,12 +34,12 @@
 
    1. Prose links inside an article keep a hairline underline so they are
       visible mid-sentence, and darken on hover.
-   2. Every other link — lists, cards, navigation, panels — is body-coloured
+   2. Every other link - lists, cards, navigation, panels - is body-coloured
       and only picks up the accent colour on hover. No underlines, so pages
       that are mostly links (tags, categories, archives) stay calm.
 
-   `text-decoration` is never used; the theme already draws its underline with
-   a border, and combining the two produced a double line.
+   Underlines come from text-decoration only. Never add a border-bottom for
+   one: the two stack into a double rule.
    -------------------------------------------------------------------------- */
 a {
   text-decoration: none;
@@ -50,8 +50,7 @@ a {
     text-decoration-color 0.15s ease;
 }
 
-/* 1. Prose — a hairline underline that firms up on hover. The theme drew this
-   with a border, which stacked with the text-decoration into a double rule. */
+/* 1. Prose: a hairline underline that firms up on hover. */
 .content a:not(.img-link),
 .post-tail-wrapper .post-meta a {
   border-bottom: 0 !important;
@@ -108,7 +107,7 @@ a.img-link {
 }
 
 /* --------------------------------------------------------------------------
-   Pills and buttons: one look everywhere — hairline border, body-coloured
+   Pills and buttons: one look everywhere - hairline border, body-coloured
    text, accent on hover. No fills, no shouting.
    -------------------------------------------------------------------------- */
 .post-tag,
@@ -142,8 +141,8 @@ a.img-link {
 }
 
 /* --------------------------------------------------------------------------
-   Search overlay. Toggling `data-search` on <html> swaps the main content for
-   the search results, mirroring the behaviour of the theme's search script.
+   Search overlay. Toggling `data-search` on <html> swaps the main content
+   for the search results.
    -------------------------------------------------------------------------- */
 html[data-search='on'] #main-wrapper > .container > .row {
   display: none !important;
@@ -178,8 +177,7 @@ html[data-search='on'] #breadcrumb {
 }
 
 #search-results > .search-hit:nth-child(n) {
-  /* The theme laid results out as fixed-width cards in a centred flex row and
-     indented alternating children. This is a plain stacked list. */
+  /* A plain stacked list: full width, no centring, no alternating indents. */
   width: auto;
   margin: 0;
   padding: 1.1rem 0;
@@ -278,15 +276,14 @@ html[data-search='on'] #breadcrumb {
 }
 
 /* Preview images are filled by <Image fill>, which positions itself against
-   the nearest positioned ancestor. The theme only made this box relative via
-   the `.shimmer` class, which is removed once the image loads — so pin it
-   here, otherwise the image escapes its column and gets upscaled. */
+   the nearest positioned ancestor. Keep this box relative: the .shimmer class
+   that provides it is removed once the image loads, and without it the image
+   escapes its column and gets upscaled. */
 .preview-img {
   position: relative;
 }
 
-/* The category collapse trigger is a real button here (it was an anchor in the
-   theme), so strip the default button chrome. */
+/* The category collapse trigger is a button, so strip the default chrome. */
 button.category-trigger {
   background: none;
   border: 0;
@@ -359,7 +356,7 @@ html[data-mode='dark'] .highlight code span {
 }
 
 /* --------------------------------------------------------------------------
-   Polish: motion, focus and hit targets. Everything here is additive — it
+   Polish: motion, focus and hit targets. Everything here is additive - it
    sharpens the theme rather than changing its proportions.
    -------------------------------------------------------------------------- */
 
@@ -391,7 +388,7 @@ html {
   top: 0.5rem;
 }
 
-/* Post cards lift slightly on hover — the theme only changed colour. */
+/* Post cards lift slightly on hover - the theme only changed colour. */
 #post-list .card-wrapper,
 #related-posts .card {
   transition:

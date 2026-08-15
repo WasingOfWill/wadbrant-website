@@ -41,7 +41,7 @@ export type Post = {
   mermaid: boolean;
   /** Rendered HTML of the whole post. */
   content: string;
-  /** Rendered HTML of the first block (Jekyll's `post.excerpt`). */
+  /** Rendered HTML of the first block of the post. */
   excerptHtml: string;
   /** Plain-text excerpt, Liquid `strip_html | truncate: 200` compatible. */
   excerpt: string;
@@ -50,9 +50,9 @@ export type Post = {
   words: number;
   /** Word count of the markdown source, used for the post-card estimate. */
   rawWords: number;
-  /** floor(words / 180), minimum 1 — the reading time shown on a post. */
+  /** floor(words / 180), minimum 1 - the reading time shown on a post. */
   readTime: number;
-  /** ceil(rawWords / 200) — the reading time shown on post cards. */
+  /** ceil(rawWords / 200) - the reading time shown on post cards. */
   listReadTime: number;
 };
 
@@ -64,10 +64,10 @@ export type ContentPage = {
 };
 
 /* -------------------------------------------------------------------------- */
-/* Liquid-compatible helpers                                                   */
+/* Text helpers                                                               */
 /* -------------------------------------------------------------------------- */
 
-/** Mirrors Liquid's `strip_html`. */
+/** Strips tags, comments, script and style blocks. */
 export function stripHtml(html: string): string {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, '')
@@ -76,20 +76,20 @@ export function stripHtml(html: string): string {
     .replace(/<[^>]*>/g, '');
 }
 
-/** Mirrors Liquid's `truncate: n` (the ellipsis is included in the length). */
+/** Truncates to n characters, ellipsis included in the length. */
 export function truncate(input: string, length = 200, ellipsis = '...'): string {
   if (input.length <= length) return input;
   const cut = Math.max(0, length - ellipsis.length);
   return input.slice(0, cut) + ellipsis;
 }
 
-/** Mirrors Jekyll's `number_of_words` (whitespace split). */
+/** Word count, whitespace split. */
 export function numberOfWords(input: string): number {
   const trimmed = input.trim();
   return trimmed ? trimmed.split(/\s+/).length : 0;
 }
 
-/** Mirrors Jekyll's `slugify` for category/tag permalinks. */
+/** Slug used in category and tag URLs. */
 export function slugify(input: string): string {
   return input
     .toString()
@@ -124,15 +124,15 @@ function toArray(value: unknown): string[] {
 }
 
 /**
- * Jekyll interprets naive dates in the site timezone. Everything is normalized
- * to a real instant here so rendering is deterministic on any machine.
+ * Dates without a zone are read as site-timezone wall clock, then normalised
+ * to a real instant so rendering is deterministic on any machine.
  */
 function parseDate(value: unknown, fallback: Date): Date {
   if (value instanceof Date) return value;
   if (typeof value === 'number') return new Date(value);
   if (typeof value !== 'string' || !value.trim()) return fallback;
 
-  // Accepts every shape Jekyll allows: `2025-10-05`, `2025-10-05 12:00`,
+  // Accepted shapes: `2025-10-05`, `2025-10-05 12:00`,
   // `2025-10-05 12:00:00 -0400`, `2025-10-05T12:00:00Z`.
   const parts =
     /^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?\s*(Z|[+-]\d{2}:?\d{2})?$/.exec(
@@ -161,7 +161,7 @@ function parseDate(value: unknown, fallback: Date): Date {
     return new Date(utcGuess - offsetMs);
   }
 
-  // No zone given: treat as America/New_York wall-clock time, like Jekyll did.
+  // No zone given: treat as site-timezone wall-clock time.
   const offset = timezoneOffsetMs(new Date(utcGuess), site.timezone);
   return new Date(utcGuess + offset);
 }
@@ -270,8 +270,7 @@ async function loadPost(fileName: string): Promise<Post | null> {
 }
 
 /**
- * All published posts, newest first. Future-dated posts are hidden, exactly
- * like Jekyll's default `future: false` behaviour.
+ * All published posts, newest first. Future-dated posts are hidden.
  */
 export async function getAllPosts(): Promise<Post[]> {
   if (cache) return cache;
@@ -309,7 +308,7 @@ async function groupBy(key: 'categories' | 'tags'): Promise<Map<string, Post[]>>
       groups.set(term, list);
     }
   }
-  // Jekyll exposes site.categories / site.tags sorted by name.
+  // Groups are exposed sorted by name.
   return new Map([...groups.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0)));
 }
 
@@ -443,12 +442,12 @@ export function formatDate(date: Date, options: Intl.DateTimeFormatOptions): str
   return new Intl.DateTimeFormat('en-US', { timeZone: site.timezone, ...options }).format(date);
 }
 
-/** "Oct 5, 2025" — used on post, tag and category pages. */
+/** "Oct 5, 2025" - used on post, tag and category pages. */
 export function formatLongDate(date: Date): string {
   return formatDate(date, { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-/** "Oct 05, 2025" — the zero-padded variant used on the post cards. */
+/** "Oct 05, 2025" - the zero-padded variant used on the post cards. */
 export function formatCardDate(date: Date): string {
   return formatDate(date, { month: 'short', day: '2-digit', year: 'numeric' });
 }

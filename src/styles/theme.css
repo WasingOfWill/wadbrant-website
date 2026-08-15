@@ -1,20 +1,17 @@
 /* =============================================================================
-   wadbrant.com — theme
+   wadbrant.com - theme
    =============================================================================
-   Design tokens, layout chrome and content styling for the whole site.
-
-   Provenance: this began as the compiled stylesheet of the Jekyll theme the
-   site used before the rewrite. It has been trimmed to the rules this site
-   actually renders (the Rouge syntax classes, Disqus, the PWA update toast and
-   Bootstrap tooltips are gone) and is now maintained here directly — edit it
-   like any other file in this repository.
+   Design tokens and the look of every component.
 
    Structure:
      1. Typography and content
-     2. Colour tokens — :root for light, [data-mode] for dark
+     2. Colour tokens: :root is light, html[data-mode="dark"] swaps them
      3. Sidebar, top bar and page chrome
      4. Post list, post page, panels, tags and categories
-     5. Code blocks, prompts and other content components
+     5. Code blocks, callouts and other content components
+
+   Components must take colours from the tokens here, never hard-code them.
+   See NOTICE.md for third-party attribution.
    ============================================================================= */
 
 #search-results a,

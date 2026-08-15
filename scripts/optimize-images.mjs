@@ -11,12 +11,8 @@
  *
  * The post column is at most 813px wide, so 1600px covers a 2x display.
  *
- * The untouched originals are not kept in this branch — they live on
- * `jekyll-legacy` under `assets/images`, so a re-encode starts with:
- *
- *   git checkout jekyll-legacy -- assets/images
- *   node scripts/optimize-images.mjs --from assets/images
- *   rm -r assets
+ * Drop new artwork straight into public/assets/images and run this; it edits
+ * in place. Use --from <dir> to pull from a folder of originals instead.
  */
 import fs from 'node:fs';
 import path from 'node:path';

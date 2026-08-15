@@ -5,7 +5,7 @@ import { getPage } from '@/lib/posts';
 
 export const metadata: Metadata = {
   title: 'CV',
-  description: 'Curriculum vitae of Will Wadbrant — Product Manager, Gaming Industry, AI.',
+  description: 'Curriculum vitae of Will Wadbrant - Product Manager, Gaming Industry, AI.',
   alternates: { canonical: '/cv/' },
 };
 

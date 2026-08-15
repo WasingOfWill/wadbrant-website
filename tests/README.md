@@ -1,22 +1,28 @@
 # Tests
 
-These are the scripts used to verify that this site matches the Jekyll site it
-replaced, and that its interactive parts still work. They are deliberately kept
-out of `package.json` dependencies — Puppeteer downloads a browser, which would
-slow every deploy down for no benefit.
+Everything here runs unattended. `npm run verify` builds the site and then runs
+all of it; `npm test` runs it against a build you already have.
 
 ```bash
-npm i --no-save puppeteer pixelmatch pngjs
-npm run build && npm start          # in another terminal
-node tests/functional.mjs           # 18 UX checks, desktop + mobile
-node tests/visual-diff.mjs          # pixel diff against https://wadbrant.com
-python tests/compare-html.py        # text-level diff of every page
+npm run verify
 ```
+
+Suites, in the order they run:
+
+| Suite | What it proves | Needs a browser |
+| --- | --- | --- |
+| `style.mjs` | No bold and no em dashes anywhere the project authors text | no |
+| `content.mjs` | Front matter is valid, slugs are unique, every referenced image and internal link exists | no |
+| `build-output.mjs` | Every route answers, feed and sitemap are real, the search index matches the posts, no page links to a 404, a missing page really 404s | no |
+| `functional.mjs` | 18 interface checks: dark mode, search, table of contents, related posts, lightbox, back to top, mobile sidebar and mask | yes |
+
+Puppeteer is installed on demand the first time a browser suite runs. It is
+deliberately not a dependency, because it downloads a browser and would slow
+every deploy.
 
 ## snapshot.mjs
 
-Captures every page locally and diffs two captures, which is how a refactor is
-proven to change nothing:
+Not part of `verify`. Use it when a refactor should change nothing visible:
 
 ```bash
 node tests/snapshot.mjs baseline    # before the change
@@ -24,33 +30,12 @@ node tests/snapshot.mjs after       # after it
 node tests/snapshot.mjs --diff baseline after
 ```
 
-Differences above 0.02% are written to `.snapshots/diff/`.
+Differences above 0.02% are written to `.snapshots/diff/` so you can look at
+what moved.
 
-## functional.mjs
+## Adding a check
 
-Drives a real browser: light/dark toggle, search overlay, table of contents,
-related posts, image lightbox, back-to-top, and the mobile off-canvas sidebar
-(open via hamburger, close via the mask). Exits non-zero on failure.
-
-## visual-diff.mjs
-
-Screenshots each page on the live site and locally at 1440px and 390px, then
-reports the share of differing pixels. Writes `out/live-*.png`, `out/v2-*.png`
-and `out/diff-*.png`.
-
-Expect roughly 0.2–0.5% on every page. That residue is the intended
-differences: the sidebar no longer has AI/Portfolio entries, and it now has a
-light/dark toggle. `/cv/` sits near 2% because kramdown turned one line of the
-CV into a one-row table and this site renders it as a paragraph.
-
-## compare-html.py
-
-Fetches the live page and the local page, strips tags, and diffs the visible
-text of `<main>` line by line. Useful for catching content-level regressions
-(excerpt truncation, dates, reading time, ordering) without any pixel noise.
-
-Known, accepted differences it reports:
-
-- Two posts show a reading time one minute apart — Jekyll counted words
-  inconsistently (sometimes Markdown source, sometimes rendered HTML).
-- Email addresses differ because Cloudflare rewrites them on the live site.
+New behaviour needs a check in the same commit. Put it in the suite that
+matches: content rules in `content.mjs`, anything reachable over HTTP in
+`build-output.mjs`, anything needing clicks in `functional.mjs`. Each suite
+exits non-zero on failure and prints one line per problem.

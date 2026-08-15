@@ -13,7 +13,7 @@ export async function GET() {
       url: post.url,
       categories: post.categories,
       tags: post.tags,
-      /** "Nov 2025" — enough context without cluttering the result. */
+      /** "Nov 2025" - enough context without cluttering the result. */
       date: formatDate(post.date, { month: 'short', year: 'numeric' }),
       snippet: truncate(text, 180),
       content: text,

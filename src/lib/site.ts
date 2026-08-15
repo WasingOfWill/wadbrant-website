@@ -1,6 +1,5 @@
 /**
  * Single source of truth for site-wide configuration.
- * Replaces the Jekyll `_config.yml` values that the templates actually used.
  */
 export const site = {
   title: 'WADBRANT',

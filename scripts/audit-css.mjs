@@ -3,11 +3,11 @@
  * Works out which rules of a stylesheet the site actually uses, and writes a
  * trimmed copy.
  *
- *   node scripts/audit-css.mjs src/styles/chirpy.css src/styles/theme.css
+ *   node scripts/audit-css.mjs src/styles/theme.css src/styles/theme.next.css
  *
  * Every page of the running local site is loaded and each selector is tested
  * against it. State that only exists at runtime (menu open, search active,
- * dark mode…) is kept via the safelist below.
+ * dark mode) is kept via the safelist below.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -119,7 +119,7 @@ for (const route of PAGES) {
       try {
         if (document.querySelector(selector)) hits.push(selector);
       } catch {
-        hits.push(selector); // unparseable here — keep it rather than risk breakage
+        hits.push(selector); // unparseable here - keep it rather than risk breakage
       }
     }
     return hits;

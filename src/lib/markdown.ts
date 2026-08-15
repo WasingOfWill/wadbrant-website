@@ -14,8 +14,8 @@ import { visit } from 'unist-util-visit';
 import type { Element, Root, ElementContent } from 'hast';
 
 /**
- * Rewrites root-relative asset paths that the Jekyll posts author without a
- * leading slash (`assets/images/x.png` -> `/assets/images/x.png`).
+ * Accepts asset paths written without a leading slash
+ * (`assets/images/x.png` becomes `/assets/images/x.png`).
  */
 function normalizeAssetPath(src: string): string {
   if (/^(https?:)?\/\//.test(src) || src.startsWith('/') || src.startsWith('data:')) {
@@ -103,7 +103,7 @@ function rehypeTableWrapper() {
 }
 
 /**
- * Supports the kramdown inline-attribute syntax the legacy posts use, e.g.
+ * Attaches classes to the block above, e.g.
  *   > Some note
  *   {: .prompt-tip }
  * The trailing paragraph is consumed and its classes applied to the block above.

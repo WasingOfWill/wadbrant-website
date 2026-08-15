@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  // The Jekyll site served every page from a directory URL; keep those links.
+  // Every page is served from a directory URL.
   trailingSlash: true,
   images: {
     // Content images are authored as plain <img> tags inside markdown, so the
@@ -11,10 +11,9 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Jekyll's paginator exposed /page2, /page3 …; the home page now lists
-      // every post, so send those URLs to the top of the list.
+      // Old paginated URLs; the home page lists every post now.
       { source: '/page:num(\\d+)', destination: '/', permanent: true },
-      // Retired pages from the Jekyll site.
+      // Retired pages.
       { source: '/ai', destination: '/categories/ai/', permanent: true },
       { source: '/product', destination: '/', permanent: true },
     ];

@@ -1,7 +1,7 @@
 # Content
 
-Everything the site publishes lives here as plain Markdown. Add a file, commit,
-push — Vercel builds and deploys it.
+Everything the site publishes lives here as plain Markdown. Add a file, commit
+and push; Vercel builds and deploys it.
 
 ```
 content/
@@ -40,7 +40,7 @@ slug: custom-url                          # optional, overrides the file name
 
 Notes:
 
-- Posts dated in the future are not published — the same rule Jekyll used.
+- Posts dated in the future are not published.
 - Image paths may be written with or without a leading slash.
 - Markdown is CommonMark + GFM, with typographic quotes and dashes applied
   automatically, so `"quotes"` and `--` come out looking right.

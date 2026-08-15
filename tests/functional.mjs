@@ -64,7 +64,7 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   check('post page has prev/next', post.nav > 0, `${post.nav}`);
   check('post page has tags', post.tags > 0, `${post.tags}`);
 
-  // Image lightbox — click via the DOM so an off-screen image still works.
+  // Image lightbox - click via the DOM so an off-screen image still works.
   await page.$eval('.content a.popup', (el) => el.click());
   await new Promise((r) => setTimeout(r, 300));
   const popup = await page.evaluate(() => Boolean(document.querySelector('#image-popup img')));
@@ -126,7 +126,7 @@ await browser.close();
 let failed = 0;
 for (const result of results) {
   if (!result.ok) failed += 1;
-  console.log(`${result.ok ? 'PASS' : 'FAIL'}  ${result.name}${result.detail ? `  — ${result.detail}` : ''}`);
+  console.log(`${result.ok ? 'PASS' : 'FAIL'}  ${result.name}${result.detail ? `  - ${result.detail}` : ''}`);
 }
 console.log(`\n${results.length - failed}/${results.length} passed`);
 process.exit(failed ? 1 : 0);
