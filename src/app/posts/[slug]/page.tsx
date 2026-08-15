@@ -141,7 +141,7 @@ export default async function PostPage({ params }: Params) {
 
       <article className="px-1">
         <header>
-          <h1 data-toc-skip="">{post.title}</h1>
+          <h1>{post.title}</h1>
           <div className="post-meta text-muted">
             <span>
               {' Posted '}

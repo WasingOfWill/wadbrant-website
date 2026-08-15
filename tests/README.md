@@ -13,6 +13,19 @@ node tests/visual-diff.mjs          # pixel diff against https://wadbrant.com
 python tests/compare-html.py        # text-level diff of every page
 ```
 
+## snapshot.mjs
+
+Captures every page locally and diffs two captures, which is how a refactor is
+proven to change nothing:
+
+```bash
+node tests/snapshot.mjs baseline    # before the change
+node tests/snapshot.mjs after       # after it
+node tests/snapshot.mjs --diff baseline after
+```
+
+Differences above 0.02% are written to `.snapshots/diff/`.
+
 ## functional.mjs
 
 Drives a real browser: light/dark toggle, search overlay, table of contents,

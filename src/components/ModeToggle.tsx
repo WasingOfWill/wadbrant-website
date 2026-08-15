@@ -12,7 +12,7 @@ function systemMode(): Mode {
 
 /**
  * Switches between the theme's light and dark palettes by setting
- * `data-mode` on <html>, which is exactly what the Chirpy stylesheet keys off.
+ * `data-mode` on <html>, which every colour token in theme.css keys off.
  * The choice is remembered; with no choice stored the OS preference wins.
  */
 export default function ModeToggle() {

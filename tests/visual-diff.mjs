@@ -27,6 +27,7 @@ async function shoot(browser, base, route, viewport, label) {
   await page.goto(base + route, { waitUntil: 'networkidle0', timeout: 60000 });
   // Neutralise animations and lazy loading so the two captures are comparable.
   await page.evaluate(async () => {
+    document.documentElement.style.scrollBehavior = 'auto';
     document.querySelectorAll('img').forEach((img) => {
       img.loading = 'eager';
       img.removeAttribute('loading');

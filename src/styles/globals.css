@@ -2,24 +2,30 @@
    Global stylesheet.
 
    Load order matters:
-   1. Bootstrap 5.3 grid/utilities (the markup below is Bootstrap-based).
-   2. The compiled Chirpy theme stylesheet — this is the visual design.
+   1. Layout primitives — grid, flex and spacing utilities.
+   2. The theme — design tokens and every component's look.
    3. Self-hosted webfonts.
    4. Tailwind utilities (no preflight, so it cannot reset the theme).
-   5. Local overrides.
+   5. Site-specific rules, below.
    ========================================================================== */
 
-@import './bootstrap.css';
-@import './chirpy.css';
+@import './layout.css';
+@import './theme.css';
 @import './fonts.css';
 @import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 @import '@fortawesome/fontawesome-free/css/solid.min.css';
 @import '@fortawesome/fontawesome-free/css/regular.min.css';
-@import '@fortawesome/fontawesome-free/css/brands.min.css';
 
 @layer theme, utilities;
 @import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
+
+/* Only look for utility classes in components. With automatic detection on,
+   Tailwind reads the stylesheets too and mints utilities whose names collide
+   with the site's own classes — `.collapse` became `visibility: collapse` and
+   hid the category lists. */
+@source '../app/**/*.tsx';
+@source '../components/**/*.tsx';
 
 /* --------------------------------------------------------------------------
    Links.
@@ -286,6 +292,43 @@ button.category-trigger {
   border: 0;
   padding: 0;
   color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Code blocks. Highlighting comes from Shiki, which writes both palettes onto
+   each token as custom properties; this picks the right one per mode.
+   -------------------------------------------------------------------------- */
+.highlight code span {
+  color: var(--shiki-light);
+}
+
+html[data-mode='dark'] .highlight code span {
+  color: var(--shiki-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-mode='light']) .highlight code span {
+    color: var(--shiki-dark);
+  }
+}
+
+.highlight .copy-code {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.5rem;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--btn-border-color);
+  border-radius: 0.4rem;
+  background: var(--button-bg);
+  color: var(--text-muted-color);
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.highlight:hover .copy-code,
+.highlight .copy-code:focus-visible {
+  opacity: 1;
 }
 
 /* --------------------------------------------------------------------------

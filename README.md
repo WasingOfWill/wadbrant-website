@@ -3,9 +3,9 @@
 Personal site of Will Wadbrant — articles on product management, the gaming
 industry and AI. Next.js 15 (App Router) + Markdown content, deployed on Vercel.
 
-This replaces the previous Jekyll/Chirpy site. The design is carried over 1:1;
-the machinery underneath is now plain Markdown files plus React components you
-can change.
+It replaces a Jekyll site. The design was carried over pixel for pixel, but
+nothing of the old theme's machinery remains: the stylesheets, components and
+content pipeline are all in this repository and meant to be edited.
 
 ## Quick start
 
@@ -47,8 +47,8 @@ src/
     markdown.ts     Markdown → HTML pipeline
   styles/
     globals.css     load order + local overrides
-    chirpy.css      the compiled theme stylesheet (the design itself)
-    bootstrap.css   grid and utility classes the markup uses
+    theme.css       design tokens and every component's look
+    layout.css      grid, flex and spacing utilities
     fonts.css       self-hosted Lato / Source Sans Pro
 ```
 

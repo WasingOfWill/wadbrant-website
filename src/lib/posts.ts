@@ -50,7 +50,7 @@ export type Post = {
   words: number;
   /** Word count of the markdown source, used for the post-card estimate. */
   rawWords: number;
-  /** floor(words / 180), minimum 1 — matches Chirpy's read-time include. */
+  /** floor(words / 180), minimum 1 — the reading time shown on a post. */
   readTime: number;
   /** ceil(rawWords / 200) — the reading time shown on post cards. */
   listReadTime: number;
@@ -321,7 +321,7 @@ export async function getTags(): Promise<Map<string, Post[]>> {
   return groupBy('tags');
 }
 
-/** Trending tags: count desc, then name asc — matches Chirpy's include. */
+/** Trending tags: count descending, then name ascending. */
 export async function getTrendingTags(limit = 10): Promise<TermGroup[]> {
   const tags = await getTags();
   return [...tags.entries()]
@@ -339,8 +339,8 @@ export async function getRecentlyUpdated(limit = 5): Promise<Post[]> {
 }
 
 /**
- * Chirpy's related-posts scoring: 1 point per shared tag, 0.5 per shared
- * category, highest three win.
+ * Related-posts scoring: 1 point per shared tag, 0.5 per shared category,
+ * highest three win.
  */
 export async function getRelatedPosts(post: Post, limit = 3): Promise<Post[]> {
   const posts = await getAllPosts();

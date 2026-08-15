@@ -25,7 +25,7 @@ function normalizeAssetPath(src: string): string {
 }
 
 /**
- * Recreates the Chirpy heading markup:
+ * Section headings carry an anchor link:
  *   <h2 id="x"><span class="me-2">Text</span><a href="#x" class="anchor text-muted">…</a></h2>
  */
 function rehypeHeadingAnchors() {
@@ -62,8 +62,8 @@ function rehypeHeadingAnchors() {
 }
 
 /**
- * Chirpy wraps every content image in a lightbox link with a shimmer
- * placeholder, and lazy-loads it.
+ * Content images open in a lightbox, sit on a shimmer placeholder while
+ * they load, and are lazy-loaded.
  */
 function rehypeImages() {
   return (tree: Root) => {
@@ -85,7 +85,7 @@ function rehypeImages() {
   };
 }
 
-/** Chirpy scrolls wide tables horizontally instead of breaking the layout. */
+/** Wide tables scroll horizontally instead of breaking the layout. */
 function rehypeTableWrapper() {
   return (tree: Root) => {
     visit(tree, 'element', (node: Element, index, parent) => {
@@ -164,7 +164,7 @@ function remarkInlineAttributes() {
   };
 }
 
-/** Chirpy's code block chrome: `.language-x.highlighter-rouge > .highlight > pre`. */
+/** Code block chrome: `.language-x > .highlight > pre`. */
 function rehypeCodeChrome() {
   return (tree: Root) => {
     visit(tree, 'element', (node: Element, index, parent) => {
