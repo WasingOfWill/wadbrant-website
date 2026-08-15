@@ -122,16 +122,32 @@ const MAX_OUTPOSTS = 3;
 const OUTPOST_DISTANCE = 4;
 
 /**
- * The clusters of recent work sitting in the gaps between the roads out of
- * home, newest first. Seeds are the ring 2 cells between two directions,
- * which is the ground the roads do not use.
+ * Clusters of recent work, newest first. They sit out past a gap rather than
+ * touching the camp, so they read as their own places and not as more of the
+ * home settlement, and they seed in the gaps between the roads because that is
+ * the ground the roads do not use.
+ *
+ * The four directions are chosen to stay on screen: up, up and right, down and
+ * right, down. Nothing seeds to the left, which is where the sidebar sits.
  */
-const FEATURED: { seed: Axial; size: number; badge: string }[] = [
-  { seed: { q: 1, r: -2 }, size: 2, badge: 'New' },
-  { seed: { q: 1, r: 1 }, size: 2, badge: 'New' },
-  { seed: { q: -1, r: -1 }, size: 3, badge: 'Recommended' },
-  { seed: { q: -2, r: 1 }, size: 5, badge: 'Featured' },
+const FEATURED: { badge: string; cells: Axial[] }[] = [
+  { badge: 'New', cells: [{ q: 2, r: -4 }, { q: 3, r: -4 }] },
+  { badge: 'New', cells: [{ q: 4, r: -3 }, { q: 4, r: -2 }] },
+  {
+    badge: 'Featured',
+    cells: [
+      { q: 3, r: 1 },
+      { q: 2, r: 2 },
+      { q: 1, r: 3 },
+      { q: 2, r: 3 },
+      { q: 1, r: 4 },
+    ],
+  },
+  { badge: 'Recommended', cells: [{ q: -3, r: 4 }, { q: -2, r: 4 }, { q: -1, r: 4 }] },
 ];
+
+/** Nothing may be laid closer than this. Rings 2 and 3 are the gap. */
+const FEATURED_NEAR = 4;
 
 export type HexKind =
   | 'home'
@@ -174,8 +190,18 @@ export type HexCell = {
   travelTo?: string;
   /** Degrees to turn the mark by, so an arrow can point at where it leads. */
   rotate?: number;
-  /** Small label over a featured cluster, on its first tile only. */
-  badge?: string;
+};
+
+/** A label floating over a cluster of recent work, in map coordinates. */
+export type Cluster = { badge: string; x: number; y: number };
+
+/** The newest post, given its own card above the readout at home. */
+export type Latest = {
+  title: string;
+  href: string;
+  meta: string;
+  excerpt: string;
+  image?: { src: string; alt: string };
 };
 
 export type Settlement = { id: string; x: number; y: number };
@@ -197,6 +223,10 @@ export type HexMapData = {
   routes: { id: string; d: string }[];
   /** Where the camera sits for each settlement. */
   settlements: Settlement[];
+  /** Labels floating over the clusters of recent work. */
+  clusters: Cluster[];
+  /** The newest post, or nothing at all if there are none. */
+  latest?: Latest;
   /** Every published post, for the map's text alternative. */
   index: { title: string; href: string }[];
 };
@@ -408,6 +438,11 @@ export async function getHexMap(): Promise<HexMapData> {
     });
   }
 
+  /* Ground for the clusters is claimed before anything else is laid. A road
+     or an outskirt reaching one of these cells would take it, and the entry
+     that belonged there would vanish with nothing to say so. */
+  for (const cluster of FEATURED) for (const cell of cluster.cells) taken.add(key(cell));
+
   /* City centres. Distance and skew differ per region so the six are not a
      star, and the roads out of home do not all look like the same road. */
   const cities = new Map<string, Axial>();
@@ -455,7 +490,7 @@ export async function getHexMap(): Promise<HexMapData> {
       ring: 1,
       kind: 'return',
       regionId,
-      label: 'Back',
+      label: 'Back to home',
       icon: 'return',
       rotate: bearing(back, run[0]),
       travelTo: backTo,
@@ -603,26 +638,55 @@ export async function getHexMap(): Promise<HexMapData> {
     });
   }
 
-  /* Recent work, in clusters in the gaps between the roads out of home. */
+  /* Recent work, in clusters out past a gap from the camp. The shapes are
+     written down rather than grown, because where they sit has to hold against
+     the readout on one side and the sidebar on the other, and a grown blob
+     wanders under both. */
   const recent = [...posts].sort(newest);
+  const clusters: Cluster[] = [];
   let next = 0;
   for (const cluster of FEATURED) {
-    const shape = grow(
-      cluster.seed,
-      cluster.size,
-      (cell) => free(cell) && distance(cell, HOME) <= 4
-    );
-    shape.forEach((cell, slot) => {
+    const laid: Axial[] = [];
+    for (const cell of cluster.cells) {
+      taken.delete(key(cell));
+      if (distance(cell, HOME) < FEATURED_NEAR) continue;
       const post = recent[next];
-      if (!post) return;
+      if (!post) break;
       next += 1;
       put({
         ...entry(post, `featured-${post.slug}`, 'home', regionForPost(post).id),
         ...place(cell),
         ring: distance(cell, HOME),
-        badge: slot === 0 ? cluster.badge : undefined,
       });
+      laid.push(cell);
+    }
+    if (laid.length === 0) continue;
+
+    /* The label floats above the cluster rather than sitting on a tile, so it
+       is readable at any size and belongs to the group, not to one entry. */
+    const points = laid.map((cell) => axialToPixel(cell));
+    clusters.push({
+      badge: cluster.badge,
+      x: Number((points.reduce((sum, at) => sum + at.x, 0) / points.length).toFixed(1)),
+      y: Number((Math.min(...points.map((at) => at.y)) - 52).toFixed(1)),
     });
+
+    /* A faded road across the gap, so the cluster reads as somewhere the camp
+       connects to rather than as an island. */
+    const track = line(HOME, cluster.cells[0]);
+    const along = track.map((cell) => {
+      const at = axialToPixel(cell);
+      return `${at.x.toFixed(1)},${at.y.toFixed(1)}`;
+    });
+    routes.push({
+      id: `to-${cluster.badge.toLowerCase()}-${clusters.length}`,
+      d: `M ${along.join(' L ')}`,
+    });
+    for (const cell of track) {
+      const out = distance(cell, HOME);
+      if (out < 2 || out >= FEATURED_NEAR || !free(cell)) continue;
+      put({ ...place(cell), id: `track-${cell.q}-${cell.r}`, hub: 'home', ring: out, kind: 'trail' });
+    }
   }
 
   /* Empty ground. Clumped rather than scattered, so it reads as ranges and
@@ -650,6 +714,16 @@ export async function getHexMap(): Promise<HexMapData> {
     regions: info,
     routes,
     settlements,
+    clusters,
+    latest: recent[0] && {
+      title: recent[0].title,
+      href: recent[0].url,
+      meta: `${DATE_FORMAT.format(recent[0].date)} / ${recent[0].listReadTime} min`,
+      excerpt: recent[0].excerpt,
+      image: recent[0].image
+        ? { src: recent[0].image.path, alt: recent[0].image.alt ?? '' }
+        : undefined,
+    },
     index: posts.map((post) => ({ title: post.title, href: post.url })),
   };
 }
@@ -695,32 +769,6 @@ function findOutpost(
     if (free(at) && ring(at, 1).filter(free).length >= 4) return at;
   }
   return undefined;
-}
-
-/**
- * Grows a blob of the given size out from a seed, preferring whichever
- * neighbour the noise likes best so the shape is organic and repeatable.
- */
-function grow(seed: Axial, size: number, allowed: (cell: Axial) => boolean): Axial[] {
-  if (!allowed(seed)) return [];
-  const shape = [seed];
-  const seen = new Set([key(seed)]);
-  while (shape.length < size) {
-    const options: Axial[] = [];
-    for (const cell of shape) {
-      for (const direction of DIRS) {
-        const next = add(cell, direction);
-        if (seen.has(key(next)) || !allowed(next)) continue;
-        seen.add(key(next));
-        options.push(next);
-      }
-    }
-    if (options.length === 0) break;
-    options.sort((a, b) => noise(b.q, b.r) - noise(a.q, a.r));
-    shape.push(options[0]);
-    for (const option of options.slice(1)) seen.delete(key(option));
-  }
-  return shape;
 }
 
 /** The best real category page for a region, or the index if it has none. */

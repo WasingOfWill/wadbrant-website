@@ -3,13 +3,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { HexCell, RegionInfo, Settlement } from '@/lib/hexmap';
+import type { Cluster, HexCell, Latest, RegionInfo, Settlement } from '@/lib/hexmap';
+import HexSearch from './HexSearch';
 
 type Props = {
   cells: HexCell[];
   regions: RegionInfo[];
   routes: { id: string; d: string }[];
   settlements: Settlement[];
+  clusters: Cluster[];
+  latest?: Latest;
   /** Precomputed hexagon outline, so this file never imports the server lib. */
   points: string;
 };
@@ -85,7 +88,15 @@ function markFor(cell: HexCell, known: boolean): string | undefined {
   return MARKS[cell.icon ?? ''] ?? MARKS.book;
 }
 
-export default function HexMapView({ cells, regions, routes, settlements, points }: Props) {
+export default function HexMapView({
+  cells,
+  regions,
+  routes,
+  settlements,
+  clusters,
+  latest,
+  points,
+}: Props) {
   /** Which settlement you are standing in: 'home' or a region id. */
   const [place, setPlace] = useState('home');
   const [selectedId, setSelectedId] = useState('home');
@@ -105,6 +116,8 @@ export default function HexMapView({ cells, regions, routes, settlements, points
     () => new Map(settlements.map((at) => [at.id, { x: at.x, y: at.y }])),
     [settlements]
   );
+
+  const roads = useMemo(() => new Set(routes.map((route) => route.id)), [routes]);
 
   /* Arriving somewhere selects its centre tile. */
   const anchors = useMemo(() => {
@@ -184,29 +197,37 @@ export default function HexMapView({ cells, regions, routes, settlements, points
   }, [settle]);
 
 
+  /**
+   * Any tile you can see, you can go to. A tile that leads somewhere takes you
+   * there; anything else takes you to the settlement it belongs to and then
+   * opens. Only scenery is inert.
+   */
   const choose = useCallback(
     (id: string) => {
       const cell = byId.get(id);
       if (!cell) return;
       if (cell.kind === 'edge' || cell.kind === 'trail' || cell.kind === 'wild') return;
-      /* Nothing in another settlement is reachable from where you stand. */
-      if (cell.hub !== placeRef.current && cell.kind !== 'gateway') return;
 
-      if (cell.travelTo) {
-        const arriving = cell.travelTo;
-        /* Roads are named for where they lead. Going back down one means
-           drawing the road out of the settlement you are leaving. */
-        settle();
-        setTravelling(cell.kind === 'return' ? cell.hub : arriving);
-        setPlace(arriving);
-        setSelectedId(anchors.get(arriving) ?? 'home');
-        clearTimeout(timer.current);
-        timer.current = setTimeout(() => setTravelling(''), TRAVEL_MS);
+      const here = placeRef.current;
+      const arriving = cell.travelTo ?? cell.hub;
+      const target = cell.travelTo ? (anchors.get(arriving) ?? 'home') : id;
+
+      if (arriving === here) {
+        setSelectedId(target);
         return;
       }
-      setSelectedId(id);
+
+      /* Roads are named for where they lead, so travelling outwards draws the
+         road you are taking and travelling back draws the one you are on. */
+      const outward = roads.has(arriving) && !here.startsWith(`${arriving}-`);
+      settle();
+      setTravelling(outward ? arriving : here);
+      setPlace(arriving);
+      setSelectedId(target);
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => setTravelling(''), TRAVEL_MS);
     },
-    [anchors, byId, settle]
+    [anchors, byId, roads, settle]
   );
 
   const onPointerDown = useCallback((event: React.PointerEvent) => {
@@ -224,7 +245,14 @@ export default function HexMapView({ cells, regions, routes, settlements, points
     state.moved = 0;
     state.target = (event.target as Element).closest?.('.hex')?.getAttribute('data-id') ?? '';
     root.current?.setAttribute('data-dragging', '');
-    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    /* A pointer the browser is not tracking, which a synthetic event is,
+       cannot be captured. Dragging still works; the capture is only there to
+       keep a real drag alive past the edge of the element. */
+    try {
+      (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    } catch {
+      /* not a real pointer */
+    }
   }, []);
 
   const onPointerMove = useCallback(
@@ -329,6 +357,23 @@ export default function HexMapView({ cells, regions, routes, settlements, points
               selected={cell.id === selectedId}
             />
           ))}
+          {/* Cluster labels are their own layer, so they float over the map
+              instead of being trapped inside one tile's box. */}
+          {clusters.map((cluster) => (
+            <g className="hex-cluster" key={cluster.badge + cluster.x}>
+              <text className="hex-cluster-label" x={cluster.x} y={cluster.y}>
+                {cluster.badge}
+              </text>
+              <line
+                className="hex-cluster-rule"
+                x1={cluster.x - 26}
+                y1={cluster.y + 13}
+                x2={cluster.x + 26}
+                y2={cluster.y + 13}
+              />
+            </g>
+          ))}
+
           <g className="hex-pawn" transform={`translate(${selected.x} ${selected.y})`}>
             <circle className="hex-pawn-halo" r="34" />
             <circle className="hex-pawn-dot" cy="-44" r="5" />
@@ -336,10 +381,13 @@ export default function HexMapView({ cells, regions, routes, settlements, points
         </svg>
       </div>
 
+      <HexSearch />
+
       <Panel
         cell={selected}
         region={selected.regionId ? regionById.get(selected.regionId) : undefined}
         atHome={place === 'home'}
+        latest={selected.kind === 'home' ? latest : undefined}
         onLeave={goHome}
       />
     </div>
@@ -362,7 +410,7 @@ function Tile({
   const known = active || cell.kind === 'gateway' || cell.kind === 'home';
   const mark = markFor(cell, known);
   const scenery = cell.kind === 'edge' || cell.kind === 'trail' || cell.kind === 'wild';
-  const reachable = known && !scenery;
+  const reachable = !scenery;
   /* Settlements name themselves. So does a signpost, in smaller type, because
      a name is the only thing that says it leads to a category. */
   const named = cell.kind === 'gateway' || cell.kind === 'city' || cell.kind === 'home';
@@ -382,7 +430,7 @@ function Tile({
       style={{ ['--ring' as string]: cell.ring }}
       tabIndex={reachable ? 0 : undefined}
       role={reachable ? 'button' : undefined}
-      aria-label={reachable ? cell.label : undefined}
+      aria-label={reachable ? (known ? cell.label : 'Somewhere unexplored') : undefined}
     >
       <polygon className="hex-face" points={points} />
       {cell.regionId && (
@@ -403,11 +451,6 @@ function Tile({
             ))}
         </g>
       )}
-      {cell.badge && (
-        <text className="hex-badge" y={-34}>
-          {cell.badge}
-        </text>
-      )}
       {labelled && (
         <text className={named ? 'hex-label' : 'hex-label hex-label-small'} y={30}>
           {cell.label}
@@ -421,21 +464,25 @@ function Panel({
   cell,
   region,
   atHome,
+  latest,
   onLeave,
 }: {
   cell: HexCell;
   region?: RegionInfo;
   atHome: boolean;
+  latest?: Latest;
   onLeave: () => void;
 }) {
+  /* Plain words. The map is already a metaphor; the labels do not need to be
+     one as well. */
   const kickers: Record<string, string> = {
     home: 'Home',
-    city: 'Region',
-    outpost: 'Outpost',
-    gateway: 'Road out',
-    signpost: 'Signpost',
-    gate: 'Wayfinder',
-    return: 'Road home',
+    city: 'Category',
+    outpost: 'Topic',
+    gateway: 'Category',
+    signpost: 'Topic',
+    gate: 'Category',
+    return: 'Home',
   };
 
   return (
@@ -448,6 +495,35 @@ function Panel({
       /* The readout borrows the colour of wherever you are standing. */
       style={{ ['--region' as string]: `var(--region-${cell.regionId ?? 'none'}, var(--accent))` }}
     >
+      {latest && (
+        <div className="hexmap-panel-card hexmap-latest">
+          {latest.image && (
+            <div className="hexmap-shot">
+              <Image
+                src={latest.image.src}
+                alt={latest.image.alt}
+                fill
+                sizes="(max-width: 849px) 100vw, 420px"
+                quality={80}
+              />
+            </div>
+          )}
+          <p className="hexmap-kicker">Latest</p>
+          <h2>
+            <Link href={latest.href}>{latest.title}</Link>
+          </h2>
+          <p className="hexmap-meta">{latest.meta}</p>
+          <div className="hexmap-actions">
+            <Link className="hexmap-go" href={latest.href}>
+              Read more
+            </Link>
+            <Link className="hexmap-go hexmap-go-quiet" href="/articles/">
+              All articles
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Remounting on every move replays the entrance rather than sliding one
           set of words into another. */}
       <div className="hexmap-panel-card" key={cell.id}>
@@ -464,7 +540,7 @@ function Panel({
             />
           </div>
         )}
-        <p className="hexmap-kicker">{kickers[cell.kind] ?? 'Entry'}</p>
+        <p className="hexmap-kicker">{kickers[cell.kind] ?? 'Article'}</p>
         <h2>{cell.kind === 'home' ? 'Wadbrant' : cell.label}</h2>
 
         {cell.kind === 'home' && (
@@ -473,7 +549,7 @@ function Panel({
               I write about game development, business, tech, AI, and product management.
               Very nerdy.
             </p>
-            <p className="hexmap-hint">Pick a region to travel there.</p>
+            <p className="hexmap-hint">Pick a category to travel there.</p>
           </>
         )}
 
@@ -504,7 +580,7 @@ function Panel({
           <>
             {cell.meta && <p className="hexmap-meta">{cell.meta}</p>}
             <p className="hexmap-hint">
-              A corner of {region?.name ?? 'the map'}. The tiles around this one are what is here.
+              Part of {region?.name ?? 'the map'}. The tiles around this one are what is here.
             </p>
             {cell.href && (
               <Link className="hexmap-go" href={cell.href}>
@@ -529,7 +605,7 @@ function Panel({
 
         {!atHome && (
           <button type="button" className="hexmap-back" onClick={onLeave}>
-            Back to camp
+            Back to home
           </button>
         )}
       </div>

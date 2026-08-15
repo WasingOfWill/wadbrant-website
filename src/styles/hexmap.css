@@ -18,6 +18,9 @@
   --region-projects: #7f5722;
   --region-misc: #5c554c;
 
+  /* The one thing on the page that is not the accent: the newest post. */
+  --latest: #2f6b57;
+
   /* How much of the drawn map shows through. Texture, not picture. */
   --map-wash: 0.34;
   --map-wash-filter: saturate(0.42) contrast(0.92);
@@ -30,6 +33,8 @@ html[data-mode='dark'] {
   --region-product: #fb923c;
   --region-projects: #d7a862;
   --region-misc: #b0a89d;
+
+  --latest: #7fc9aa;
 
   /* The drawing is warm parchment, so it has to be pulled well down to sit
      on a dark page without glowing. */
@@ -45,6 +50,7 @@ html[data-mode='dark'] {
     --region-product: #fb923c;
     --region-projects: #d7a862;
     --region-misc: #b0a89d;
+    --latest: #7fc9aa;
     --map-wash: 0.22;
     --map-wash-filter: saturate(0.3) brightness(0.55);
   }
@@ -79,8 +85,15 @@ html:has(#hexmap) body {
      in, so nudging the whole world uses it rather than round pixels. */
   --hex-step: 111px;
   --map-x: 50%;
+  /* On a phone the camera pulls back and sits high, so the camp and both New
+     clusters are on screen above the sheet. Text on the map is sized up to
+     match, because everything in the SVG shrinks with the camera. */
   --map-y: 34%;
-  --map-scale: 0.74;
+  --map-scale: 0.48;
+  --hex-type: 21px;
+  --hex-type-small: 17px;
+  --hex-type-cluster: 26px;
+  --hex-track: 0.03em;
 
   /* Tiles are translucent so the drawn map reads as ground underneath them
      rather than being hidden by them. The alpha is high enough that the
@@ -117,6 +130,10 @@ html:has(#hexmap) body {
     --map-x: calc(260px + (100vw - 260px) * 0.3 - var(--hex-step));
     --map-y: 50%;
     --map-scale: 1;
+    --hex-type: 12px;
+    --hex-type-small: 9.5px;
+    --hex-type-cluster: 15px;
+    --hex-track: 0.12em;
   }
 }
 
@@ -356,8 +373,8 @@ html:has(#hexmap) body {
 .hex-label {
   fill: var(--hex-ink);
   font-family: Lato, sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.12em;
+  font-size: var(--hex-type);
+  letter-spacing: var(--hex-track);
   text-transform: uppercase;
   text-anchor: middle;
   transition: fill 180ms ease-out;
@@ -434,9 +451,16 @@ html:has(#hexmap) body {
    there, far off, which is what makes the world feel bigger than the screen.
    -------------------------------------------------------------------------- */
 
+/* Distance makes a tile unreadable, not unreachable: anything you can see on
+   the map can be travelled to. */
 .hex:not([data-active]) {
   opacity: 0.1;
-  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .hex:not([data-active])[role='button']:hover {
+    opacity: 0.5;
+  }
 }
 
 /* Except the roads out, which have to stay findable from home. */
@@ -822,20 +846,42 @@ html:has(#hexmap) body {
    Without a top bar there is no hamburger, so the map carries its own.
    -------------------------------------------------------------------------- */
 
+/*
+ * A hexagon with a real outline. clip-path cuts a border off at the same edge
+ * it is drawn on, which left this with four flat sides and two bare corners:
+ * the outline has to be a drawn shape, not a clipped box.
+ */
 #hexmap-nav {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  top: 0.9rem;
+  left: 0.9rem;
   z-index: 100;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 3rem;
+  height: 3.35rem;
   display: grid;
   place-items: center;
-  border: 1px solid var(--main-border-color);
-  background: var(--card-bg);
-  color: var(--text-muted-color);
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--hex-mark);
   transition: color 180ms ease-out;
+}
+
+#hexmap-nav svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#hexmap-nav polygon {
+  fill: color-mix(in srgb, var(--main-bg) 92%, var(--text-color));
+  stroke: var(--hex-edge);
+  stroke-width: 3;
+}
+
+#hexmap-nav i {
+  position: relative;
 }
 
 #hexmap-nav:hover {
@@ -884,17 +930,237 @@ html[sidebar-display] #hexmap-nav {
 /* A subcategory names itself in smaller type, because the name is the only
    thing that says the tile leads somewhere rather than to a post. */
 .hex-label-small {
-  font-size: 9.5px;
+  font-size: var(--hex-type-small);
   letter-spacing: 0.1em;
   fill: var(--text-muted-color);
 }
 
-/* One badge over each cluster of recent work. */
-.hex-badge {
+/* --------------------------------------------------------------------------
+   Cluster labels.
+
+   These float above a group of tiles rather than sitting inside one, so they
+   can be set at a readable size without having to fit a hexagon.
+   -------------------------------------------------------------------------- */
+
+.hex-cluster {
+  pointer-events: none;
+  transition: opacity 450ms ease-out;
+}
+
+/* They belong to the camp, so they go with it when you travel. */
+#hexmap:not([data-place='home']) .hex-cluster {
+  opacity: 0.1;
+}
+
+.hex-cluster-label {
   fill: var(--accent);
   font-family: var(--hex-mono);
-  font-size: 8px;
-  letter-spacing: 0.1em;
+  font-size: var(--hex-type-cluster);
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   text-anchor: middle;
+  /* The tracking is applied after the last letter too, which throws the
+     centring off by half a space. */
+  transform: translateX(0.13em);
+}
+
+.hex-cluster-rule {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  opacity: 0.45;
+}
+
+/* --------------------------------------------------------------------------
+   The newest post.
+
+   Its own card above the readout, only while you are standing at home, in the
+   one colour on the page that is not the accent.
+   -------------------------------------------------------------------------- */
+
+.hexmap-latest {
+  --region: var(--latest);
+  margin-bottom: 0.9rem;
+}
+
+.hexmap-latest h2 {
+  font-size: 1.25rem;
+}
+
+.hexmap-latest h2 a {
+  color: var(--heading-color);
+  transition: color 160ms ease-out;
+}
+
+.hexmap-latest h2 a:hover {
+  color: var(--latest);
+}
+
+.hexmap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* The second action is the lesser of the two, so it is outlined rather than
+   filled: two solid buttons side by side would argue with each other. */
+.hexmap-go-quiet {
+  color: var(--region);
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--region);
+}
+
+.hexmap-go-quiet:hover {
+  color: var(--region);
+  filter: none;
+  background: color-mix(in srgb, var(--region) 12%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   Search.
+
+   The rest of the site searches from the top bar, which this page does not
+   have. This sits over the map and answers underneath itself.
+   -------------------------------------------------------------------------- */
+
+#hexmap-search {
+  position: absolute;
+  z-index: 3;
+  touch-action: pan-y;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.hexmap-search-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--main-border-color);
+  background: color-mix(in srgb, var(--main-bg) 94%, transparent);
+  color: var(--text-muted-color);
+  clip-path: polygon(
+    0.7rem 0,
+    100% 0,
+    100% calc(100% - 0.7rem),
+    calc(100% - 0.7rem) 100%,
+    0 100%,
+    0 0.7rem
+  );
+  transition: border-color 160ms ease-out;
+}
+
+.hexmap-search-field:focus-within {
+  border-color: var(--accent);
+}
+
+.hexmap-search-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--text-color);
+  font-size: 0.92rem;
+  outline: none;
+}
+
+.hexmap-search-field input::placeholder {
+  color: var(--text-muted-color);
+}
+
+/* Chrome puts its own clear button in a search input; the Escape key does the
+   same job without a second control that does not match anything else here. */
+.hexmap-search-field input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.hexmap-search-hits {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--main-border-color);
+  background: color-mix(in srgb, var(--main-bg) 96%, transparent);
+  max-height: 40vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.hexmap-search-hits li + li {
+  border-top: 1px solid var(--main-border-color);
+}
+
+.hexmap-search-hits a {
+  display: block;
+  padding: 0.55rem 0;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: color 160ms ease-out;
+}
+
+.hexmap-search-hits a:hover {
+  color: var(--accent);
+}
+
+.hexmap-search-empty {
+  padding: 0.55rem 0;
+  color: var(--text-muted-color);
+  font-family: var(--hex-mono);
+  font-size: 0.78rem;
+}
+
+@media all and (min-width: 850px) {
+  /* Lined up with the readout below it. */
+  #hexmap-search {
+    top: 1.6rem;
+    right: max(3rem, 6vw);
+    width: min(27rem, 34vw);
+  }
+}
+
+@media all and (max-width: 849px) {
+  /* Beside the sidebar button, filling what is left of the row. */
+  #hexmap-search {
+    top: 0.9rem;
+    left: 4.4rem;
+    right: 0.9rem;
+  }
+}
+
+/* A banner and a readout stacked take most of a phone screen, and the map is
+   the page. The newest post keeps its cover as a thumbnail instead. This block
+   comes last on purpose: the desktop rules for the same card are defined after
+   the sheet, and would otherwise win. */
+@media all and (max-width: 849px) {
+  .hexmap-latest {
+    display: grid;
+    grid-template-columns: 4.75rem 1fr;
+    column-gap: 0.85rem;
+    align-items: start;
+  }
+
+  .hexmap-latest > * {
+    grid-column: 2;
+  }
+
+  .hexmap-latest .hexmap-shot {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    margin: 0;
+    aspect-ratio: 1;
+  }
+
+  .hexmap-latest h2 {
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .hexmap-latest .hexmap-meta {
+    margin-bottom: 0.6rem;
+  }
+
+  .hexmap-latest .hexmap-go {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.72rem;
+  }
 }

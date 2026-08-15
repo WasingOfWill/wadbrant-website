@@ -34,7 +34,13 @@ const BOLD_CLASS = /font-weight:\s*(bold|[7-9]00)|fw-bold|font-bold/i;
 function walk(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    /*
+     * `.claude/worktrees` holds full checkouts of this repository, so walking
+     * into one reports every problem in it a second time and fails the commit
+     * hook for work that is not being committed.
+     */
     if (entry.name === 'node_modules' || entry.name.startsWith('.next')) return [];
+    if (entry.name === 'worktrees' && path.basename(dir) === '.claude') return [];
     const full = path.join(dir, entry.name);
     return entry.isDirectory() ? walk(full) : [full];
   });

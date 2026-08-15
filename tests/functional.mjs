@@ -128,40 +128,59 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
   await new Promise((r) => setTimeout(r, 400));
 
+  /*
+   * Pressing a tile through the DOM rather than with the mouse. The readout
+   * and the search bar sit over the map, so a tile behind one of them cannot
+   * be reached by pointing at its centre, and that is a fact about the test
+   * rig rather than about the map.
+   */
   const tap = async (selector) => {
-    const box = await (await page.$(selector)).boundingBox();
-    const x = box.x + box.width / 2;
-    const y = box.y + box.height / 2;
-    await page.mouse.move(x, y);
-    await page.mouse.down();
-    await page.mouse.up();
-    await new Promise((r) => setTimeout(r, 500));
+    await page.$eval(selector, (tile) => {
+      const box = tile.getBoundingClientRect();
+      const at = { clientX: box.x + box.width / 2, clientY: box.y + box.height / 2 };
+      for (const type of ['pointerdown', 'pointerup']) {
+        tile.dispatchEvent(new PointerEvent(type, { bubbles: true, pointerId: 11, ...at }));
+      }
+    });
+    await new Promise((r) => setTimeout(r, 1100));
   };
 
   const start = await page.evaluate(() => ({
-    heading: document.querySelector('#hexmap-panel h2').textContent,
+    heading: document.querySelectorAll('#hexmap-panel h2')[1].textContent,
     featured: document.querySelectorAll('.hex[data-hub="home"][data-kind="article"][data-active]')
       .length,
-    badges: document.querySelectorAll('.hex-badge').length,
+    badges: document.querySelectorAll('.hex-cluster-label').length,
     distant: [...document.querySelectorAll('.hex[data-kind="article"][data-active]')].filter(
       (tile) => tile.dataset.hub !== 'home'
     ).length,
     gateways: document.querySelectorAll('.hex[data-kind="gateway"]').length,
     wild: document.querySelectorAll('.hex[data-kind="wild"]').length,
+    latest: Boolean(document.querySelector('.hexmap-latest')),
+    latestHref: document.querySelector('.hexmap-latest .hexmap-go')?.getAttribute('href'),
   }));
   check('map opens at camp', start.heading === 'Wadbrant', start.heading);
+  check('the newest post is offered', start.latest, String(start.latestHref));
   check('recent work sits around camp', start.featured >= 8, `${start.featured} tiles`);
   check('each cluster is named once', start.badges === 4, `${start.badges} badges`);
   check('distant entries stay illegible', start.distant === 0, `${start.distant} lit`);
   check('every region has a road out', start.gateways === 6, `${start.gateways}`);
   check('the world has empty ground', start.wild > 40, `${start.wild} tiles`);
 
-  // A city is a long way off. Nothing in it may be reached from home.
+  // Anything you can see, you can go to: picking a distant entry travels to
+  // the settlement it belongs to rather than doing nothing.
   await tap('.hex[data-hub="ongoing"][data-kind="article"]');
-  const ignored = await page.evaluate(
-    () => document.querySelector('#hexmap-panel h2').textContent
-  );
-  check('a distant entry cannot be opened from camp', ignored === 'Wadbrant', ignored);
+  const reached = await page.evaluate(() => ({
+    place: document.getElementById('hexmap').dataset.place,
+    kicker: document.querySelector('.hexmap-panel-card:not(.hexmap-latest) .hexmap-kicker')
+      .textContent,
+  }));
+  check('a distant entry can be travelled to', reached.place === 'ongoing', String(reached.place));
+  check('and it opens on arrival', reached.kicker === 'Article', reached.kicker);
+
+  // Home is a tile like any other, so it is the way back from anywhere.
+  await tap('.hex[data-id="home"]');
+  const camp = await page.evaluate(() => document.getElementById('hexmap').dataset.place);
+  check('the camp tile leads home from a city', camp === 'home', String(camp));
 
   await tap('.hex[data-id="gateway-ongoing"]');
   const entered = await page.evaluate(() => ({
@@ -193,10 +212,11 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
 
   await tap('.hex[data-hub="ongoing"][data-kind="article"]');
   const opened = await page.evaluate(() => ({
-    kicker: document.querySelector('.hexmap-kicker').textContent,
+    kicker: document.querySelector('.hexmap-panel-card:not(.hexmap-latest) .hexmap-kicker')
+      .textContent,
     href: document.querySelector('#hexmap-panel .hexmap-go')?.getAttribute('href'),
   }));
-  check('an entry opens a readout', opened.kicker === 'Entry', opened.kicker);
+  check('an entry opens a readout', opened.kicker === 'Article', opened.kicker);
   check('the readout links to the post', /^\/posts\/.+\/$/.test(opened.href ?? ''), String(opened.href));
 
   // A signpost is a place of its own, one road further out.
@@ -207,11 +227,12 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
     await tap(`.hex[data-id="${signpost}"]`);
     const outpost = await page.evaluate(() => ({
       place: document.getElementById('hexmap').dataset.place,
-      kicker: document.querySelector('.hexmap-kicker').textContent,
+      kicker: document.querySelector('.hexmap-panel-card:not(.hexmap-latest) .hexmap-kicker')
+      .textContent,
       entries: document.querySelectorAll('.hex[data-kind="article"][data-active]').length,
       back: document.querySelectorAll('.hex[data-kind="return"][data-active]').length,
     }));
-    check('a signpost leads to an outpost', outpost.kicker === 'Outpost', outpost.kicker);
+    check('a signpost leads to a topic', outpost.kicker === 'Topic', outpost.kicker);
     check('the outpost holds entries', outpost.entries > 0, `${outpost.entries}`);
     check('the outpost has a way back', outpost.back === 1, `${outpost.back}`);
 
@@ -219,7 +240,7 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
     const city = await page.evaluate(() => document.getElementById('hexmap').dataset.place);
     check('leaving an outpost returns to its city', city === 'ongoing', String(city));
   } else {
-    check('a signpost leads to an outpost', false, 'no signpost was reachable');
+    check('a signpost leads to a topic', false, 'no signpost was reachable');
   }
 
   await tap('.hex[data-id="return-ongoing"]');
