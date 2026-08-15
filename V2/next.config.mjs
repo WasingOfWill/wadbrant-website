@@ -15,7 +15,7 @@ const nextConfig = {
       // every post, so send those URLs to the top of the list.
       { source: '/page:num(\\d+)', destination: '/', permanent: true },
       // Retired pages from the Jekyll site.
-      { source: '/ai', destination: '/categories/ai', permanent: true },
+      { source: '/ai', destination: '/categories/ai/', permanent: true },
       { source: '/product', destination: '/', permanent: true },
     ];
   },
