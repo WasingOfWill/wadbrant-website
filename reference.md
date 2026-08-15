@@ -59,27 +59,37 @@ panel, no footer, and the page does not scroll. `lib/hexmap.ts` computes the
 whole grid at build time, `components/HexMap.tsx` renders it as one SVG, and
 `styles/hexmap.css` holds every rule, scoped to that page.
 
-Six regions sit on ring 1, one per compass direction: AI, Gaming, Industry,
-Product, Business, Misc. Each owns the 60 degree wedge pointing away from home
-and claims as much of it as it has earned: three tiles at least, six at most,
-one per post. A region with more posts than land spends one more tile on a gate
-to `/categories/`. That is what makes the six territories different shapes, and
-`tests/build-output.mjs` fails if they all come out the same size. Beyond them,
-rings 4 to 6 are scenery, thinned by a deterministic noise function so the
-frontier is ragged rather than three neat outlines.
+The world is seven settlements, not one blob. Home sits at the origin with six
+gateway tiles around it, one per region: AI, Gaming, Industry, Product,
+Business, Misc. Each gateway has a city seven to nine tiles out in the same
+direction, reached by a road, and that city is where the region's entries
+actually live. A city holds up to seventeen, so a region can grow well past
+what would fit next to home.
+
+Around a city: the road tile facing home is the way back, ring 1 and ring 2
+carry entries newest first, then up to three signposts to second-level
+categories, then a gate to the category page if there is still more. Only as
+many tiles are laid as there is something to put on them, so the six cities are
+different shapes and sizes, and distances and skews differ too.
+`tests/build-output.mjs` fails if they all come out the same, and fails if a
+city without a gate is not showing everything its region holds.
 
 Interaction lives in `components/HexMapView.tsx`, the only client component on
-the page. Nothing about an article is visible until you enter its region: until
-then its tile shows ground and a question mark, and cannot be picked. Choosing
-a tile moves the pawn, pans the camera halfway towards it, and fills the
-readout on the right, which is a bottom sheet on a phone. The map can also be
-dragged a quarter of the window in any direction, with a throw that carries.
+the page. Only the settlement you are standing in is legible; everything else
+is drawn far off and cannot be picked. Taking a road draws the line out to the
+city and moves the camera with it. The map can also be dragged a quarter of the
+window in any direction, with a throw that carries.
 
-Two things in that file are easy to undo by accident. The tile under a press is
-recorded on `pointerdown`, because pointer capture retargets every later event
-to the capturing element. And `discovered` is read through a ref, because the
+Three things in that file are easy to undo by accident. The tile under a press
+is recorded on `pointerdown`, because pointer capture retargets every later
+event to the capturing element. `place` is read through a ref, because the
 pointer handlers are memoised and would otherwise judge every tap against the
-first render's empty set.
+first render. And the readout stops pointer events reaching the map, or a touch
+that means to scroll the sheet drags the world instead.
+
+Article marks come from `ICON_RULES` in `lib/hexmap.ts`, matched against the
+title, tags and categories, first hit wins. Nothing new goes in the front
+matter to give a post a sensible icon.
 
 Regions are a homepage-only grouping. Nothing in `content/` knows about them:
 `REGIONS[].matches` lists the front matter categories that feed each one, best

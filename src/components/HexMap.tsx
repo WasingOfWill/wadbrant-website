@@ -11,7 +11,7 @@ import HexMapView from './HexMapView';
  * past the viewport without overflow tricks.
  */
 export default async function HexMap() {
-  const { cells, regions } = await getHexMap();
+  const { cells, regions, routes } = await getHexMap();
   const articles = cells.filter((cell) => cell.kind === 'article');
 
   return (
@@ -38,7 +38,7 @@ export default async function HexMap() {
         </ul>
       </nav>
 
-      <HexMapView cells={cells} regions={regions} points={hexPoints()} />
+      <HexMapView cells={cells} regions={regions} routes={routes} points={hexPoints()} />
     </>
   );
 }

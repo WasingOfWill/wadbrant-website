@@ -72,14 +72,14 @@ for (const href of links) {
 /*
  * The homepage map.
  *
- * The grid is generated, so an arithmetic slip in the wedge maths would be
- * invisible in a diff and obvious only to the eye. These numbers pin it down:
- * one home tile, six regions, five territory slots each and a ring of
- * scenery. Only the rendered SVG is measured, because the React payload
- * further down the document repeats every attribute.
+ * The grid is generated, so an arithmetic slip in the coordinate maths would
+ * be invisible in a diff and obvious only to the eye. This pins down the parts
+ * that have to hold: one home camp, six roads out, six cities, a way back from
+ * each, and every published entry actually on the ground somewhere. Only the
+ * rendered SVG is measured, because the React payload further down the
+ * document repeats every attribute.
  */
 const REGION_IDS = ['ai', 'gaming', 'industry', 'product', 'business', 'misc'];
-const TERRITORY_KINDS = ['article', 'gate', 'empty'];
 
 const canvas = home.body.match(/<svg class="hexmap-canvas"[\s\S]*?<\/svg>/)?.[0];
 if (!canvas) {
@@ -87,13 +87,15 @@ if (!canvas) {
 } else {
   const tiles = [
     ...canvas.matchAll(
-      /<g class="hex" data-id="([^"]+)" data-kind="(\w+)"(?: data-region="(\w+)")?[\s\S]{0,200}?transform="(translate\([^"]+\))"/g
+      /<g class="hex" data-id="([^"]+)" data-kind="(\w+)"(?: data-region="(\w+)")? data-hub="(\w+)"(?: data-holds="(\d+)")?[\s\S]{0,240}?transform="(translate\([^"]+\))"/g
     ),
-  ].map(([, id, kind, region, at]) => ({ id, kind, region, at }));
+  ].map(([, id, kind, region, hub, holds, at]) => ({ id, kind, region, hub, holds, at }));
   const count = (predicate) => tiles.filter(predicate).length;
 
-  if (count((tile) => tile.kind === 'home') !== 1) fail('/', 'the map has no single home tile');
-  if (count((tile) => tile.kind === 'region') !== 6) fail('/', 'the map does not have six regions');
+  if (count((tile) => tile.kind === 'home') !== 1) fail('/', 'the map has no single home camp');
+  if (count((tile) => tile.kind === 'gateway') !== 6) fail('/', 'there are not six roads out');
+  if (count((tile) => tile.kind === 'city') !== 6) fail('/', 'there are not six cities');
+  if (count((tile) => tile.kind === 'return') !== 6) fail('/', 'a city has no way back');
   if (count((tile) => tile.kind === 'edge') < 30) fail('/', 'the frontier is too thin to read');
 
   // Two tiles in one place would be a coordinate bug, and would look like a
@@ -101,24 +103,33 @@ if (!canvas) {
   const places = new Set(tiles.map((tile) => tile.at));
   if (places.size !== tiles.length) fail('/', 'two tiles share a position');
 
+  // Each city states how many entries its region holds. A city with no gate
+  // has to be showing all of them: a tile silently landing on an occupied
+  // cell would drop an article off the map with nothing to say so.
   const sizes = [];
   for (const id of REGION_IDS) {
-    if (count((tile) => tile.kind === 'region' && tile.region === id) !== 1) {
-      fail('/', `region ${id} is missing from the map`);
+    if (count((tile) => tile.kind === 'city' && tile.region === id) !== 1) {
+      fail('/', `region ${id} has no city`);
+      continue;
     }
-    const slots = count((tile) => tile.region === id && TERRITORY_KINDS.includes(tile.kind));
-    const gated = count((tile) => tile.region === id && tile.kind === 'gate') === 1;
-    sizes.push(slots);
+    const held = Number(tiles.find((tile) => tile.id === `city-${id}`)?.holds);
+    const shown = count((tile) => tile.hub === id && tile.kind === 'article');
+    const gated = count((tile) => tile.hub === id && tile.kind === 'gate') === 1;
+    sizes.push(shown);
 
-    // MIN_TERRITORY through MAX_TERRITORY, plus one tile if the region has
-    // more posts than land and has to offer a way to the rest of them.
-    if (slots < 3 || slots > 7) fail('/', `region ${id} has ${slots} territory tiles`);
-    if (gated && slots !== 7) fail('/', `region ${id} has a gate but only ${slots} tiles`);
+    if (!Number.isFinite(held)) {
+      fail('/', `city ${id} does not say how many entries it holds`);
+      continue;
+    }
+    if (!gated && shown !== held) {
+      fail('/', `${id} holds ${held} entries but only ${shown} are on the map`);
+    }
+    if (gated && shown >= held) fail('/', `${id} has a gate but nothing behind it`);
   }
 
-  // Territories are sized by how much each region has to show. If they all
-  // came out the same, that sizing has stopped working.
-  if (new Set(sizes).size === 1) fail('/', 'every region claimed the same amount of land');
+  // Cities are sized by how much each region has to show. If they all came out
+  // the same, that sizing has stopped working.
+  if (new Set(sizes).size === 1) fail('/', 'every city came out the same size');
 
   // The map is a picture. Its text alternative has to carry the same links,
   // or the homepage is a dead end for a screen reader and for a crawler.

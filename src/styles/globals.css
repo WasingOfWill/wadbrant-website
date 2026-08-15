@@ -592,3 +592,9 @@ html {
   outline: 2px solid var(--link-color);
   outline-offset: 2px;
 }
+
+/* The avatar reads as a badge over the name rather than as the first item in
+   a left-aligned column. */
+#sidebar #avatar {
+  margin-inline: auto;
+}

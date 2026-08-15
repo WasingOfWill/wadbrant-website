@@ -11,6 +11,8 @@ import puppeteer from 'puppeteer';
 
 const BASE = process.env.LOCAL ?? 'http://localhost:4000';
 
+const REGIONS = ['ai', 'gaming', 'industry', 'product', 'business', 'misc'];
+
 const SAMPLES = [
   { route: '/articles/', selector: '#post-list .card-title', label: 'card title' },
   { route: '/articles/', selector: '#post-list .card-text p', label: 'card excerpt' },
@@ -39,8 +41,8 @@ const SAMPLES = [
    */
   {
     route: '/',
-    paint: { prop: 'fill', behind: '.hex[data-kind="region"] .hex-face' },
-    selector: '.hex[data-kind="region"] .hex-label',
+    paint: { prop: 'fill', behind: '.hex[data-kind="gateway"] .hex-face' },
+    selector: '.hex[data-kind="gateway"] .hex-label',
     label: 'hex label',
   },
   {
@@ -58,13 +60,53 @@ const SAMPLES = [
     label: 'hex edge active',
     minRatio: 3,
   },
-  ...['ai', 'gaming', 'industry', 'product', 'business', 'misc'].map((region) => ({
+  ...REGIONS.map((region) => ({
     route: '/',
-    paint: { prop: 'fill', behind: `.hex[data-region="${region}"] .hex-face` },
-    selector: `.hex[data-kind="region"][data-region="${region}"] .hex-label`,
-    hover: `.hex[data-kind="region"][data-region="${region}"]`,
+    paint: { prop: 'fill', behind: `.hex[data-id="gateway-${region}"] .hex-face` },
+    selector: `.hex[data-id="gateway-${region}"] .hex-label`,
+    hover: `.hex[data-id="gateway-${region}"]`,
     label: `hex ${region} active`,
   })),
+
+  /*
+   * The readout. It is ordinary HTML over a translucent card, so the usual
+   * measure works, but half of it only exists once you have travelled to a
+   * city and picked an entry: those samples click their way there first.
+   */
+  { route: '/', selector: '.hexmap-kicker', label: 'panel kicker' },
+  { route: '/', selector: '#hexmap-panel h2', label: 'panel title' },
+  { route: '/', selector: '.hexmap-lede', label: 'panel lede' },
+  { route: '/', selector: '.hexmap-hint', label: 'panel hint' },
+  {
+    route: '/',
+    clicks: ['.hex[data-id="gateway-industry"]'],
+    selector: '.hexmap-subhead',
+    label: 'panel subhead',
+  },
+  {
+    route: '/',
+    clicks: ['.hex[data-id="gateway-industry"]'],
+    selector: '.hexmap-list a',
+    label: 'panel read',
+  },
+  {
+    route: '/',
+    clicks: ['.hex[data-id="gateway-industry"]'],
+    selector: '.hexmap-go',
+    label: 'panel button',
+  },
+  {
+    route: '/',
+    clicks: ['.hex[data-id="gateway-industry"]'],
+    selector: '.hexmap-back',
+    label: 'panel back',
+  },
+  {
+    route: '/',
+    clicks: ['.hex[data-id="gateway-industry"]', '.hex[data-kind="article"][data-active]'],
+    selector: '.hexmap-meta',
+    label: 'panel meta',
+  },
 ];
 
 /*
@@ -188,6 +230,16 @@ for (const mode of ['light', 'dark']) {
     }, mode);
     await page.goto(BASE + sample.route, { waitUntil: 'networkidle0' });
     await page.evaluate((value) => document.documentElement.setAttribute('data-mode', value), mode);
+
+    // Some of the readout only exists once you have travelled somewhere.
+    for (const selector of sample.clicks ?? []) {
+      const box = await (await page.$(selector))?.boundingBox();
+      if (!box) continue;
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.mouse.down();
+      await page.mouse.up();
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+    }
 
     // Hovered colours cross-fade, so reading them straight away measures a
     // frame part-way through the transition rather than the resting state.

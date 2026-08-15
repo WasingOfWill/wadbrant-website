@@ -36,7 +36,7 @@ export const site = {
 
 /** Sidebar navigation, in display order. */
 export const navigation = [
-  { href: '/', label: 'HOME', icon: 'fas fa-home' },
+  { href: '/', label: 'HOME', icon: 'fas fa-hexagon-nodes' },
   { href: '/articles/', label: 'ARTICLES', icon: 'fas fa-pen-nib' },
   { href: '/categories/', label: 'CATEGORIES', icon: 'fas fa-stream' },
   { href: '/archives/', label: 'ARCHIVES', icon: 'fas fa-archive' },

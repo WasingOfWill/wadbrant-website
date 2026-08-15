@@ -13,9 +13,15 @@ function isActive(pathname: string, href: string): boolean {
 export default function Sidebar() {
   const pathname = usePathname();
 
+  /* On a phone the sidebar slides over the page, and following a link inside
+     it leaves it sitting there on top of wherever you just went. Navigating to
+     the page you are already on does not change the route, so this closes on
+     the click rather than on the route. */
+  const close = () => document.documentElement.removeAttribute('sidebar-display');
+
   return (
     <aside aria-label="Sidebar" id="sidebar" className="d-flex flex-column align-items-end">
-      <header className="profile-wrapper">
+      <header className="profile-wrapper" onClick={close}>
         <Link href="/" id="avatar" className="rounded-circle" aria-label="Home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -40,7 +46,7 @@ export default function Sidebar() {
         </p>
       </header>
 
-      <nav className="flex-column flex-grow-1 w-100 ps-0">
+      <nav className="flex-column flex-grow-1 w-100 ps-0" onClick={close}>
         <ul className="nav">
           {navigation.map((item) => (
             <li className="nav-item" key={item.href}>

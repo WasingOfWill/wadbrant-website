@@ -140,46 +140,58 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
 
   const start = await page.evaluate(() => ({
     heading: document.querySelector('#hexmap-panel h2').textContent,
-    revealed: document.querySelectorAll('.hex[data-kind="article"][data-known]').length,
+    lit: document.querySelectorAll('.hex[data-kind="article"][data-active]').length,
+    gateways: document.querySelectorAll('.hex[data-kind="gateway"]').length,
   }));
-  check('map opens at home', start.heading === 'Wadbrant', start.heading);
-  check('articles start hidden', start.revealed === 0, `${start.revealed} revealed`);
+  check('map opens at camp', start.heading === 'Wadbrant', start.heading);
+  check('no entries are legible from camp', start.lit === 0, `${start.lit} lit`);
+  check('every region has a road out', start.gateways === 6, `${start.gateways}`);
 
-  // An article whose region has not been entered must not be reachable.
-  await tap('.hex[data-region="industry"][data-kind="article"]');
+  // A city is a long way off. Nothing in it may be reached from home.
+  await tap('.hex[data-hub="industry"][data-kind="article"]');
   const ignored = await page.evaluate(
     () => document.querySelector('#hexmap-panel h2').textContent
   );
-  check('a hidden article cannot be opened', ignored === 'Wadbrant', ignored);
+  check('a distant entry cannot be opened from camp', ignored === 'Wadbrant', ignored);
 
-  await tap('.hex[data-id="region-industry"]');
+  await tap('.hex[data-id="gateway-industry"]');
   const entered = await page.evaluate(() => ({
     heading: document.querySelector('#hexmap-panel h2').textContent,
-    revealed: document.querySelectorAll(
-      '.hex[data-region="industry"][data-kind="article"][data-known]'
-    ).length,
-    others: document.querySelectorAll(
-      '.hex[data-region="product"][data-kind="article"][data-known]'
-    ).length,
-    listed: document.querySelectorAll('#hexmap-panel .hexmap-list button').length,
+    place: document.getElementById('hexmap').dataset.place,
+    lit: document.querySelectorAll('.hex[data-hub="industry"][data-kind="article"][data-active]')
+      .length,
+    others: document.querySelectorAll('.hex[data-hub="product"][data-active]').length,
+    reads: document.querySelectorAll('#hexmap-panel .hexmap-list a').length,
+    cta: document.querySelector('#hexmap-panel .hexmap-go')?.getAttribute('href'),
+    back: document.querySelectorAll('.hex[data-kind="return"][data-active]').length,
   }));
-  check('entering a region opens it', entered.heading === 'Industry', entered.heading);
-  check('entering a region reveals its articles', entered.revealed > 0, `${entered.revealed}`);
-  check('other regions stay hidden', entered.others === 0, `${entered.others} revealed`);
-  check('the region lists what it holds', entered.listed > 0, `${entered.listed} entries`);
+  check('travelling arrives in the city', entered.place === 'industry', String(entered.place));
+  check('the city names its region', entered.heading === 'Industry', entered.heading);
+  check('the city holds its entries', entered.lit >= 6, `${entered.lit} tiles`);
+  check('other regions stay distant', entered.others === 0, `${entered.others} lit`);
+  check('the readout recommends reads', entered.reads === 3, `${entered.reads}`);
+  check(
+    'the readout offers the whole category',
+    /^\/categories\/.+\/$/.test(entered.cta ?? ''),
+    String(entered.cta)
+  );
+  check('the city has a way back', entered.back === 1, `${entered.back}`);
 
-  await tap('.hex[data-region="industry"][data-kind="article"]');
-  const opened = await page.evaluate(() => {
-    const link = document.querySelector('#hexmap-panel .hexmap-go');
-    return { kicker: document.querySelector('.hexmap-kicker').textContent, href: link?.getAttribute('href') };
-  });
-  check('an article opens a readout', opened.kicker === 'Entry', opened.kicker);
+  await tap('.hex[data-hub="industry"][data-kind="article"]');
+  const opened = await page.evaluate(() => ({
+    kicker: document.querySelector('.hexmap-kicker').textContent,
+    href: document.querySelector('#hexmap-panel .hexmap-go')?.getAttribute('href'),
+  }));
+  check('an entry opens a readout', opened.kicker === 'Entry', opened.kicker);
   check('the readout links to the post', /^\/posts\/.+\/$/.test(opened.href ?? ''), String(opened.href));
+
+  await tap('.hex[data-id="return-industry"]');
+  const returned = await page.evaluate(() => document.getElementById('hexmap').dataset.place);
+  check('the return tile leads home', returned === 'home', String(returned));
 
   // Drag, then check both that it moved and that it stopped at the limit.
   const dragged = await page.evaluate(async () => {
     const map = document.getElementById('hexmap');
-    const camera = document.querySelector('.hexmap-camera');
     const send = (type, x) =>
       map.dispatchEvent(
         new PointerEvent(type, { bubbles: true, clientX: x, clientY: 400, pointerId: 7 })
@@ -188,10 +200,77 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
     for (let x = 200; x <= 1400; x += 60) send('pointermove', x);
     send('pointerup', 1400);
     await new Promise((r) => setTimeout(r, 900));
-    return parseFloat(camera.style.getPropertyValue('--drag-x'));
+    return parseFloat(map.style.getPropertyValue('--drag-x'));
   });
   check('the map can be dragged', dragged > 40, `${dragged}px`);
   check('the drag stops at a quarter of the window', dragged <= 1440 * 0.25 + 1, `${dragged}px`);
+
+  await page.close();
+}
+
+/* ---------------------------------------------------- homepage on a phone */
+{
+  const page = await browser.newPage();
+  await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle0' });
+  await new Promise((r) => setTimeout(r, 500));
+
+  const room = await page.evaluate(() => {
+    const map = document.getElementById('hexmap').getBoundingClientRect();
+    const panel = document.getElementById('hexmap-panel').getBoundingClientRect();
+    const camera = document.querySelector('.hexmap-camera').getBoundingClientRect();
+    return {
+      mapFits: Math.round(map.height) <= window.innerHeight,
+      panelInside: Math.round(panel.bottom) <= window.innerHeight,
+      panelHeight: Math.round(panel.height),
+      gridAbovePanel: Math.round(camera.top) < Math.round(panel.top),
+    };
+  });
+  check('the map fits the visible window', room.mapFits);
+  check('the readout is fully on screen', room.panelInside);
+  check('the readout leaves the grid room', room.gridAbovePanel, `${room.panelHeight}px tall`);
+  check('the readout is not half the screen', room.panelHeight < 844 * 0.6, `${room.panelHeight}px`);
+
+  // Touching the readout must scroll it, never drag the map underneath.
+  await page.evaluate(() => {
+    document.getElementById('hexmap').style.setProperty('--drag-x', '0px');
+  });
+  const held = await page.evaluate(async () => {
+    const card = document.querySelector('.hexmap-panel-card');
+    const send = (type, y) =>
+      card.dispatchEvent(
+        new PointerEvent(type, { bubbles: true, clientX: 200, clientY: y, pointerId: 3 })
+      );
+    send('pointerdown', 700);
+    for (let y = 700; y > 400; y -= 30) send('pointermove', y);
+    send('pointerup', 400);
+    await new Promise((r) => setTimeout(r, 400));
+    return document.getElementById('hexmap').style.getPropertyValue('--drag-x');
+  });
+  check('dragging the readout does not drag the map', held === '0px', String(held));
+
+  // Every reachable tile has to be a real tap target.
+  const small = await page.evaluate(() =>
+    [...document.querySelectorAll('.hex[role="button"]')]
+      .map((tile) => tile.getBoundingClientRect())
+      .filter((box) => box.width > 0 && (box.width < 40 || box.height < 40)).length
+  );
+  check('tiles are big enough to tap', small === 0, `${small} under 40px`);
+
+  // Opening the sidebar and following a link must not leave it sitting there.
+  await page.click('#hexmap-nav');
+  await new Promise((r) => setTimeout(r, 500));
+  const over = await page.evaluate(() => ({
+    open: document.documentElement.hasAttribute('sidebar-display'),
+    hamburger: getComputedStyle(document.querySelector('#hexmap-nav')).display,
+  }));
+  check('the map has its own way into the sidebar', over.open);
+  check('the sidebar covers its own toggle', over.hamburger === 'none', over.hamburger);
+
+  await page.evaluate(() => document.querySelector('#sidebar .nav-link').click());
+  await new Promise((r) => setTimeout(r, 500));
+  const after = await page.evaluate(() => document.documentElement.hasAttribute('sidebar-display'));
+  check('following a link closes the sidebar', !after);
 
   await page.close();
 }
