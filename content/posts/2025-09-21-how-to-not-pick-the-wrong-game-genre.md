@@ -1,9 +1,7 @@
 ---
 layout: post
 title: How to Pick the Wrong Game Genre
-categories:
-- Game Industry
-- Indie
+categories: [Gaming, Design]
 tags:
 - Game Industry
 - Indie Games

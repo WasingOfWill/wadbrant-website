@@ -1,12 +1,10 @@
 ---
 layout: post
 title: Deep into Mystery Games - A Design Analysis
-categories:
-- Game Industry
-- Strategy
+categories: [Gaming, Design]
 tags:
 - Game Industry
-- Product Management
+- Product
 - Doing Things
 image:
   path: assets/images/article/mysterygames/refrence.png

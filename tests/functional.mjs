@@ -140,34 +140,48 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
 
   const start = await page.evaluate(() => ({
     heading: document.querySelector('#hexmap-panel h2').textContent,
-    lit: document.querySelectorAll('.hex[data-kind="article"][data-active]').length,
+    featured: document.querySelectorAll('.hex[data-hub="home"][data-kind="article"][data-active]')
+      .length,
+    badges: document.querySelectorAll('.hex-badge').length,
+    distant: [...document.querySelectorAll('.hex[data-kind="article"][data-active]')].filter(
+      (tile) => tile.dataset.hub !== 'home'
+    ).length,
     gateways: document.querySelectorAll('.hex[data-kind="gateway"]').length,
+    wild: document.querySelectorAll('.hex[data-kind="wild"]').length,
   }));
   check('map opens at camp', start.heading === 'Wadbrant', start.heading);
-  check('no entries are legible from camp', start.lit === 0, `${start.lit} lit`);
+  check('recent work sits around camp', start.featured >= 8, `${start.featured} tiles`);
+  check('each cluster is named once', start.badges === 4, `${start.badges} badges`);
+  check('distant entries stay illegible', start.distant === 0, `${start.distant} lit`);
   check('every region has a road out', start.gateways === 6, `${start.gateways}`);
+  check('the world has empty ground', start.wild > 40, `${start.wild} tiles`);
 
   // A city is a long way off. Nothing in it may be reached from home.
-  await tap('.hex[data-hub="industry"][data-kind="article"]');
+  await tap('.hex[data-hub="ongoing"][data-kind="article"]');
   const ignored = await page.evaluate(
     () => document.querySelector('#hexmap-panel h2').textContent
   );
   check('a distant entry cannot be opened from camp', ignored === 'Wadbrant', ignored);
 
-  await tap('.hex[data-id="gateway-industry"]');
+  await tap('.hex[data-id="gateway-ongoing"]');
   const entered = await page.evaluate(() => ({
     heading: document.querySelector('#hexmap-panel h2').textContent,
     place: document.getElementById('hexmap').dataset.place,
-    lit: document.querySelectorAll('.hex[data-hub="industry"][data-kind="article"][data-active]')
+    lit: document.querySelectorAll('.hex[data-hub="ongoing"][data-kind="article"][data-active]')
       .length,
+    holds: Number(document.querySelector('.hex[data-id="city-ongoing"]').dataset.holds),
     others: document.querySelectorAll('.hex[data-hub="product"][data-active]').length,
     reads: document.querySelectorAll('#hexmap-panel .hexmap-list a').length,
     cta: document.querySelector('#hexmap-panel .hexmap-go')?.getAttribute('href'),
     back: document.querySelectorAll('.hex[data-kind="return"][data-active]').length,
   }));
-  check('travelling arrives in the city', entered.place === 'industry', String(entered.place));
-  check('the city names its region', entered.heading === 'Industry', entered.heading);
-  check('the city holds its entries', entered.lit >= 6, `${entered.lit} tiles`);
+  check('travelling arrives in the city', entered.place === 'ongoing', String(entered.place));
+  check('the city names its region', entered.heading === 'Ongoing', entered.heading);
+  check(
+    'the city holds its entries',
+    entered.lit === entered.holds,
+    `${entered.lit} of ${entered.holds}`
+  );
   check('other regions stay distant', entered.others === 0, `${entered.others} lit`);
   check('the readout recommends reads', entered.reads === 3, `${entered.reads}`);
   check(
@@ -177,7 +191,7 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   );
   check('the city has a way back', entered.back === 1, `${entered.back}`);
 
-  await tap('.hex[data-hub="industry"][data-kind="article"]');
+  await tap('.hex[data-hub="ongoing"][data-kind="article"]');
   const opened = await page.evaluate(() => ({
     kicker: document.querySelector('.hexmap-kicker').textContent,
     href: document.querySelector('#hexmap-panel .hexmap-go')?.getAttribute('href'),
@@ -185,7 +199,30 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   check('an entry opens a readout', opened.kicker === 'Entry', opened.kicker);
   check('the readout links to the post', /^\/posts\/.+\/$/.test(opened.href ?? ''), String(opened.href));
 
-  await tap('.hex[data-id="return-industry"]');
+  // A signpost is a place of its own, one road further out.
+  const signpost = await page.evaluate(
+    () => document.querySelector('.hex[data-kind="signpost"][data-active]')?.dataset.id
+  );
+  if (signpost) {
+    await tap(`.hex[data-id="${signpost}"]`);
+    const outpost = await page.evaluate(() => ({
+      place: document.getElementById('hexmap').dataset.place,
+      kicker: document.querySelector('.hexmap-kicker').textContent,
+      entries: document.querySelectorAll('.hex[data-kind="article"][data-active]').length,
+      back: document.querySelectorAll('.hex[data-kind="return"][data-active]').length,
+    }));
+    check('a signpost leads to an outpost', outpost.kicker === 'Outpost', outpost.kicker);
+    check('the outpost holds entries', outpost.entries > 0, `${outpost.entries}`);
+    check('the outpost has a way back', outpost.back === 1, `${outpost.back}`);
+
+    await tap(`.hex[data-id="return-${outpost.place}"]`);
+    const city = await page.evaluate(() => document.getElementById('hexmap').dataset.place);
+    check('leaving an outpost returns to its city', city === 'ongoing', String(city));
+  } else {
+    check('a signpost leads to an outpost', false, 'no signpost was reachable');
+  }
+
+  await tap('.hex[data-id="return-ongoing"]');
   const returned = await page.evaluate(() => document.getElementById('hexmap').dataset.place);
   check('the return tile leads home', returned === 'home', String(returned));
 

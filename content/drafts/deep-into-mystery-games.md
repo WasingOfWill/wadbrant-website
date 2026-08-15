@@ -1,12 +1,10 @@
 ---
 layout: post
 title: Deep into Mystery Games - A Design Analysis
-categories:
-- Game Industry
-- Strategy
+categories: [AI, Practice]
 tags:
 - Game Industry
-- Product Management
+- Product
 - doing-things
 image:
   path: assets/images/cover/idol.webp

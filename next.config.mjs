@@ -18,6 +18,31 @@ const nextConfig = {
       // Retired pages.
       { source: '/ai', destination: '/categories/ai/', permanent: true },
       { source: '/product', destination: '/articles/', permanent: true },
+      // The taxonomy is now the six regions on the homepage map: AI, Gaming,
+      // Ongoing, Product, Projects and Misc, with three subcategories under
+      // them. Everything below is a category page that used to exist and no
+      // longer does.
+      ...[
+        ['game-industry', 'ongoing'],
+        ['industry', 'ongoing'],
+        ['news', 'ongoing'],
+        ['indie', 'ongoing'],
+        ['strategy', 'monetisation'],
+        ['game-design', 'gaming'],
+        ['genre', 'gaming'],
+        ['product-management', 'product'],
+        ['other', 'product'],
+        ['feature', 'projects'],
+        ['work', 'projects'],
+        ['craft', 'practice'],
+        ['other-things', 'misc'],
+        ['reflection', 'misc'],
+      ].map(([from, to]) => ({
+        source: `/categories/${from}`,
+        destination: `/categories/${to}/`,
+        permanent: true,
+      })),
+      { source: '/tags/product-management', destination: '/tags/product/', permanent: true },
     ];
   },
 };

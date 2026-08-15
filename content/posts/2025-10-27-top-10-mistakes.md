@@ -2,8 +2,8 @@
 layout: post
 title: "My Top 10 Mistakes as a Product Manager for Pley"
 date: 2025-10-27
-categories: [Product Management, Other]
-tags: [Product Management]
+categories: [Product]
+tags: [Product]
 image:
   path: assets/images/cover/default.png
 ---

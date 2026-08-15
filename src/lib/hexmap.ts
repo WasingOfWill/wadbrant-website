@@ -1,15 +1,15 @@
 /**
  * The homepage map.
  *
- * A pointy-top hex grid built as seven settlements rather than one blob. Home
- * sits at the origin with six gateway tiles around it, one per region. Each
- * gateway has a city out on the map in the same direction, a few tiles' travel
- * away, and that city is where the region's articles actually live. A city has
- * room for seventeen entries, so a region can grow well past what fits next to
- * home.
+ * A pointy-top hex grid built as a set of settlements rather than one blob.
+ * Home sits at the origin with six gateway tiles around it and a handful of
+ * featured clusters in the gaps between the roads. Each gateway has a city out
+ * on the map in the same direction, and a city may in turn have outposts for
+ * its subcategories, one road further on. Empty terrain is scattered over the
+ * whole thing in clumps, the way a mountain range sits on a game map.
  *
- * Distances, skews and city shapes are all deliberately uneven. Nothing here
- * is symmetrical on purpose; it should read as places on a map, not as a menu
+ * Distances, skews and shapes are all deliberately uneven. Nothing here is
+ * symmetrical on purpose; it should read as places on a map, not as a menu
  * drawn with a compass.
  *
  * All of it is computed at build time. The map ships as finished markup.
@@ -64,7 +64,8 @@ export const REGIONS: Region[] = [
     direction: { q: 0, r: -1 },
     distance: 8,
     skew: 1,
-    blurb: 'Building with models, and what survives contact with real users.',
+    blurb:
+      'Using it and building with it: ways of working, what is actually changing, and what survives contact with real users.',
     matches: ['AI'],
   },
   {
@@ -73,17 +74,17 @@ export const REGIONS: Region[] = [
     direction: { q: 1, r: -1 },
     distance: 7,
     skew: -1,
-    blurb: 'Design, genre and why players do what they do.',
-    matches: ['Gaming', 'Game Design', 'Games', 'Design'],
+    blurb: 'Game design, and the projects that came out of caring about it.',
+    matches: ['Gaming'],
   },
   {
-    id: 'industry',
-    name: 'Industry',
+    id: 'ongoing',
+    name: 'Ongoing',
     direction: { q: 1, r: 0 },
     distance: 9,
     skew: 0,
-    blurb: 'What is happening to the business of making games.',
-    matches: ['Industry', 'Game Industry', 'News'],
+    blurb: 'What is happening out there in the industry, and what I make of it.',
+    matches: ['Ongoing'],
   },
   {
     id: 'product',
@@ -91,17 +92,17 @@ export const REGIONS: Region[] = [
     direction: { q: 0, r: 1 },
     distance: 7,
     skew: 1,
-    blurb: 'The craft: discovery, prioritisation, shipping, saying no.',
-    matches: ['Product', 'Product Management', 'Feature'],
+    blurb: 'The craft of product management: discovery, prioritisation, shipping, saying no.',
+    matches: ['Product'],
   },
   {
-    id: 'business',
-    name: 'Business',
+    id: 'projects',
+    name: 'Projects',
     direction: { q: -1, r: 1 },
     distance: 8,
     skew: -1,
-    blurb: 'Monetisation, incentives, and where the money actually goes.',
-    matches: ['Business', 'Strategy', 'Indie'],
+    blurb: 'Things I have built, how they were run, and how they went.',
+    matches: ['Projects'],
   },
   {
     id: 'misc',
@@ -109,24 +110,41 @@ export const REGIONS: Region[] = [
     direction: { q: -1, r: 0 },
     distance: 8,
     skew: 1,
-    blurb: 'Everything that did not fit anywhere else.',
-    matches: ['Misc', 'Other Things', 'Reflection', 'Other'],
+    blurb: 'Opinions and odds and ends that belong nowhere else.',
+    matches: ['Misc'],
   },
 ];
 
-/** At most this many subcategory signposts on a city's outer ring. */
-const MAX_SIGNPOSTS = 3;
+/** At most this many subcategory outposts around a city. */
+const MAX_OUTPOSTS = 3;
+
+/** How far an outpost sits from its city. */
+const OUTPOST_DISTANCE = 4;
+
+/**
+ * The clusters of recent work sitting in the gaps between the roads out of
+ * home, newest first. Seeds are the ring 2 cells between two directions,
+ * which is the ground the roads do not use.
+ */
+const FEATURED: { seed: Axial; size: number; badge: string }[] = [
+  { seed: { q: 1, r: -2 }, size: 2, badge: 'New' },
+  { seed: { q: 1, r: 1 }, size: 2, badge: 'New' },
+  { seed: { q: -1, r: -1 }, size: 3, badge: 'Recommended' },
+  { seed: { q: -2, r: 1 }, size: 5, badge: 'Featured' },
+];
 
 export type HexKind =
   | 'home'
   | 'gateway'
   | 'city'
+  | 'outpost'
   | 'article'
   | 'signpost'
   | 'gate'
   | 'return'
   | 'trail'
-  | 'edge';
+  | 'edge'
+  | 'wild';
 
 export type HexCell = {
   id: string;
@@ -135,7 +153,7 @@ export type HexCell = {
   /** Centre in SVG user units, origin at the home tile. */
   x: number;
   y: number;
-  /** Which settlement this tile belongs to: 'home' or a region id. */
+  /** Which settlement this tile belongs to. */
   hub: string;
   /** Rings out from that settlement's centre, used to stagger the reveal. */
   ring: number;
@@ -152,6 +170,35 @@ export type HexCell = {
   image?: { src: string; alt: string };
   /** Key into the mark table in HexMapView. */
   icon?: string;
+  /** Settlement this tile travels to when picked. */
+  travelTo?: string;
+  /** Degrees to turn the mark by, so an arrow can point at where it leads. */
+  rotate?: number;
+  /** Small label over a featured cluster, on its first tile only. */
+  badge?: string;
+};
+
+export type Settlement = { id: string; x: number; y: number };
+
+export type RegionInfo = Region & {
+  count: number;
+  x: number;
+  y: number;
+  /** The category page behind the readout's call to action. */
+  href: string;
+  /** Titles shown in the readout, newest first. */
+  reads: { title: string; href: string }[];
+};
+
+export type HexMapData = {
+  cells: HexCell[];
+  regions: RegionInfo[];
+  /** One road per journey, as an SVG path between two settlements. */
+  routes: { id: string; d: string }[];
+  /** Where the camera sits for each settlement. */
+  settlements: Settlement[];
+  /** Every published post, for the map's text alternative. */
+  index: { title: string; href: string }[];
 };
 
 export function axialToPixel({ q, r }: Axial, size = HEX_SIZE) {
@@ -166,17 +213,9 @@ export function hexPoints(size = HEX_SIZE * HEX_INSET): string {
   }).join(' ');
 }
 
-function add(a: Axial, b: Axial): Axial {
-  return { q: a.q + b.q, r: a.r + b.r };
-}
-
-function scale(a: Axial, by: number): Axial {
-  return { q: a.q * by, r: a.r * by };
-}
-
-function key({ q, r }: Axial): string {
-  return `${q},${r}`;
-}
+const add = (a: Axial, b: Axial): Axial => ({ q: a.q + b.q, r: a.r + b.r });
+const scale = (a: Axial, by: number): Axial => ({ q: a.q * by, r: a.r * by });
+const key = ({ q, r }: Axial): string => `${q},${r}`;
 
 /** Cube distance between two axial coordinates. */
 function distance(a: Axial, b: Axial): number {
@@ -226,13 +265,28 @@ function line(from: Axial, to: Axial): Axial[] {
 }
 
 /**
- * Deterministic value in 0..1 for a coordinate. Used to rough up the frontier.
+ * Deterministic value in 0..1 for a coordinate. Used to rough up the world.
  * It has to be a pure function of the coordinate, not a random number, or the
- * world would be a different shape on every build.
+ * map would be a different shape on every build.
  */
 function noise(q: number, r: number): number {
   const value = Math.sin(q * 127.1 + r * 311.7) * 43758.5453;
   return value - Math.floor(value);
+}
+
+/**
+ * The same hash sampled on a coarser lattice, so neighbouring tiles share a
+ * value and the result comes out in clumps rather than as static.
+ */
+function clump(cell: Axial, size: number): number {
+  return noise(Math.floor(cell.q / size), Math.floor(cell.r / size));
+}
+
+/** Angle from one tile to another, in degrees, for pointing a mark. */
+function bearing(from: Axial, to: Axial): number {
+  const a = axialToPixel(from);
+  const b = axialToPixel(to);
+  return (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
 }
 
 function angleOf(cell: Axial, from: Axial): number {
@@ -293,40 +347,26 @@ const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'America/New_York',
 });
 
-export type RegionInfo = Region & {
-  count: number;
-  /** Where its city sits, in SVG user units. */
-  x: number;
-  y: number;
-  /** The category page behind the readout's call to action. */
-  href: string;
-  /** Titles shown in the readout, newest first. */
-  reads: { title: string; href: string }[];
-};
-
-export type HexMapData = {
-  cells: HexCell[];
-  regions: RegionInfo[];
-  /** One road per region, as an SVG path from the gateway to the city. */
-  routes: { id: string; d: string }[];
-};
+const HOME: Axial = { q: 0, r: 0 };
 
 export async function getHexMap(): Promise<HexMapData> {
   const posts = await getAllPosts();
   const categories = await getCategories();
 
+  const newest = (a: Post, b: Post) =>
+    Number(b.pin) - Number(a.pin) || b.date.getTime() - a.date.getTime();
+
   const byRegion = new Map<string, Post[]>(REGIONS.map((region) => [region.id, []]));
   for (const post of posts) byRegion.get(regionForPost(post).id)?.push(post);
-  for (const list of byRegion.values()) {
-    list.sort((a, b) => Number(b.pin) - Number(a.pin) || b.date.getTime() - a.date.getTime());
-  }
+  for (const list of byRegion.values()) list.sort(newest);
 
-  const home: Axial = { q: 0, r: 0 };
   const cells: HexCell[] = [];
   const taken = new Set<string>();
   const routes: { id: string; d: string }[] = [];
+  const settlements: Settlement[] = [{ id: 'home', x: 0, y: 0 }];
   const info: RegionInfo[] = [];
 
+  const free = (cell: Axial) => !taken.has(key(cell));
   const put = (cell: HexCell) => {
     if (taken.has(`${cell.q},${cell.r}`)) return false;
     taken.add(`${cell.q},${cell.r}`);
@@ -334,15 +374,29 @@ export async function getHexMap(): Promise<HexMapData> {
     return true;
   };
 
-  put({ ...place(home), id: 'home', hub: 'home', ring: 0, kind: 'home', label: 'Will Wadbrant' });
+  const entry = (post: Post, id: string, hub: string, regionId: string): HexCell => ({
+    ...place(HOME),
+    id,
+    hub,
+    ring: 0,
+    kind: 'article',
+    regionId,
+    label: post.title,
+    meta: `${DATE_FORMAT.format(post.date)} / ${post.listReadTime} min`,
+    href: post.url,
+    excerpt: post.excerpt,
+    image: post.image ? { src: post.image.path, alt: post.image.alt ?? '' } : undefined,
+    icon: iconFor(post),
+  });
 
-  /* Gateways first, so a city can never take a tile next to home. */
+  put({ ...place(HOME), id: 'home', hub: 'home', ring: 0, kind: 'home', label: 'Home' });
+
+  /* Gateways first, so nothing else can take a tile next to home. */
   const gateways = new Map<string, Axial>();
   for (const region of REGIONS) {
-    const at = region.direction;
-    gateways.set(region.id, at);
+    gateways.set(region.id, region.direction);
     put({
-      ...place(at),
+      ...place(region.direction),
       id: `gateway-${region.id}`,
       hub: 'home',
       ring: 1,
@@ -350,6 +404,7 @@ export async function getHexMap(): Promise<HexMapData> {
       regionId: region.id,
       label: region.name,
       icon: region.id,
+      travelTo: region.id,
     });
   }
 
@@ -357,48 +412,67 @@ export async function getHexMap(): Promise<HexMapData> {
      star, and the roads out of home do not all look like the same road. */
   const cities = new Map<string, Axial>();
   for (const [index, region] of REGIONS.entries()) {
-    const along = scale(region.direction, region.distance);
-    const sideways = scale(DIRS[(index + 1) % 6], region.skew);
-    cities.set(region.id, add(along, sideways));
+    cities.set(
+      region.id,
+      add(scale(region.direction, region.distance), scale(DIRS[(index + 1) % 6], region.skew))
+    );
   }
 
-  for (const [index, region] of REGIONS.entries()) {
-    const city = cities.get(region.id)!;
-    const gateway = gateways.get(region.id)!;
-    const list = byRegion.get(region.id) ?? [];
-
-    /* The road. Its tiles are scenery; the drawn line follows their centres.
-       The last tile before the city is the way back, so it is both the end of
-       the road and the return marker: laying a separate one there would land
-       on an occupied cell and quietly disappear. */
-    const road = line(gateway, city);
-    const points = road.map((cell) => {
+  /** Lays a road and, at its far end, the tile that leads back down it. */
+  const road = (
+    id: string,
+    from: Axial,
+    to: Axial,
+    hub: string,
+    regionId: string,
+    backTo: string
+  ) => {
+    const run = line(from, to);
+    const points = run.map((cell) => {
       const { x, y } = axialToPixel(cell);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     });
-    routes.push({ id: region.id, d: `M ${points.join(' L ')}` });
-    for (const cell of road.slice(1, -2)) {
+    routes.push({ id, d: `M ${points.join(' L ')}` });
+
+    /* The last tile before the destination is the way back, so it is both the
+       end of the road and the return marker: laying a separate one there would
+       land on an occupied cell and quietly disappear. */
+    for (const cell of run.slice(1, -2)) {
       put({
         ...place(cell),
         id: `trail-${cell.q}-${cell.r}`,
-        hub: region.id,
+        hub,
         ring: 0,
         kind: 'trail',
-        regionId: region.id,
+        regionId,
       });
     }
-
-    const back = road[road.length - 2];
+    const back = run[run.length - 2];
     put({
       ...place(back),
-      id: `return-${region.id}`,
-      hub: region.id,
+      id: `return-${hub}`,
+      hub,
       ring: 1,
       kind: 'return',
-      regionId: region.id,
-      label: 'Back to camp',
+      regionId,
+      label: 'Back',
       icon: 'return',
+      rotate: bearing(back, run[0]),
+      travelTo: backTo,
     });
+  };
+
+  for (const [index, region] of REGIONS.entries()) {
+    const city = cities.get(region.id)!;
+    const list = byRegion.get(region.id) ?? [];
+    const cityPoint = axialToPixel(city);
+    settlements.push({
+      id: region.id,
+      x: Number(cityPoint.x.toFixed(2)),
+      y: Number(cityPoint.y.toFixed(2)),
+    });
+
+    road(region.id, gateways.get(region.id)!, city, region.id, region.id, 'home');
 
     put({
       ...place(city),
@@ -413,51 +487,51 @@ export async function getHexMap(): Promise<HexMapData> {
       icon: region.id,
     });
 
+    /* Outposts for the region's subcategories, one road further out. Each is
+       a small settlement holding that subcategory's entries. Ground is
+       reserved now so the city's own tiles cannot take it. */
+    const subs = subcategoriesFor(list, region, categories).slice(0, MAX_OUTPOSTS);
+    const outposts: { sub: (typeof subs)[number]; at: Axial }[] = [];
+    for (const [order, sub] of subs.entries()) {
+      const at = findOutpost(city, index, order, free);
+      if (!at) continue;
+      outposts.push({ sub, at });
+      taken.add(key(at));
+    }
+
+    const signposts: HexCell[] = outposts.map(({ sub, at }) => ({
+      ...place(HOME),
+      id: `signpost-${region.id}-${sub.slug}`,
+      hub: region.id,
+      ring: 0,
+      kind: 'signpost',
+      regionId: region.id,
+      label: sub.name,
+      meta: `${sub.count} ${sub.count === 1 ? 'entry' : 'entries'}`,
+      href: `/categories/${sub.slug}/`,
+      icon: 'signpost',
+      travelTo: `${region.id}-${sub.slug}`,
+    }));
+
     /* Ring 1 first, then ring 2, swept by angle so the newest work sits
-       closest to the city. Anything the road already took is skipped, so no
-       entry can be dropped on the floor. */
+       closest to the city. Anything already taken is skipped, so no entry can
+       be dropped on the floor. */
     const slots = [
       ...ring(city, 1).sort((a, b) => angleOf(a, city) - angleOf(b, city)),
       ...ring(city, 2).sort((a, b) => angleOf(a, city) - angleOf(b, city)),
-    ].filter((cell) => !taken.has(key(cell)));
+    ].filter(free);
 
-    const signposts = subcategoriesFor(list, region, categories).slice(0, MAX_SIGNPOSTS);
-    const overflows = list.length + signposts.length > slots.length;
-    const shown = overflows ? list.slice(0, slots.length - signposts.length - 1) : list;
+    const room = slots.length - signposts.length;
+    const overflows = list.length > room;
+    const shown = overflows ? list.slice(0, room - 1) : list;
 
-    const filling: HexCell[] = shown.map((post) => ({
-      ...place(home),
-      id: `post-${post.slug}`,
-      hub: region.id,
-      ring: 0,
-      kind: 'article',
-      regionId: region.id,
-      label: post.title,
-      meta: `${DATE_FORMAT.format(post.date)} / ${post.listReadTime} min`,
-      href: post.url,
-      excerpt: post.excerpt,
-      image: post.image ? { src: post.image.path, alt: post.image.alt ?? '' } : undefined,
-      icon: iconFor(post),
-    }));
-
-    for (const signpost of signposts) {
-      filling.push({
-        ...place(home),
-        id: `signpost-${region.id}-${signpost.slug}`,
-        hub: region.id,
-        ring: 0,
-        kind: 'signpost',
-        regionId: region.id,
-        label: signpost.name,
-        meta: `${signpost.count} ${signpost.count === 1 ? 'entry' : 'entries'}`,
-        href: `/categories/${signpost.slug}/`,
-        icon: 'signpost',
-      });
-    }
-
+    const filling: HexCell[] = [
+      ...shown.map((post) => entry(post, `post-${post.slug}`, region.id, region.id)),
+      ...signposts,
+    ];
     if (overflows) {
       filling.push({
-        ...place(home),
+        ...place(HOME),
         id: `gate-${region.id}`,
         hub: region.id,
         ring: 0,
@@ -470,28 +544,55 @@ export async function getHexMap(): Promise<HexMapData> {
       });
     }
 
-    /* Only as many tiles as there is something to put on them. A city with
-       four entries is a hamlet; one with fifteen sprawls. */
-    filling.forEach((cell, index) => {
-      const at = slots[index];
+    filling.forEach((cell, slot) => {
+      const at = slots[slot];
       if (!at) return;
       put({ ...cell, ...place(at), ring: distance(at, city) });
     });
 
-    /* A thin, ragged outskirt so a city is not a perfect flower. */
-    for (const cell of ring(city, filling.length > 6 ? 3 : 2)) {
-      if (noise(cell.q, cell.r) > 0.4) continue;
+    /* Now the outposts themselves, each with its own road back to the city. */
+    for (const { sub, at } of outposts) {
+      const id = `${region.id}-${sub.slug}`;
+      const point = axialToPixel(at);
+      settlements.push({ id, x: Number(point.x.toFixed(2)), y: Number(point.y.toFixed(2)) });
+
+      /* The centre was reserved above; release it so the road can run right up
+         to it, then claim it back as the outpost. */
+      taken.delete(key(at));
+      road(id, city, at, id, region.id, region.id);
+
       put({
-        ...place(cell),
-        id: `edge-${cell.q}-${cell.r}`,
-        hub: region.id,
-        ring: distance(cell, city),
-        kind: 'edge',
+        ...place(at),
+        id: `outpost-${id}`,
+        hub: id,
+        ring: 0,
+        kind: 'outpost',
         regionId: region.id,
+        label: sub.name,
+        meta: `${sub.count} ${sub.count === 1 ? 'entry' : 'entries'}`,
+        href: `/categories/${sub.slug}/`,
+        icon: 'signpost',
       });
+
+      const held = list.filter((post) => post.categories.includes(sub.name));
+      ring(at, 1)
+        .filter(free)
+        .sort((a, b) => angleOf(a, at) - angleOf(b, at))
+        .forEach((cell, slot) => {
+          const post = held[slot];
+          if (!post) return;
+          put({
+            ...entry(post, `sub-${sub.slug}-${post.slug}`, id, region.id),
+            ...place(cell),
+            ring: 1,
+          });
+        });
+
+      outskirts(at, 2, id, region.id, put, 0.34);
     }
 
-    const cityPoint = axialToPixel(city);
+    outskirts(city, list.length > 6 ? 3 : 2, region.id, region.id, put, 0.4);
+
     info.push({
       ...region,
       count: list.length,
@@ -502,21 +603,124 @@ export async function getHexMap(): Promise<HexMapData> {
     });
   }
 
-  /* Scrub around home, thinned hard: enough to say the world continues. */
-  for (const radius of [2, 3]) {
-    for (const cell of ring(home, radius)) {
-      if (noise(cell.q, cell.r) > (radius === 2 ? 0.5 : 0.22)) continue;
+  /* Recent work, in clusters in the gaps between the roads out of home. */
+  const recent = [...posts].sort(newest);
+  let next = 0;
+  for (const cluster of FEATURED) {
+    const shape = grow(
+      cluster.seed,
+      cluster.size,
+      (cell) => free(cell) && distance(cell, HOME) <= 4
+    );
+    shape.forEach((cell, slot) => {
+      const post = recent[next];
+      if (!post) return;
+      next += 1;
+      put({
+        ...entry(post, `featured-${post.slug}`, 'home', regionForPost(post).id),
+        ...place(cell),
+        ring: distance(cell, HOME),
+        badge: slot === 0 ? cluster.badge : undefined,
+      });
+    });
+  }
+
+  /* Empty ground. Clumped rather than scattered, so it reads as ranges and
+     thickets instead of static, and thinning as it goes out. */
+  for (let q = -18; q <= 18; q += 1) {
+    for (let r = Math.max(-18, -q - 18); r <= Math.min(18, -q + 18); r += 1) {
+      const cell = { q, r };
+      const out = distance(cell, HOME);
+      if (out < 2 || out > 18 || !free(cell)) continue;
+      if (clump(cell, 3) * 0.6 + clump(cell, 6) * 0.4 < 0.62 + out * 0.006) continue;
+      if (noise(q, r) > 0.62) continue;
       put({
         ...place(cell),
-        id: `edge-${cell.q}-${cell.r}`,
-        hub: 'home',
-        ring: radius,
-        kind: 'edge',
+        id: `wild-${q}-${r}`,
+        hub: 'wild',
+        ring: out,
+        kind: 'wild',
+        icon: clump(cell, 6) > 0.66 ? 'range' : undefined,
       });
     }
   }
 
-  return { cells, regions: info, routes };
+  return {
+    cells,
+    regions: info,
+    routes,
+    settlements,
+    index: posts.map((post) => ({ title: post.title, href: post.url })),
+  };
+}
+
+/** A thin, ragged outskirt so a settlement is not a perfect flower. */
+function outskirts(
+  centre: Axial,
+  radius: number,
+  hub: string,
+  regionId: string,
+  put: (cell: HexCell) => boolean,
+  survival: number
+) {
+  for (const cell of ring(centre, radius)) {
+    if (noise(cell.q, cell.r) > survival) continue;
+    put({
+      ...place(cell),
+      id: `edge-${cell.q}-${cell.r}`,
+      hub,
+      ring: radius,
+      kind: 'edge',
+      regionId,
+    });
+  }
+}
+
+/**
+ * Somewhere to put an outpost: a free cell a short way off the city, tried in
+ * a few directions so two outposts of the same city do not sit on top of each
+ * other. Returns nothing if the ground is full, and the subcategory then stays
+ * a plain link rather than a place.
+ */
+function findOutpost(
+  city: Axial,
+  regionIndex: number,
+  order: number,
+  free: (cell: Axial) => boolean
+): Axial | undefined {
+  const offsets = [2, 4, 1, 5, 3];
+  for (let attempt = 0; attempt < offsets.length; attempt += 1) {
+    const side = DIRS[(regionIndex + offsets[(order + attempt) % offsets.length]) % 6];
+    const at = add(city, scale(side, OUTPOST_DISTANCE));
+    if (free(at) && ring(at, 1).filter(free).length >= 4) return at;
+  }
+  return undefined;
+}
+
+/**
+ * Grows a blob of the given size out from a seed, preferring whichever
+ * neighbour the noise likes best so the shape is organic and repeatable.
+ */
+function grow(seed: Axial, size: number, allowed: (cell: Axial) => boolean): Axial[] {
+  if (!allowed(seed)) return [];
+  const shape = [seed];
+  const seen = new Set([key(seed)]);
+  while (shape.length < size) {
+    const options: Axial[] = [];
+    for (const cell of shape) {
+      for (const direction of DIRS) {
+        const next = add(cell, direction);
+        if (seen.has(key(next)) || !allowed(next)) continue;
+        seen.add(key(next));
+        options.push(next);
+      }
+    }
+    if (options.length === 0) break;
+    options.sort((a, b) => noise(b.q, b.r) - noise(a.q, a.r));
+    shape.push(options[0]);
+    for (const option of options.slice(1)) seen.delete(key(option));
+  }
+  return shape;
 }
 
 /** The best real category page for a region, or the index if it has none. */
@@ -529,8 +733,8 @@ function hrefFor(region: Region, categories: Map<string, Post[]>): string {
 
 /**
  * Second-level categories used by a region's posts, biggest first. These
- * become signposts on the city's outer ring, so a region can point at more of
- * the site than its own entries.
+ * become outposts around the city, so a region can point at more of the site
+ * than its own entries.
  */
 function subcategoriesFor(
   posts: Post[],

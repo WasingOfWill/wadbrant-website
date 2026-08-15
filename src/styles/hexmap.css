@@ -13,9 +13,9 @@
 :root {
   --region-ai: #684a8c;
   --region-gaming: #a63528;
-  --region-industry: #445e49;
+  --region-ongoing: #445e49;
   --region-product: #9c470d;
-  --region-business: #7f5722;
+  --region-projects: #7f5722;
   --region-misc: #5c554c;
 
   /* How much of the drawn map shows through. Texture, not picture. */
@@ -26,9 +26,9 @@
 html[data-mode='dark'] {
   --region-ai: #b79ce0;
   --region-gaming: #ef8f76;
-  --region-industry: #94bb9c;
+  --region-ongoing: #94bb9c;
   --region-product: #fb923c;
-  --region-business: #d7a862;
+  --region-projects: #d7a862;
   --region-misc: #b0a89d;
 
   /* The drawing is warm parchment, so it has to be pulled well down to sit
@@ -41,9 +41,9 @@ html[data-mode='dark'] {
   html:not([data-mode='light']) {
     --region-ai: #b79ce0;
     --region-gaming: #ef8f76;
-    --region-industry: #94bb9c;
+    --region-ongoing: #94bb9c;
     --region-product: #fb923c;
-    --region-business: #d7a862;
+    --region-projects: #d7a862;
     --region-misc: #b0a89d;
     --map-wash: 0.22;
     --map-wash-filter: saturate(0.3) brightness(0.55);
@@ -153,16 +153,21 @@ html:has(#hexmap) body {
 .hexmap-ground::before {
   content: '';
   position: absolute;
-  left: var(--map-x);
-  top: var(--map-y);
-  width: 150vw;
-  height: 150vh;
-  /* A tenth of the camera's travel, so the ground drifts under the grid
-     instead of moving with it. The layer is large enough that the drift can
-     never bring its own edge into view. */
+  left: 50%;
+  top: 50%;
+  /* Only just larger than the window. The drawing is scaled to cover, so the
+     less of it is stretched the sharper it stays, and the overhang only has to
+     out-reach the drift below. Centring it on the window rather than on the
+     home tile is what guarantees no edge: with `cover`, a percentage crop can
+     never expose one, a pixel offset can. */
+  width: 118vw;
+  height: 118vh;
   transform: translate(-50%, -50%)
-    translate(calc(var(--focus-x, 0px) * 0.1 + var(--drag-x, 0px) * 0.1), calc(var(--focus-y, 0px) * 0.1 + var(--drag-y, 0px) * 0.1));
-  background: url('/assets/images/website/map.jpg') center / cover no-repeat;
+    translate(
+      calc((var(--focus-x, 0px) + var(--drag-x, 0px)) * 0.05),
+      calc((var(--focus-y, 0px) + var(--drag-y, 0px)) * 0.05)
+    );
+  background: url('/assets/images/website/map.jpg') 38% center / cover no-repeat;
   opacity: var(--map-wash);
   filter: var(--map-wash-filter);
   transition: transform 900ms cubic-bezier(0.16, 0.84, 0.3, 1);
@@ -294,14 +299,14 @@ html:has(#hexmap) body {
 #hexmap [data-region='gaming'] {
   --region: var(--region-gaming);
 }
-#hexmap [data-region='industry'] {
-  --region: var(--region-industry);
+#hexmap [data-region='ongoing'] {
+  --region: var(--region-ongoing);
 }
 #hexmap [data-region='product'] {
   --region: var(--region-product);
 }
-#hexmap [data-region='business'] {
-  --region: var(--region-business);
+#hexmap [data-region='projects'] {
+  --region: var(--region-projects);
 }
 #hexmap [data-region='misc'] {
   --region: var(--region-misc);
@@ -361,9 +366,9 @@ html:has(#hexmap) body {
 /* Terrain ink. currentColor inside a pattern resolves against the pattern
    element, not against whatever references it, so each one is tinted here. */
 #terrain-ai path,
-#terrain-industry path,
+#terrain-ongoing path,
 #terrain-product path,
-#terrain-business path {
+#terrain-projects path {
   fill: none;
   stroke-width: 1.2;
 }
@@ -380,14 +385,14 @@ html:has(#hexmap) body {
 #terrain-gaming path {
   stroke: var(--region-gaming);
 }
-#terrain-industry path {
-  stroke: var(--region-industry);
+#terrain-ongoing path {
+  stroke: var(--region-ongoing);
 }
 #terrain-product path {
   stroke: var(--region-product);
 }
-#terrain-business path {
-  stroke: var(--region-business);
+#terrain-projects path {
+  stroke: var(--region-projects);
 }
 #terrain-misc circle {
   fill: var(--region-misc);
@@ -847,4 +852,49 @@ html[sidebar-display] #hexmap-nav {
   #hexmap-nav {
     display: none;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Empty ground.
+
+   Clumps of unclaimed terrain scattered over the world, the way a mountain
+   range sits on a game map. Never interactive, never bright, and never dimmed
+   by distance either: it is scenery at every remove.
+   -------------------------------------------------------------------------- */
+
+.hex[data-kind='wild'] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.hex[data-kind='wild'] .hex-face {
+  fill: color-mix(in srgb, var(--text-color) 3%, transparent);
+}
+
+.hex[data-kind='wild'] .hex-edge {
+  stroke: color-mix(in srgb, var(--text-color) 9%, var(--main-bg));
+  stroke-width: 1;
+}
+
+.hex[data-kind='wild'] .hex-mark {
+  stroke: color-mix(in srgb, var(--text-color) 14%, var(--main-bg));
+  stroke-width: 1.6;
+}
+
+/* A subcategory names itself in smaller type, because the name is the only
+   thing that says the tile leads somewhere rather than to a post. */
+.hex-label-small {
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  fill: var(--text-muted-color);
+}
+
+/* One badge over each cluster of recent work. */
+.hex-badge {
+  fill: var(--accent);
+  font-family: var(--hex-mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-anchor: middle;
 }

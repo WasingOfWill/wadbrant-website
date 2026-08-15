@@ -2,8 +2,8 @@
 layout: post
 title: "AI Prototyping a Mystery Game in 2 Hours"
 date: 2025-10-19 07:37 -0400
-categories: [Product Management, AI]
-tags: [Product Management, Game Dev, AI, Doing Things]
+categories: [AI, Practice]
+tags: [Product, Game Dev, AI, Doing Things]
 image:
   path: assets/images/article/mysterygames/discovery.png
 ---

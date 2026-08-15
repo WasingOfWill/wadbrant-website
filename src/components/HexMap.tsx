@@ -4,15 +4,14 @@ import HexMapView from './HexMapView';
 /**
  * The homepage map.
  *
- * The grid is worked out at build time here and handed to a client component
+ * The world is worked out at build time here and handed to a client component
  * that owns the interaction. Tiles are SVG rather than clipped divs for three
  * reasons: the hit area is the real hexagon so neighbours never steal a hover,
- * the camera can move the whole grid with one transform, and the grid can run
- * past the viewport without overflow tricks.
+ * the camera can move everything with one transform, and the grid can run past
+ * the viewport without overflow tricks.
  */
 export default async function HexMap() {
-  const { cells, regions, routes } = await getHexMap();
-  const articles = cells.filter((cell) => cell.kind === 'article');
+  const { cells, regions, routes, settlements, index } = await getHexMap();
 
   return (
     <>
@@ -30,15 +29,21 @@ export default async function HexMap() {
               {region.name}: {region.blurb}
             </li>
           ))}
-          {articles.map((cell) => (
-            <li key={cell.id}>
-              <a href={cell.href}>{cell.label}</a>
+          {index.map((post) => (
+            <li key={post.href}>
+              <a href={post.href}>{post.title}</a>
             </li>
           ))}
         </ul>
       </nav>
 
-      <HexMapView cells={cells} regions={regions} routes={routes} points={hexPoints()} />
+      <HexMapView
+        cells={cells}
+        regions={regions}
+        routes={routes}
+        settlements={settlements}
+        points={hexPoints()}
+      />
     </>
   );
 }

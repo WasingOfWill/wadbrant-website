@@ -2,7 +2,7 @@
 layout: post
 title: "Five Greatest Tips for LLMs"
 date: 2025-07-13
-categories: [Product Management, AI]
+categories: [AI, Practice]
 tags: [AI, Doing Things]
 ---
 

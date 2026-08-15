@@ -11,7 +11,7 @@ import puppeteer from 'puppeteer';
 
 const BASE = process.env.LOCAL ?? 'http://localhost:4000';
 
-const REGIONS = ['ai', 'gaming', 'industry', 'product', 'business', 'misc'];
+const REGIONS = ['ai', 'gaming', 'ongoing', 'product', 'projects', 'misc'];
 
 const SAMPLES = [
   { route: '/articles/', selector: '#post-list .card-title', label: 'card title' },
@@ -79,31 +79,31 @@ const SAMPLES = [
   { route: '/', selector: '.hexmap-hint', label: 'panel hint' },
   {
     route: '/',
-    clicks: ['.hex[data-id="gateway-industry"]'],
+    clicks: ['.hex[data-id="gateway-ongoing"]'],
     selector: '.hexmap-subhead',
     label: 'panel subhead',
   },
   {
     route: '/',
-    clicks: ['.hex[data-id="gateway-industry"]'],
+    clicks: ['.hex[data-id="gateway-ongoing"]'],
     selector: '.hexmap-list a',
     label: 'panel read',
   },
   {
     route: '/',
-    clicks: ['.hex[data-id="gateway-industry"]'],
+    clicks: ['.hex[data-id="gateway-ongoing"]'],
     selector: '.hexmap-go',
     label: 'panel button',
   },
   {
     route: '/',
-    clicks: ['.hex[data-id="gateway-industry"]'],
+    clicks: ['.hex[data-id="gateway-ongoing"]'],
     selector: '.hexmap-back',
     label: 'panel back',
   },
   {
     route: '/',
-    clicks: ['.hex[data-id="gateway-industry"]', '.hex[data-kind="article"][data-active]'],
+    clicks: ['.hex[data-id="gateway-ongoing"]', '.hex[data-kind="article"][data-active]'],
     selector: '.hexmap-meta',
     label: 'panel meta',
   },

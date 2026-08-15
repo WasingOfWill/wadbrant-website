@@ -3,12 +3,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { HexCell, RegionInfo } from '@/lib/hexmap';
+import type { HexCell, RegionInfo, Settlement } from '@/lib/hexmap';
 
 type Props = {
   cells: HexCell[];
   regions: RegionInfo[];
   routes: { id: string; d: string }[];
+  settlements: Settlement[];
   /** Precomputed hexagon outline, so this file never imports the server lib. */
   points: string;
 };
@@ -23,15 +24,19 @@ const MARKS: Record<string, string> = {
 
   ai: 'M -14 8 L 14 8 M -14 8 L 0 -13 M 14 8 L 0 -13',
   gaming: 'M 0 -17 L 15 -8.5 L 15 8.5 L 0 17 L -15 8.5 L -15 -8.5 Z M 0 -17 L 15 8.5 L -15 8.5 Z',
-  industry: 'M -18 14 L 18 14 M -14 14 L -14 -2 M 0 14 L 0 -14 M 14 14 L 14 -8',
+  ongoing: 'M 0 16 V 3 M -8 -2 A 11 11 0 0 1 8 -2 M -15 -8 A 21 21 0 0 1 15 -8 M 0 3 A 3 3 0 1 0 0 2.9',
   product: 'M -15 13 L 15 13 L -15 -13 Z M -15 5 L 6 5',
-  business: 'M -16 10 L -5 -1 L 3 6 L 16 -10 M 16 -10 L 8 -10 M 16 -10 L 16 -2',
+  projects: 'M -15 14 H 15 M -13 14 V 2 H -3 V 14 M 3 14 V -4 H 13 V 14 M -8 -2 V -13 H 2 V -2',
   misc: 'M 4 -12 L 14 -12 L 14 -2 L 4 -2 Z M -12 12 L -2 12 L -7 3 Z',
 
-  return: 'M 13 0 L -9 0 M -1 -9 L -10 0 L -1 9',
+  /* Drawn pointing right, because it is turned by a bearing measured from
+     due east. Redraw it facing any other way and every arrow lies. */
+  return: 'M -13 0 L 9 0 M 1 -9 L 10 0 L 1 9',
   gate: 'M -12 -9 L -2 0 L -12 9 M -1 -9 L 9 0 L -1 9',
   signpost: 'M 0 14 V -11 M -13 -11 H 8 L 13 -6 L 8 -1 H -13 Z',
   unknown: 'M -6 -5 A 6 6 0 1 1 0 3 M 0 10 L 0 10.5',
+  /* Empty ground. Never a control, only somewhere the world carries on. */
+  range: 'M -20 8 L -9 -6 L -1 4 L 6 -8 L 20 8 M -4 -1 L -1 4 L 3 -1',
 
   /* Article marks, chosen from tags and title. See ICON_RULES in hexmap.ts. */
   book: 'M -11 -11 H 1 V 11 H -11 Z M 1 -11 L 11 -8 V 14 L 1 11',
@@ -75,11 +80,12 @@ const clamp = (value: number, limit: number) => Math.max(-limit, Math.min(limit,
 function markFor(cell: HexCell, known: boolean): string | undefined {
   if (cell.kind === 'home') return MARKS.home;
   if (cell.kind === 'trail' || cell.kind === 'edge') return undefined;
+  if (cell.kind === 'wild') return MARKS[cell.icon ?? ''];
   if (!known) return MARKS.unknown;
   return MARKS[cell.icon ?? ''] ?? MARKS.book;
 }
 
-export default function HexMapView({ cells, regions, routes, points }: Props) {
+export default function HexMapView({ cells, regions, routes, settlements, points }: Props) {
   /** Which settlement you are standing in: 'home' or a region id. */
   const [place, setPlace] = useState('home');
   const [selectedId, setSelectedId] = useState('home');
@@ -95,11 +101,19 @@ export default function HexMapView({ cells, regions, routes, points }: Props) {
     () => new Map(regions.map((region) => [region.id, region])),
     [regions]
   );
-  const hubs = useMemo(() => {
-    const map = new Map<string, { x: number; y: number }>([['home', { x: 0, y: 0 }]]);
-    for (const region of regions) map.set(region.id, { x: region.x, y: region.y });
+  const hubs = useMemo(
+    () => new Map(settlements.map((at) => [at.id, { x: at.x, y: at.y }])),
+    [settlements]
+  );
+
+  /* Arriving somewhere selects its centre tile. */
+  const anchors = useMemo(() => {
+    const map = new Map<string, string>([['home', 'home']]);
+    for (const cell of cells) {
+      if (cell.kind === 'city' || cell.kind === 'outpost') map.set(cell.hub, cell.id);
+    }
     return map;
-  }, [regions]);
+  }, [cells]);
 
   const selected = byId.get(selectedId) ?? byId.get('home')!;
   const hub = hubs.get(place) ?? { x: 0, y: 0 };
@@ -169,30 +183,30 @@ export default function HexMapView({ cells, regions, routes, points }: Props) {
     setSelectedId('home');
   }, [settle]);
 
+
   const choose = useCallback(
     (id: string) => {
       const cell = byId.get(id);
       if (!cell) return;
-      if (cell.kind === 'edge' || cell.kind === 'trail') return;
+      if (cell.kind === 'edge' || cell.kind === 'trail' || cell.kind === 'wild') return;
       /* Nothing in another settlement is reachable from where you stand. */
       if (cell.hub !== placeRef.current && cell.kind !== 'gateway') return;
 
-      if (cell.kind === 'gateway' && cell.regionId) {
+      if (cell.travelTo) {
+        const arriving = cell.travelTo;
+        /* Roads are named for where they lead. Going back down one means
+           drawing the road out of the settlement you are leaving. */
         settle();
-        setTravelling(cell.regionId);
-        setPlace(cell.regionId);
-        setSelectedId(`city-${cell.regionId}`);
+        setTravelling(cell.kind === 'return' ? cell.hub : arriving);
+        setPlace(arriving);
+        setSelectedId(anchors.get(arriving) ?? 'home');
         clearTimeout(timer.current);
         timer.current = setTimeout(() => setTravelling(''), TRAVEL_MS);
         return;
       }
-      if (cell.kind === 'return') {
-        goHome();
-        return;
-      }
       setSelectedId(id);
     },
-    [byId, goHome, settle]
+    [anchors, byId, settle]
   );
 
   const onPointerDown = useCallback((event: React.PointerEvent) => {
@@ -347,8 +361,12 @@ function Tile({
      gives up its identity only once you are standing in its settlement. */
   const known = active || cell.kind === 'gateway' || cell.kind === 'home';
   const mark = markFor(cell, known);
-  const reachable = known && cell.kind !== 'edge' && cell.kind !== 'trail';
-  const labelled = cell.kind === 'gateway' || cell.kind === 'city' || cell.kind === 'home';
+  const scenery = cell.kind === 'edge' || cell.kind === 'trail' || cell.kind === 'wild';
+  const reachable = known && !scenery;
+  /* Settlements name themselves. So does a signpost, in smaller type, because
+     a name is the only thing that says it leads to a category. */
+  const named = cell.kind === 'gateway' || cell.kind === 'city' || cell.kind === 'home';
+  const labelled = named || cell.kind === 'outpost' || (known && cell.kind === 'signpost');
 
   return (
     <g
@@ -372,18 +390,27 @@ function Tile({
       )}
       <polygon className="hex-edge" points={points} />
       {mark && (
-        <g transform={labelled ? 'translate(0 -10)' : 'scale(1.3)'}>
+        <g
+          transform={`${labelled ? 'translate(0 -12)' : 'scale(1.3)'}${
+            cell.rotate ? ` rotate(${cell.rotate.toFixed(1)})` : ''
+          }`}
+        >
           <path className={known ? 'hex-mark' : 'hex-mark hex-mark-faint'} d={mark} />
           {cell.icon === 'ai' &&
-            labelled &&
+            named &&
             AI_NODES.map(([cx, cy]) => (
               <circle key={`${cx}-${cy}`} className="hex-mark-node" cx={cx} cy={cy} r="4" />
             ))}
         </g>
       )}
+      {cell.badge && (
+        <text className="hex-badge" y={-34}>
+          {cell.badge}
+        </text>
+      )}
       {labelled && (
-        <text className="hex-label" y={30}>
-          {cell.kind === 'home' ? 'Home' : cell.label}
+        <text className={named ? 'hex-label' : 'hex-label hex-label-small'} y={30}>
+          {cell.label}
         </text>
       )}
     </g>
@@ -402,8 +429,9 @@ function Panel({
   onLeave: () => void;
 }) {
   const kickers: Record<string, string> = {
-    home: 'Base camp',
+    home: 'Home',
     city: 'Region',
+    outpost: 'Outpost',
     gateway: 'Road out',
     signpost: 'Signpost',
     gate: 'Wayfinder',
@@ -442,7 +470,8 @@ function Panel({
         {cell.kind === 'home' && (
           <>
             <p className="hexmap-lede">
-              Product manager. Games, and the things games taught me about building software.
+              I write about game development, business, tech, AI, and product management.
+              Very nerdy.
             </p>
             <p className="hexmap-hint">Pick a region to travel there.</p>
           </>
@@ -471,10 +500,25 @@ function Panel({
           </>
         )}
 
+        {cell.kind === 'outpost' && (
+          <>
+            {cell.meta && <p className="hexmap-meta">{cell.meta}</p>}
+            <p className="hexmap-hint">
+              A corner of {region?.name ?? 'the map'}. The tiles around this one are what is here.
+            </p>
+            {cell.href && (
+              <Link className="hexmap-go" href={cell.href}>
+                See the category
+              </Link>
+            )}
+          </>
+        )}
+
         {(cell.kind === 'article' || cell.kind === 'gate' || cell.kind === 'signpost') && (
           <>
             {cell.meta && <p className="hexmap-meta">{cell.meta}</p>}
             {cell.excerpt && <p className="hexmap-lede">{cell.excerpt}</p>}
+            {cell.kind === 'signpost' && <p className="hexmap-hint">Follow the road to see it.</p>}
             {cell.href && (
               <Link className="hexmap-go" href={cell.href}>
                 {cell.kind === 'article' ? 'Read it' : 'Browse them'}
@@ -508,13 +552,13 @@ function Terrain() {
       <pattern id="terrain-gaming" width="26" height="30" patternUnits="userSpaceOnUse">
         <path d="M 13 4 L 20 8 L 20 16 L 13 20 L 6 16 L 6 8 Z" />
       </pattern>
-      <pattern id="terrain-industry" width="28" height="18" patternUnits="userSpaceOnUse">
+      <pattern id="terrain-ongoing" width="28" height="18" patternUnits="userSpaceOnUse">
         <path d="M -2 13 Q 7 3 16 13 T 34 13" />
       </pattern>
       <pattern id="terrain-product" width="22" height="22" patternUnits="userSpaceOnUse">
         <path d="M 11 4 V 18 M 4 11 H 18" />
       </pattern>
-      <pattern id="terrain-business" width="20" height="20" patternUnits="userSpaceOnUse">
+      <pattern id="terrain-projects" width="20" height="20" patternUnits="userSpaceOnUse">
         <path d="M -4 20 L 20 -4 M 4 28 L 28 4" />
       </pattern>
       <pattern id="terrain-misc" width="20" height="20" patternUnits="userSpaceOnUse">

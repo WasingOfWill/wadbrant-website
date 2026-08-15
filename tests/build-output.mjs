@@ -79,7 +79,7 @@ for (const href of links) {
  * rendered SVG is measured, because the React payload further down the
  * document repeats every attribute.
  */
-const REGION_IDS = ['ai', 'gaming', 'industry', 'product', 'business', 'misc'];
+const REGION_IDS = ['ai', 'gaming', 'ongoing', 'product', 'projects', 'misc'];
 
 const canvas = home.body.match(/<svg class="hexmap-canvas"[\s\S]*?<\/svg>/)?.[0];
 if (!canvas) {
@@ -87,7 +87,7 @@ if (!canvas) {
 } else {
   const tiles = [
     ...canvas.matchAll(
-      /<g class="hex" data-id="([^"]+)" data-kind="(\w+)"(?: data-region="(\w+)")? data-hub="(\w+)"(?: data-holds="(\d+)")?[\s\S]{0,240}?transform="(translate\([^"]+\))"/g
+      /<g class="hex" data-id="([^"]+)" data-kind="(\w+)"(?: data-region="(\w+)")? data-hub="([\w-]+)"(?: data-holds="(\d+)")?[\s\S]{0,240}?transform="(translate\([^"]+\))"/g
     ),
   ].map(([, id, kind, region, hub, holds, at]) => ({ id, kind, region, hub, holds, at }));
   const count = (predicate) => tiles.filter(predicate).length;
@@ -95,8 +95,25 @@ if (!canvas) {
   if (count((tile) => tile.kind === 'home') !== 1) fail('/', 'the map has no single home camp');
   if (count((tile) => tile.kind === 'gateway') !== 6) fail('/', 'there are not six roads out');
   if (count((tile) => tile.kind === 'city') !== 6) fail('/', 'there are not six cities');
-  if (count((tile) => tile.kind === 'return') !== 6) fail('/', 'a city has no way back');
-  if (count((tile) => tile.kind === 'edge') < 30) fail('/', 'the frontier is too thin to read');
+  if (count((tile) => tile.kind === 'wild') < 40) fail('/', 'there is no empty ground');
+
+  // Every settlement you can travel to needs a tile that leads back out of it,
+  // or it is a trap.
+  const settlements = new Set(
+    tiles.filter((tile) => tile.kind === 'city' || tile.kind === 'outpost').map((tile) => tile.hub)
+  );
+  for (const hub of settlements) {
+    if (count((tile) => tile.hub === hub && tile.kind === 'return') !== 1) {
+      fail('/', `${hub} has no way back`);
+    }
+  }
+
+  // A signpost promises a place. Travelling to one that was never laid would
+  // leave the camera pointing at nothing.
+  for (const tile of tiles.filter((candidate) => candidate.kind === 'signpost')) {
+    const target = tile.id.replace('signpost-', '');
+    if (!settlements.has(target)) fail('/', `signpost ${tile.id} leads nowhere`);
+  }
 
   // Two tiles in one place would be a coordinate bug, and would look like a
   // rendering glitch rather than the arithmetic mistake it is.
@@ -131,15 +148,19 @@ if (!canvas) {
   // the same, that sizing has stopped working.
   if (new Set(sizes).size === 1) fail('/', 'every city came out the same size');
 
-  // The map is a picture. Its text alternative has to carry the same links,
-  // or the homepage is a dead end for a screen reader and for a crawler.
+  // The map is a picture. Its text alternative has to reach every published
+  // post exactly once, or the homepage is a dead end for a screen reader and
+  // for a crawler. A post may sit on several tiles: featured near home, in its
+  // city, and again in an outpost.
   const listed = home.body.match(/<nav id="main-content"[\s\S]*?<\/nav>/)?.[0] ?? '';
-  const articles = count((tile) => tile.kind === 'article');
-  const listedLinks = [...listed.matchAll(/href="(\/posts\/[^"]+)"/g)];
-  if (listedLinks.length !== articles) {
-    fail('/', `${articles} article tiles but ${listedLinks.length} links in the text alternative`);
+  const listedLinks = [...listed.matchAll(/href="(\/posts\/[^"]+)"/g)].map(([, href]) => href);
+  if (listedLinks.length !== index.length) {
+    fail('/', `${index.length} posts but ${listedLinks.length} links in the text alternative`);
   }
-  for (const [, href] of listedLinks) {
+  if (new Set(listedLinks).size !== listedLinks.length) {
+    fail('/', 'the text alternative lists a post twice');
+  }
+  for (const href of listedLinks) {
     if (!index.some((entry) => entry.url === href)) {
       fail('/', `map links to ${href}, which is not a published post`);
     }

@@ -1,9 +1,7 @@
 ---
 layout: post
 title: Picking the RIGHT game genre
-categories:
-- Game Industry
-- Indie
+categories: [Gaming, Design]
 tags:
 - Game Industry
 - Indie Games

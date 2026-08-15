@@ -59,20 +59,25 @@ panel, no footer, and the page does not scroll. `lib/hexmap.ts` computes the
 whole grid at build time, `components/HexMap.tsx` renders it as one SVG, and
 `styles/hexmap.css` holds every rule, scoped to that page.
 
-The world is seven settlements, not one blob. Home sits at the origin with six
-gateway tiles around it, one per region: AI, Gaming, Industry, Product,
-Business, Misc. Each gateway has a city seven to nine tiles out in the same
-direction, reached by a road, and that city is where the region's entries
-actually live. A city holds up to seventeen, so a region can grow well past
-what would fit next to home.
+The world is a set of settlements, not one blob. Home sits at the origin with
+six gateway tiles around it, one per region, and clusters of recent work in the
+gaps between the roads: two of two tiles marked New, one of three marked
+Recommended, one of five marked Featured, filled newest first. Each gateway has
+a city seven to nine tiles out in the same direction, reached by a road, and
+that city is where the region's entries live. A city holds up to seventeen.
 
 Around a city: the road tile facing home is the way back, ring 1 and ring 2
-carry entries newest first, then up to three signposts to second-level
-categories, then a gate to the category page if there is still more. Only as
-many tiles are laid as there is something to put on them, so the six cities are
-different shapes and sizes, and distances and skews differ too.
-`tests/build-output.mjs` fails if they all come out the same, and fails if a
-city without a gate is not showing everything its region holds.
+carry entries newest first, then a signpost for each subcategory, then a gate
+to the category page if there is still more. A signpost is a place of its own,
+four tiles further out, with its own entries and its own road back. Only as
+many tiles are laid as there is something to put on them, so no two settlements
+are the same shape, and distances and skews differ too.
+`tests/build-output.mjs` fails if the cities all come out the same size, if a
+city without a gate is not showing everything its region holds, if a settlement
+has no way back, or if a signpost leads somewhere that was never laid.
+
+Everything else is empty ground: clumps of unclaimed terrain placed by a coarse
+noise function, faint, never interactive, and never dimmed by distance either.
 
 Interaction lives in `components/HexMapView.tsx`, the only client component on
 the page. Only the settlement you are standing in is legible; everything else
@@ -91,10 +96,25 @@ Article marks come from `ICON_RULES` in `lib/hexmap.ts`, matched against the
 title, tags and categories, first hit wins. Nothing new goes in the front
 matter to give a post a sensible icon.
 
-Regions are a homepage-only grouping. Nothing in `content/` knows about them:
-`REGIONS[].matches` lists the front matter categories that feed each one, best
-match first, and anything unmatched falls to Misc. Retagging the content to the
-six names is a separate job; the map will follow it.
+The six regions are the site's real taxonomy, not a homepage-only grouping.
+Every post's first category is one of them:
+
+| Region | What goes in it |
+| --- | --- |
+| AI | Using it and building with it: ways of working, what is changing |
+| Gaming | Game design, and the projects that came out of it |
+| Ongoing | What is happening in the industry, and what to make of it |
+| Product | The craft of product management |
+| Projects | Things built, how they were run, how they went |
+| Misc | Opinions and odds and ends |
+
+A post may carry one second category. There are three: Practice under AI,
+Design under Gaming, Monetisation under Ongoing. Keep it that way; each one
+becomes an outpost on the map and a page under `/categories/`, and a long tail
+of them makes both worse. `REGIONS[].matches` in `lib/hexmap.ts` maps a name to
+a region, and anything unmatched falls to Misc. Renaming a category means
+adding a redirect in `next.config.mjs`, which is where every retired name
+already points.
 
 The drawn map under the grid is `public/assets/images/website/map.jpg`, faded
 by `--map-wash` and masked to nothing well before any window edge.

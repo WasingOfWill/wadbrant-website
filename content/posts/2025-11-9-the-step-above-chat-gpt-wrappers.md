@@ -2,8 +2,8 @@
 layout: post
 title: The Step Above Chat-GPT Wrappers
 date: 2025-11-10 09:00
-categories: [AI, Product Management]
-tags: [Product Management, AI, Doing Things]
+categories: [AI]
+tags: [Product, AI, Doing Things]
 image:
   path: assets/images/cover/llm.webp
 ---
