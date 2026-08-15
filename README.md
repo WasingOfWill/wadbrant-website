@@ -1,152 +1,101 @@
-# Blog Commands & Reference
+# wadbrant.com
 
-## Terminal Commands
+Personal site of Will Wadbrant — articles on product management, the gaming
+industry and AI. Next.js 15 (App Router) + Markdown content, deployed on Vercel.
 
-### Content Management
+This replaces the previous Jekyll/Chirpy site. The design is carried over 1:1;
+the machinery underneath is now plain Markdown files plus React components you
+can change.
+
+## Quick start
+
 ```bash
-# Create a new post
-bundle exec jekyll post "Your Post Title"
-
-# Create a draft
-bundle exec jekyll draft "Your Draft Title"
-
-# Publish a draft
-bundle exec jekyll publish _drafts/your-draft-title.md
-
-# Unpublish a post (move to drafts)
-bundle exec jekyll unpublish _posts/YYYY-MM-DD-your-post-title.md
+npm install
+npm run dev      # http://localhost:4000
+npm run build    # production build
+npm start        # serve the production build
 ```
 
-### Local Development
-```bash
-# Start local server (without drafts)
-bundle exec jekyll serve
+## Publishing an article
 
-# Start server with drafts visible
-bundle exec jekyll serve --drafts
+1. Add `content/posts/YYYY-MM-DD-my-post.md` (or run `npm run new -- "Title"`).
+2. Commit and push.
+3. Vercel builds and deploys it.
 
-# Start server with drafts and auto-reload
-bundle exec jekyll serve --drafts --livereload
+Front matter reference: [`content/README.md`](content/README.md).
 
-# View site at http://localhost:4000
+Everything is statically generated at build time, so there is no database, no
+CMS and no runtime cost — a push is the entire publishing pipeline, which is
+what makes it easy to drive from a script or an agent.
+
+## Layout
+
+```
+content/            Markdown — the only thing you edit to publish
+  posts/            articles
+  pages/            about, cv
+  drafts/           unpublished work in progress
+writing/            style guide and the AI editing workflow
+public/assets/      images, fonts, favicons (URLs match the old site)
+src/
+  app/              routes (home, posts, tags, categories, archives, about, cv,
+                    feed.xml, sitemap.xml, robots.txt, search.json)
+  components/       Sidebar, Topbar, Panel, PostCard, Toc, search, …
+  lib/
+    site.ts         site title, nav, social links, analytics id
+    posts.ts        reads content/, derives tags, categories, archives, related
+    markdown.ts     Markdown → HTML pipeline
+  styles/
+    globals.css     load order + local overrides
+    chirpy.css      the compiled theme stylesheet (the design itself)
+    bootstrap.css   grid and utility classes the markup uses
+    fonts.css       self-hosted Lato / Source Sans Pro
 ```
 
-### Setup
-```bash
-# Install dependencies
-bundle install
-```
+### Where to change things
 
-## Drafts vs Articles
+| I want to… | Edit |
+| --- | --- |
+| change the title, tagline, social links | `src/lib/site.ts` |
+| add or remove a sidebar entry | `navigation` in `src/lib/site.ts` |
+| restyle something | `src/styles/globals.css` (keep `chirpy.css` untouched) |
+| change how a post page is laid out | `src/app/posts/[slug]/page.tsx` |
+| change the post card | `src/components/PostCard.tsx` |
 
-**Drafts:**
-- Stored in `_drafts/` folder
-- No date in filename required
-- Not visible on the live site
-- Perfect for work in progress
-- Preview with `bundle exec jekyll serve --drafts`
+## Features
 
-**Articles:**
-- Stored in `_posts/` folder
-- Require date in filename (YYYY-MM-DD-title.md)
-- Visible on the live site immediately
-- Should be complete and ready for public viewing
+- Post list, tags, categories (nested, collapsible), archives timeline
+- Recently updated + trending tags panel, related posts, prev/next navigation
+- Client-side search over a statically generated index (`/search.json`)
+- Table of contents with active-section highlighting
+- Light/dark mode toggle in the sidebar, remembered per browser, defaults to the
+  OS preference
+- Atom feed, sitemap, robots, Open Graph and JSON-LD metadata
+- Fully static output, self-hosted fonts, no third-party CSS or JS at runtime
 
-## Front Matter Template
+## Differences from the Jekyll site
 
-```yaml
----
-layout: post
-title: "Your Title Here"
-date: YYYY-MM-DD
-categories: [MainCategory, SubCategory]
-tags: [tag1, tag2]    # always lowercase
-image:
-  path: assets/images/cover/image-name.png
-  alt: Image description
----
+- The AI and Portfolio pages are gone (`/ai` redirects to `/categories/ai`,
+  `/product` to the home page).
+- The home page lists every post; the old `/page2` URLs redirect to `/`.
+- Reading time on two posts differs by a minute — Jekyll counted words in a
+  non-deterministic way (sometimes the Markdown source, sometimes the rendered
+  HTML). This site always counts the Markdown source.
+- `cv.md` has one line (`**KTH …** | Stockholm`) that kramdown accidentally
+  rendered as a one-row table; it is now a paragraph like the lines around it.
+- Dates render in the site timezone on the server instead of being rewritten in
+  the browser, so there is no flash of a different date on load.
 
-# Optional Front Matter
-math: true           # enable math support
-mermaid: true       # enable mermaid diagrams
-pin: true           # pin to top of posts list
-comments: false     # disable comments
-toc: false          # remove table of contents
-```
+## Deployment
 
-## Content Guidelines
+Vercel project settings:
 
-### Categories & Tags
-- Categories: Maximum 2 levels deep
-- Tags: Use lowercase, can have multiple
-- Both help with navigation and SEO
+- **Root Directory:** the repository root
+- **Framework preset:** Next.js
+- **Build command / output:** defaults
 
-### Images
-1. Place images in: `assets/images/posts/YYYY-MM-DD-title/`
-2. Reference in post:
-```markdown
-![Alt text](/assets/images/posts/YYYY-MM-DD-title/image.jpg)
-```
+Step-by-step instructions, including the DNS records for wadbrant.com, are in
+[`DEPLOY.md`](DEPLOY.md).
 
-### Linking Between Posts
-```markdown
-[Link text]({% post_url YYYY-MM-DD-post-name %})
-```
-Example:
-```markdown
-[See my first post]({% post_url 2025-09-18-why-indie-games-fail %})
-```
-
-**Important:**
-- Don't include the .md extension
-- Use the exact filename without the extension
-- The post must exist for the link to work
-
-## Publishing Schedule
-
-Plan to publish twice a week:
-
-### Post Types
-- **Personal experiences**: Life lessons, insights
-- **Technical posts**: Tutorials, project walkthroughs
-- **Portfolio pieces**: Showcasing your work
-- **Opinion pieces**: Your thoughts on industry topics
-- **Quick thoughts**: Shorter posts, observations
-
-### Content Calendar
-- **Monday**: Technical/tutorial content
-- **Thursday**: Personal/opinion pieces
-
-## SEO and Analytics
-
-### Google Analytics
-Add your Google Analytics ID to `_config.yml`:
-```yaml
-google_analytics: G-XXXXXXXXXX
-```
-
-### SEO
-The site includes `jekyll-seo-tag` plugin which automatically:
-- Generates meta tags
-- Creates Open Graph tags
-- Adds JSON-LD structured data
-- Generates sitemap
-
-## Troubleshooting
-
-### Build Failures
-- Check the Actions tab in your GitHub repository
-- Ensure all front matter is properly formatted
-- Validate your `_config.yml` syntax
-
-### Domain Issues
-- DNS changes can take 24-48 hours to propagate
-- Verify CNAME file contains only your domain (no http://)
-- Check GitHub Pages settings in repository
-
-### Installing Ruby on Windows (required to build, not to edit)
-1. Download Ruby+Devkit from [rubyinstaller.org](https://rubyinstaller.org/)
-2. Run the installer and select "Add Ruby executables to your PATH"
-3. Open a new PowerShell window
-4. Install bundler: `gem install bundler`
-5. Navigate to your blog directory and run `bundle install`
+`NEXT_PUBLIC_SITE_URL` may be set to override the canonical origin; it defaults
+to `https://wadbrant.com`.
