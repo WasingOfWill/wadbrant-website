@@ -93,6 +93,22 @@ Search (static `/search.json`, filtered client-side), table of contents,
 light and dark toggle, mobile off-canvas sidebar, image lightbox, back to top.
 All small client components in `src/components`.
 
+## Traps
+
+Four things that have already cost an afternoon each.
+
+- `.content` wraps article prose and also the categories page. Rules meant for
+  prose must be written as `.content :where(a...)` so component rules inside it
+  can still win.
+- `.preview-img` has to keep `position: relative`. The `.shimmer` class that
+  used to supply it is stripped once the image loads, and without it any
+  `<Image fill>` escapes its column and is upscaled.
+- Image originals are not kept in this repository. Add artwork at no more than
+  1600px wide and run `npm run optimize:images`, which edits in place.
+- The browser suites install Puppeteer on demand and it is not a dependency, so
+  any later `npm install` removes it again. That is expected; the next run
+  reinstalls it.
+
 ## Commands
 
 ```bash

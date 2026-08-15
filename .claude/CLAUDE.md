@@ -93,7 +93,12 @@ changed and why.
 - Components are server components unless they need state or events.
 - Comments explain why, never what. Delete comments that restate the code.
 - CSS: colours come from the tokens in `theme.css`. No hard-coded colours in
-  components, no `!important` unless overriding something outside our control.
+  components.
+- `!important` does not scale. It is for overriding something you genuinely do
+  not control, once. If you are adding it in several places to make a rule
+  stick, the cascade is wrong: fix the specificity or the load order instead.
+  Reach for `:where()` to keep a broad rule weak enough that a specific one can
+  still win.
 - Content is Markdown in `content/`. Never hard-code an article into a
   component.
 - No new dependency without a reason that survives being asked twice.
