@@ -14,7 +14,7 @@ export default async function ArchivesPage() {
   return (
     <Layout title="Archives" crumbs={[{ label: 'Home', href: '/' }, { label: 'Archives' }]}>
       <article className="px-1">
-        <h1 className="dynamic-title">Archives</h1>
+        <h1 className="dynamic-title">{' Archives'}</h1>
         <div className="content">
           <div id="archives" className="pl-xl-3">
             {years.map((group) => (

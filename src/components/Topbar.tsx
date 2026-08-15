@@ -22,7 +22,14 @@ export default function Topbar({ title, crumbs }: { title: string; crumbs: Crumb
         <nav id="breadcrumb" aria-label="Breadcrumb">
           {crumbs.map((crumb, index) => (
             <span key={`${crumb.label}-${index}`}>
-              {crumb.href ? <Link href={crumb.href}>{crumb.label}</Link> : crumb.label}
+              {crumb.href ? (
+                <>
+                  {' '}
+                  <Link href={crumb.href}>{crumb.label}</Link>{' '}
+                </>
+              ) : (
+                crumb.label
+              )}
             </span>
           ))}
         </nav>

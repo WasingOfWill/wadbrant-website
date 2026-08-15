@@ -19,7 +19,7 @@ export default async function AboutPage() {
   return (
     <Layout title="About" crumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]}>
       <article className="px-1">
-        <h1 className="dynamic-title">About</h1>
+        <h1 className="dynamic-title">{' About'}</h1>
         <div className="content" dangerouslySetInnerHTML={{ __html: page.content }} />
       </article>
     </Layout>

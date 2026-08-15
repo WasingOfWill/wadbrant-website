@@ -16,7 +16,7 @@ export default async function CvPage() {
   return (
     <Layout title="CV" crumbs={[{ label: 'Home', href: '/' }, { label: 'CV' }]}>
       <article className="px-1">
-        <h1 className="dynamic-title">CV</h1>
+        <h1 className="dynamic-title">{' CV'}</h1>
         <div className="content" dangerouslySetInnerHTML={{ __html: page.content }} />
       </article>
     </Layout>

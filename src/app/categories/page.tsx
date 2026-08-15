@@ -14,7 +14,7 @@ export default async function CategoriesPage() {
   return (
     <Layout title="Categories" crumbs={[{ label: 'Home', href: '/' }, { label: 'Categories' }]}>
       <article className="px-1">
-        <h1 className="dynamic-title">Categories</h1>
+        <h1 className="dynamic-title">{' Categories'}</h1>
         <div className="content">
           {groups.map((group, index) => (
             <CategoryCard group={group} index={index} key={group.slug} />

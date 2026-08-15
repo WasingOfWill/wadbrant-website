@@ -14,7 +14,7 @@ export default async function TagsPage() {
   return (
     <Layout title="Tags" crumbs={[{ label: 'Home', href: '/' }, { label: 'Tags' }]}>
       <article className="px-1">
-        <h1 className="dynamic-title">Tags</h1>
+        <h1 className="dynamic-title">{' Tags'}</h1>
         <div className="content">
           <div id="tags" className="d-flex flex-wrap mx-xl-2">
             {[...tags.entries()].map(([name, posts]) => (
