@@ -43,7 +43,30 @@ Once the preview URL looks right:
 
 Propagation is usually minutes. Vercel provisions the certificate automatically.
 
-## 3. Everyday publishing
+## 3. Retire GitHub Pages
+
+The workflow that built the Jekyll site (`.github/workflows/pages-deploy.yml`)
+is already deleted, so nothing rebuilds it. Two things still need a click in the
+GitHub UI, because GitHub keeps serving the last build and keeps holding the
+custom domain until you tell it not to:
+
+1. **Stop the site being served** — repository → **Settings → Pages** → under
+   *Build and deployment*, set **Source** to **None**. (If the dropdown has no
+   *None* option, switch it to *Deploy from a branch* and pick a branch with no
+   content, e.g. `jekyll-legacy` with folder `/docs`.)
+2. **Release the domain** — on the same page, clear the **Custom domain** field
+   (`wadbrant.com`) and save. Vercel cannot issue a certificate for the domain
+   while GitHub still claims it.
+3. Optional: **Actions → Deploy Jekyll site to Pages** in the left sidebar →
+   the `…` menu → **Disable workflow**, if the old runs still show up. Deleting
+   the file is enough to stop new runs; this only hides the history.
+4. Once the domain is live on Vercel, delete the `CNAME` file from the
+   repository root — it exists only for GitHub Pages.
+
+Do step 1 and 2 right before you add the domain in Vercel, so there is no
+window where neither service answers.
+
+## 4. Everyday publishing
 
 ```bash
 git add content/posts/2026-01-01-my-post.md
