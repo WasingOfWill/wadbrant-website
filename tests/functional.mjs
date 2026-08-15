@@ -51,7 +51,7 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   check('search cancel restores page', cleared === null, String(cleared));
 
   // Client-side navigation to a post
-  await page.click('#post-list .card-wrapper a');
+  await page.$eval('#post-list .card-wrapper a', (el) => el.click());
   await page.waitForSelector('#toc-wrapper', { timeout: 10000 });
   const post = await page.evaluate(() => ({
     toc: document.querySelectorAll('#toc .toc-link').length,
@@ -64,8 +64,8 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   check('post page has prev/next', post.nav > 0, `${post.nav}`);
   check('post page has tags', post.tags > 0, `${post.tags}`);
 
-  // Image lightbox
-  await page.click('.content a.popup');
+  // Image lightbox — click via the DOM so an off-screen image still works.
+  await page.$eval('.content a.popup', (el) => el.click());
   await new Promise((r) => setTimeout(r, 300));
   const popup = await page.evaluate(() => Boolean(document.querySelector('#image-popup img')));
   check('image lightbox opens', popup);
