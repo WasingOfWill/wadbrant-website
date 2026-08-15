@@ -7,7 +7,7 @@ This guide captures the distinctive writing style of Will Wadbrant, a game indus
 - Make sure all headers makes sense for the texts beneath them. 
 - Make sure the article name matches
 - Make sure that the URL (name of the _post file) is similar enough to the main article (often it is shorter, but date should always match).
-- Make sure spelling and grammar is correct. (Without changing any meaning or context. Do not add any symbols)
+- Make sure spelling and grammar is correct. (Without changing any meaning or context. Do not add any symbols. Read )
 
 ## Core Voice Characteristics
 
