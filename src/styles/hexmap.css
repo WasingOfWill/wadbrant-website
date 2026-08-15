@@ -75,7 +75,7 @@ html:has(#hexmap) body {
      lets tests/contrast.mjs bound the result instead of guessing it. */
   --hex-face: color-mix(
     in srgb,
-    color-mix(in srgb, var(--text-color) 7%, var(--main-bg)) 87%,
+    color-mix(in srgb, var(--text-color) 7%, var(--main-bg)) 82%,
     transparent
   );
   --hex-face-lit: color-mix(
@@ -87,8 +87,8 @@ html:has(#hexmap) body {
   /* The tile outline is terrain, not a control: what identifies a tile is its
      mark and its label, and those are the two that clear the thresholds. */
   --hex-edge: color-mix(in srgb, var(--text-color) 28%, var(--main-bg));
-  --hex-mark: color-mix(in srgb, var(--text-color) 64%, var(--main-bg));
-  --hex-ink: color-mix(in srgb, var(--text-color) 80%, var(--main-bg));
+  --hex-mark: color-mix(in srgb, var(--text-color) 72%, var(--main-bg));
+  --hex-ink: color-mix(in srgb, var(--text-color) 88%, var(--main-bg));
 }
 
 @media all and (min-width: 850px) {
@@ -112,7 +112,9 @@ html:has(#hexmap) body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: url('/assets/images/website/map.jpg') center / cover no-repeat;
+  /* The picture follows the home tile even though the mask cannot, so the
+     drawn terrain sits under the grid instead of beside it. */
+  background: url('/assets/images/website/map.jpg') var(--map-x) center / cover no-repeat;
   opacity: var(--map-wash);
   filter: var(--map-wash-filter);
   /*

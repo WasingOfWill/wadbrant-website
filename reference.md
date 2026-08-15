@@ -47,9 +47,33 @@ writing/            style guide and the AI editing workflow
 
 All URLs end in a trailing slash.
 
-`/` is deliberately empty for now. The article list lives at `/articles/`.
-Tags have no index of their own: the tag cloud sits at the bottom of
-`/categories/`, and `/tags/` redirects there. Individual tag pages still exist.
+`/` is the hex map, described below, and is the one page that does not use the
+shared `Layout`. The article list lives at `/articles/`. Tags have no index of
+their own: the tag cloud sits at the bottom of `/categories/`, and `/tags/`
+redirects there. Individual tag pages still exist.
+
+## The homepage map
+
+`/` is a pointy-top hex grid, not a document: sidebar only, no top bar, no side
+panel, no footer, and the page does not scroll. `lib/hexmap.ts` computes the
+whole grid at build time, `components/HexMap.tsx` renders it as one SVG, and
+`styles/hexmap.css` holds every rule, scoped to that page.
+
+Six regions sit on ring 1, one per compass direction: AI, Gaming, Industry,
+Product, Business, Misc. Each owns the 60 degree wedge pointing away from home,
+which is two tiles on ring 2 and three on ring 3, so five article slots. A
+region with more posts than slots spends its last slot on a gate tile to
+`/categories/`. Rings 4 and 5 are scenery that runs off the screen.
+
+Regions are a homepage-only grouping. Nothing in `content/` knows about them:
+`REGIONS[].matches` lists the front matter categories that feed each one, best
+match first, and anything unmatched falls to Misc. Retagging the content to the
+six names is a separate job; the map will follow it.
+
+The drawn map under the grid is `public/assets/images/website/map.jpg`, faded
+by `--map-wash` and masked to nothing well before any window edge.
+`tests/functional.mjs` reads the border pixels at four window sizes to prove it,
+because a mask radius that is safe at one size is not at another.
 
 ## Content model
 
@@ -95,7 +119,14 @@ All small client components in `src/components`.
 
 ## Traps
 
-Four things that have already cost an afternoon each.
+Six things that have already cost an afternoon each.
+
+- `getComputedStyle` reports anything that came out of `color-mix()` as
+  `color(srgb r g b)`, with channels from 0 to 1, not as `rgb()` with channels
+  from 0 to 255. Reading those floats as bytes makes every mixed colour look
+  like near-black, which shows up as an impossible 1.00:1 contrast failure.
+- A hovered colour cross-fades, so reading it in the same tick measures a frame
+  part-way through the transition. `tests/contrast.mjs` waits before sampling.
 
 - `.content` wraps article prose and also the categories page. Rules meant for
   prose must be written as `.content :where(a...)` so component rules inside it
