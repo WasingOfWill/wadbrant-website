@@ -1,4 +1,4 @@
-import { getAllPosts, stripHtml, decodeEntities, truncate } from '@/lib/posts';
+import { formatDate, getAllPosts, stripHtml, decodeEntities, truncate } from '@/lib/posts';
 
 export const dynamic = 'force-static';
 
@@ -11,9 +11,11 @@ export async function GET() {
     return {
       title: post.title,
       url: post.url,
-      categories: post.categories.join(', '),
-      tags: post.tags.join(', '),
-      snippet: truncate(text, 200),
+      categories: post.categories,
+      tags: post.tags,
+      /** "Nov 2025" — enough context without cluttering the result. */
+      date: formatDate(post.date, { month: 'short', year: 'numeric' }),
+      snippet: truncate(text, 180),
       content: text,
     };
   });

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Layout from '@/components/Layout';
 import CopyLink from '@/components/CopyLink';
@@ -150,12 +151,13 @@ export default async function PostPage({ params }: Params) {
             {post.image && (
               <div className="mt-3 mb-3">
                 <a href={post.image.path} className="popup img-link preview-img shimmer">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={post.image.path}
                     alt={post.image.alt ?? 'Preview Image'}
-                    width={1200}
-                    height={630}
+                    fill
+                    sizes="(max-width: 1200px) 100vw, 820px"
+                    quality={85}
+                    priority
                   />
                 </a>
               </div>

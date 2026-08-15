@@ -4,7 +4,8 @@
  */
 export const site = {
   title: 'WADBRANT',
-  tagline: 'Will Wadbrant.      Be Endlessly Curious.',
+  /** Sidebar strapline, one entry per line. */
+  taglineLines: ['By Will.', 'Be Endlessly Curious.'],
   description:
     'Articles on Product Managment, Gaming Industry, and AI. By Will Wadbrant.',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wadbrant.com',

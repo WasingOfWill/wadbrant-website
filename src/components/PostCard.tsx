@@ -1,7 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatCardDate, type Post } from '@/lib/posts';
 
-export default function PostCard({ post }: { post: Post }) {
+/**
+ * `priority` is passed for the first couple of cards: they are the largest
+ * thing above the fold, so they should not wait for lazy loading.
+ */
+export default function PostCard({ post, priority = false }: { post: Post; priority?: boolean }) {
   const hasImage = Boolean(post.image);
 
   return (
@@ -13,8 +18,14 @@ export default function PostCard({ post }: { post: Post }) {
         {post.image && (
           <div className="col-md-5">
             <div className="preview-img shimmer">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={post.image.path} alt={post.image.alt ?? 'Preview Image'} loading="lazy" />
+              <Image
+                src={post.image!.path}
+                alt={post.image!.alt ?? 'Preview Image'}
+                fill
+                sizes="(max-width: 768px) 100vw, 340px"
+                quality={85}
+                priority={priority}
+              />
             </div>
           </div>
         )}

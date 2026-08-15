@@ -14,8 +14,10 @@ import {
 export type SearchEntry = {
   title: string;
   url: string;
-  categories: string;
-  tags: string;
+  categories: string[];
+  tags: string[];
+  /** Pre-formatted "Nov 2025". */
+  date: string;
   snippet: string;
   content: string;
 };
@@ -38,9 +40,8 @@ export function useSearch(): SearchState {
 }
 
 function score(entry: SearchEntry, needle: string): number {
-  const title = entry.title.toLowerCase();
-  if (title.includes(needle)) return 3;
-  if (`${entry.categories} ${entry.tags}`.toLowerCase().includes(needle)) return 2;
+  if (entry.title.toLowerCase().includes(needle)) return 3;
+  if ([...entry.categories, ...entry.tags].join(' ').toLowerCase().includes(needle)) return 2;
   if (entry.content.toLowerCase().includes(needle)) return 1;
   return 0;
 }

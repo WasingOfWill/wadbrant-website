@@ -9,8 +9,8 @@ export default async function HomePage() {
   return (
     <Layout title="WADBRANT" crumbs={[{ label: 'Home' }]}>
       <div id="post-list" className="flex-grow-1 px-xl-1">
-        {ordered.map((post) => (
-          <PostCard post={post} key={post.slug} />
+        {ordered.map((post, index) => (
+          <PostCard post={post} priority={index < 2} key={post.slug} />
         ))}
       </div>
     </Layout>

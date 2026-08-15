@@ -9,7 +9,10 @@ export default function Footer() {
       <p>
         ©
         <time>{new Date().getFullYear()}</time>{' '}
-        <a href={site.author.github}>{site.author.name}</a>.{' '}
+        <a href={site.author.linkedin} rel="me">
+          {site.author.name}
+        </a>
+        .{' '}
         <span title={site.copyright.verbose}>{site.copyright.brief}</span>
       </p>
     </footer>

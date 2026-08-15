@@ -31,7 +31,13 @@ export default function Sidebar() {
         <h1 className="site-title">
           <Link href="/">{site.title}</Link>
         </h1>
-        <p className="site-subtitle fst-italic mb-0">{site.tagline}</p>
+        <p className="site-subtitle fst-italic mb-0">
+          {site.taglineLines.map((line) => (
+            <span className="d-block" key={line}>
+              {line}
+            </span>
+          ))}
+        </p>
       </header>
 
       <nav className="flex-column flex-grow-1 w-100 ps-0">
