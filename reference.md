@@ -165,7 +165,7 @@ All small client components in `src/components`.
 
 ## Traps
 
-Six things that have already cost an afternoon each.
+Seven things that have already cost an afternoon each.
 
 - `getComputedStyle` reports anything that came out of `color-mix()` as
   `color(srgb r g b)`, with channels from 0 to 1, not as `rgb()` with channels
@@ -185,6 +185,10 @@ Six things that have already cost an afternoon each.
 - The browser suites install Puppeteer on demand and it is not a dependency, so
   any later `npm install` removes it again. That is expected; the next run
   reinstalls it.
+- `npm test` serves the build on port 4010. A server another checkout or
+  worktree left there answers instead, and the suite then measures that stale
+  build: real failures, none of them yours. `tests/run.mjs` now refuses to start
+  in that case and suggests a free port, so trust the message over the results.
 
 ## Automation
 

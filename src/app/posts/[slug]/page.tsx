@@ -143,7 +143,14 @@ export default async function PostPage({ params }: Params) {
   return (
     <Layout
       title="Post"
-      crumbs={[{ label: 'Home', href: '/' }, { label: post.title }]}
+      crumbs={[
+        { label: 'Articles', href: '/articles/' },
+        ...post.categories.map((name) => ({
+          label: name,
+          href: `/categories/${slugify(name)}/`,
+        })),
+        { label: post.title },
+      ]}
       headings={headings}
       tail={tail}
     >

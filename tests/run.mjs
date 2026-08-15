@@ -10,6 +10,7 @@
  */
 import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
+import net from 'node:net';
 import path from 'node:path';
 
 const PORT = Number(process.env.PORT ?? 4010);
@@ -61,6 +62,39 @@ record('content', run(process.execPath, ['tests/content.mjs']));
 // 2. Serve the production build for the rest.
 if (!fs.existsSync(path.join(process.cwd(), '.next'))) {
   console.error('No build found. Run `npm run build` first, or use `npm run verify`.');
+  process.exit(1);
+}
+
+/**
+ * A server left running on PORT by another checkout answers every request, so
+ * `npm start` here loses the bind and the whole suite silently tests someone
+ * else's stale build. Refuse to start rather than report a false pass.
+ */
+async function portIsFree() {
+  const bindable = await new Promise((resolve) => {
+    const probe = net
+      .createServer()
+      .once('error', () => resolve(false))
+      .once('listening', () => probe.close(() => resolve(true)))
+      .listen(PORT, '0.0.0.0');
+  });
+  if (!bindable) return false;
+
+  // Windows lets a loopback bind coexist with a wildcard one, so a successful
+  // bind is not proof the port is idle. Ask over HTTP as well.
+  try {
+    await fetch(BASE, { redirect: 'follow', signal: AbortSignal.timeout(2000) });
+    return false;
+  } catch {
+    return true;
+  }
+}
+
+if (!(await portIsFree())) {
+  console.error(
+    `Port ${PORT} is already in use, so the tests would run against that server, not this build.\n` +
+      `Stop it, or run with a free port: PORT=${PORT + 11} npm test`
+  );
   process.exit(1);
 }
 

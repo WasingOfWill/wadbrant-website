@@ -64,6 +64,22 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   check('post page has prev/next', post.nav > 0, `${post.nav}`);
   check('post page has tags', post.tags > 0, `${post.tags}`);
 
+  const crumbs = await page.evaluate(() => ({
+    labels: [...document.querySelectorAll('#breadcrumb span')].map((el) => el.textContent.trim()),
+    first: document.querySelector('#breadcrumb a')?.getAttribute('href'),
+    links: [...document.querySelectorAll('#breadcrumb a')].map((el) => el.getAttribute('href')),
+  }));
+  check(
+    'post breadcrumb starts at Articles, not Home',
+    crumbs.labels[0] === 'Articles' && crumbs.first === '/articles/',
+    JSON.stringify(crumbs)
+  );
+  check(
+    'post breadcrumb carries a linked category before the title',
+    crumbs.labels.length >= 3 && crumbs.links.some((href) => href.startsWith('/categories/')),
+    JSON.stringify(crumbs)
+  );
+
   // Image lightbox - click via the DOM so an off-screen image still works.
   await page.$eval('.content a.popup', (el) => el.click());
   await new Promise((r) => setTimeout(r, 300));
