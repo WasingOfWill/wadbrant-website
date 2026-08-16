@@ -4,7 +4,7 @@
  *
  *   npm run new -- "My Great Title" --categories "AI,Product Management" \
  *                                   --tags "AI,Doing Things" \
- *                                   --image assets/images/cover/default.png
+ *                                   --image assets/posts/<slug>/cover.png
  *
  * Everything except the title is optional.
  */

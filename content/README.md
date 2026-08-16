@@ -28,7 +28,7 @@ date: 2025-09-18 09:00                    # required; site timezone is America/N
 categories: [Game Industry, Indie]        # first entry is the top-level group
 tags: [Product Management, Indie Games]   # free-form, drives /tags/
 image:                                    # optional cover, shown on cards and OG
-  path: assets/images/cover/example.png
+  path: assets/posts/the-slug/cover.png
   alt: "Steam store page for Yaengard"
 pin: true                                 # optional, floats the post to the top
 description: "Overrides the auto excerpt for SEO."   # optional
@@ -57,5 +57,5 @@ They use the same Markdown pipeline and may contain raw HTML.
 
 ```bash
 npm run new -- "My Great Title" --categories "AI,Product Management" --tags "AI" \
-              --image assets/images/cover/default.png
+              --image assets/posts/the-slug/cover.png
 ```

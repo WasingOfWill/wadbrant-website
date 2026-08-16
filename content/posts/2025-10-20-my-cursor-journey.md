@@ -6,7 +6,7 @@ draft: true
 categories: [AI, Practice]
 tags: [Using LLMs, Product, Doing Things]
 image:
-  path: assets/images/cover/default.png
+  path: assets/posts/my-cursor-journey/cover.png
 ---
 
 There's a recurring pain point in content creation that we all quietly accept:

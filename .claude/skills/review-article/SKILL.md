@@ -84,8 +84,13 @@ The mechanical pass, from `writing/EDIT-LLM.md`:
   shows.
 - Headings that describe what is under them.
 - Every image has real alt text.
-- Placeholders still present are expected in a draft. List them so the author
-  knows what to supply, but do not call them a defect.
+- Every image lives in `assets/posts/<slug>/`, the article's own folder, named
+  `cover` or a number in the order it appears. A path into another article's
+  folder, or anywhere outside `assets/site/`, is a finding. So is a number out
+  of sequence: `01`, `02`, `03` should read down the page in that order.
+- Placeholders still present are expected in a draft. List them by number and
+  say what each one should be a picture of, because `placeholder-02.png` tells
+  the author nothing on its own. Do not call them a defect.
 
 ## Finishing
 

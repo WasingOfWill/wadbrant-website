@@ -27,6 +27,7 @@ const matterOptions = {
 const DESCRIPTION_FROM = '2026-08-15';
 
 const slugs = new Map();
+const seenSlugs = new Set();
 const files = fs.existsSync(POSTS) ? fs.readdirSync(POSTS).filter((f) => /\.mdx?$/.test(f)) : [];
 
 if (files.length === 0) fail('content/posts', 'no posts found');
@@ -50,8 +51,28 @@ for (const file of files) {
     if (data[key] && !Array.isArray(data[key])) fail(file, `${key} should be a list`);
   }
 
+  /*
+   * Media lives in one folder per article, named for its slug, and nothing
+   * else. That is the whole filing system: to find or replace a picture you
+   * open the folder with the same name as the URL, and the numbers are the
+   * order it appears in. A stray path is how that quietly stops being true.
+   */
+  const own = `assets/posts/${slug}/`;
+  const mine = new Set();
+  const filed = (src, what) => {
+    if (!src || /^https?:|^data:/.test(src)) return;
+    const clean = src.replace(/^\//, '');
+    if (clean.startsWith(own)) {
+      mine.add(clean.slice(own.length));
+      return;
+    }
+    if (clean.startsWith('assets/site/')) return;
+    fail(file, `${what} is outside the article's own folder: ${src}`);
+  };
+
   // Cover image
   const cover = typeof data.image === 'string' ? data.image : data.image?.path;
+  filed(cover, 'the cover');
   if (cover && !/^https?:/.test(cover)) {
     const target = path.join(PUBLIC, cover.replace(/^\//, ''));
     if (!fs.existsSync(target)) fail(file, `cover image not found: ${cover}`);
@@ -63,7 +84,17 @@ for (const file of files) {
     if (/^https?:|^data:/.test(src)) continue;
     const target = path.join(PUBLIC, src.replace(/^\//, ''));
     if (!fs.existsSync(target)) fail(file, `image not found: ${src}`);
+    filed(src, 'an image');
   }
+
+  // Nothing sitting in the folder that the article does not use.
+  const folder = path.join(PUBLIC, 'assets', 'posts', slug);
+  if (fs.existsSync(folder)) {
+    for (const name of fs.readdirSync(folder)) {
+      if (!mine.has(name)) fail(file, `${own}${name} is not used by the article`);
+    }
+  }
+  seenSlugs.add(slug);
 
   /*
    * Placeholders are how a draft is written before the real media arrives.
@@ -103,6 +134,14 @@ for (const file of files) {
       /^\/(posts|tags|categories)\/[^/]+\/$/.test(href) ||
       ['/', '/tags/', '/categories/', '/archives/', '/about/', '/cv/'].includes(href);
     if (!known) fail(file, `internal link looks wrong: ${href}`);
+  }
+}
+
+// And no folder left behind by an article that has gone.
+const POST_MEDIA = path.join(PUBLIC, 'assets', 'posts');
+if (fs.existsSync(POST_MEDIA)) {
+  for (const name of fs.readdirSync(POST_MEDIA)) {
+    if (!seenSlugs.has(name)) fail('public/assets/posts', `${name}/ belongs to no article`);
   }
 }
 

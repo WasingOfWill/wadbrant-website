@@ -11,9 +11,9 @@ export const site = {
   lang: 'en',
   timezone: 'America/New_York',
   // Rasterised from the original 12MB SVG by `npm run build:avatar`.
-  avatar: '/assets/images/avatar-224.png',
-  avatarSmall: '/assets/images/avatar-112.png',
-  ogImage: '/assets/images/og-image.jpg',
+  avatar: '/assets/site/avatar-224.png',
+  avatarSmall: '/assets/site/avatar-112.png',
+  ogImage: '/assets/site/og-image.jpg',
   paginate: 10,
   googleAnalyticsId: 'G-HVDB517FPM',
   author: {

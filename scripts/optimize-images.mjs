@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Image preparation for `public/assets/images`.
+ * Image preparation for `public/assets`.
  *
  *   node scripts/optimize-images.mjs [--dry] [--from <dir>]
  *
@@ -11,14 +11,18 @@
  *
  * The post column is at most 813px wide, so 1600px covers a 2x display.
  *
- * Drop new artwork straight into public/assets/images and run this; it edits
- * in place. Use --from <dir> to pull from a folder of originals instead.
+ * Drop new artwork into public/assets/posts/<slug>/ and run this; it edits in
+ * place. Use --from <dir> to pull from a folder of originals instead.
+ *
+ * Fonts and favicons are skipped. A favicon is generated at an exact size for
+ * a reason, and re-encoding one is how a tab icon quietly turns to mush.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 
-const ROOT = path.join(process.cwd(), 'public', 'assets', 'images');
+const ROOT = path.join(process.cwd(), 'public', 'assets');
+const SKIP = ['fonts', 'favicons'];
 const MAX_WIDTH = 1600;
 const DRY = process.argv.includes('--dry');
 
@@ -29,6 +33,7 @@ const format = (bytes) => `${(bytes / 1024 / 1024).toFixed(2)}MB`;
 
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    if (SKIP.includes(entry.name)) return [];
     const full = path.join(dir, entry.name);
     return entry.isDirectory() ? walk(full) : [full];
   });

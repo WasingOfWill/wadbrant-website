@@ -26,7 +26,7 @@ This is the opposite of what we want with our communication.
 
 > Did you know that having languages which are difficult to follow makes it harder to learn? Similarly to how [Danish takes Danish children two years longer than average to learn because it is so difficult hearing the words separated](https://theconversation.com/danish-children-struggle-to-learn-their-vowel-filled-language-and-this-changes-how-adult-danes-interact-161143).
 
-![Image description](/assets/images/article/smfw.png)
+![Image description](/assets/posts/acronyms-suck/01.png)
 
 ([xkcd.com/1460](https://xkcd.com/1460). Explanation at the bottom of this article.)
 
@@ -135,7 +135,7 @@ I don't like that version as much because it is a homage to an Elon Musk memo fr
 
 ### XKCD 1460
 
-![Image description](/assets/images/article/smfw.png)
+![Image description](/assets/posts/acronyms-suck/01.png)
 
 SMFW is ALMOST many internet and texting acronyms, but manages to be none of them. Your brain wants it to make sense, but it has no meaning.
 "SMFW", the title of the comic and an initialism used as the caption, is very close to a number of other common initialisms, including:

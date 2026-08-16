@@ -8,7 +8,7 @@ description: >-
   of it and the homepage map shows all of it, so the first sentence has to work
   on its own. Not the opening paragraph rewritten.
 image:
-  path: assets/images/article/the-slug/placeholder-cover.png
+  path: assets/posts/the-slug/placeholder-cover.png
   alt: Image description
 ---
 
@@ -27,7 +27,7 @@ Your main content here. Some quick references:
 ### Links and Images
 
 [Link Text](URL)
-![Alt Text](assets/images/article/example.png)
+![Alt Text](assets/posts/the-slug/01.png)
 
 ### Code Blocks
 

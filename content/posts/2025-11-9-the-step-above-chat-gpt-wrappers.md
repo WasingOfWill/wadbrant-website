@@ -5,7 +5,7 @@ date: 2025-11-10 09:00
 categories: [AI]
 tags: [Product, AI, Doing Things]
 image:
-  path: assets/images/cover/llm.webp
+  path: assets/posts/the-step-above-chat-gpt-wrappers/cover.webp
 ---
 
 All product managers worth their salt has understood the basics of large-language-models (LLMs). It is a new way to interface with information, and it opens a lot of door which weren't easy to go through before. Then, the good PMs realize that the average users of LLMs are awful. They try some prompt, it generates some awful generic output with factual errors. So they come up with the idea; if I take OpenAI's API, feed it some actually good well-tested prompts, I can sell it to both users and investors as the new hot AI startup and make $millions. Pretty smart.
@@ -36,7 +36,7 @@ Let's begin by going through some key terms.
 
 - Multi-agent. Chain multiple of these together into a big flow.
 
-![Agent Terms](assets/images/article/pley/pleyai_parentagents.png)
+![Agent Terms](assets/posts/the-step-above-chat-gpt-wrappers/01.png)
 
 > ### What is Context Rot?
 “Context rot” is a hard-to-define issue in language models where performance degrades as context grows. Even for strong xontext-benchmarking setups like RULER works great even in massive contexts, but you'll still notice models seeming to “get dumber” in extended chats or large code histories. Try chatting with the same instance of Chat GPT for 100+ messages about the same topic, and watch it derail. It’s a familiar but poorly measurable failure mode. A proposed fix is to split large contexts into smaller model calls and merge results, the idea behind a recursive language model.

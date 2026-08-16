@@ -53,22 +53,29 @@ one day in ten and invisible afterwards.
 
 ## Images
 
-Each article gets a folder:
+Each article gets a folder named for its slug, holding everything it uses and
+nothing else:
 
-```bash
-mkdir -p public/assets/images/article/<slug>
+```
+public/assets/posts/<slug>/cover.png
+public/assets/posts/<slug>/01.png
+public/assets/posts/<slug>/02.png
 ```
 
-Reference them as `assets/images/...`, with or without the leading slash.
+The numbers are the order the images appear in the piece. Reference them as
+`assets/posts/<slug>/...`, with or without the leading slash. An article may
+only use its own folder plus `assets/site/`, and the content suite fails a
+stray path, an unused file and a folder with no article.
+
 Source artwork no wider than 1600px. Then:
 
 ```bash
 npm run optimize:images
 ```
 
-It re-encodes in place, never upscales, never quantises a photograph.
-Originals are not kept in the repository, so optimise once and commit the
-result.
+It re-encodes in place across the whole asset tree, skipping fonts and
+favicons, and never upscales or quantises a photograph. Originals are not kept
+in the repository, so optimise once and commit the result.
 
 Anything not yet real keeps `placeholder-` in its filename. A published post
 that still has one fails the content suite, so a placeholder cannot reach the

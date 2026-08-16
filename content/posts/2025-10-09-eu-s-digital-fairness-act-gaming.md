@@ -5,7 +5,7 @@ date: 2025-10-09 14:40 -0400
 categories: [News]
 tags: [Game Industry, Things Happening]
 image:
-  path: assets/images/cover/digitalfairnessact.png
+  path: assets/posts/eu-s-digital-fairness-act-gaming/cover.png
 ---
 
 ## Europe’s Digital Fairness Act

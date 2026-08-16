@@ -7,7 +7,7 @@ tags:
 - Indie Games
 - Doing Things
 image:
-  path: assets/images/cover/steamtags.jpg
+  path: assets/posts/how-to-not-pick-the-wrong-game-genre/cover.jpg
 date: 2025-09-21 12:22 -0400
 ---
 ## This Article
@@ -25,7 +25,7 @@ Genre, categories, and tags matter on Steam (and other platforms) because the al
 
 This becomes key when you release your game, and need the initial traffic. It will also bundle your games during sales and events, further helping the right players discover your game.
 
-![Game Categories Quadrants](assets/images/article/2025-09-morelikethis.png)
+![Game Categories Quadrants](assets/posts/how-to-not-pick-the-wrong-game-genre/01.png)
 
 
 
@@ -35,7 +35,7 @@ Game genres, tags, and categories on Steam vary widely. Different genres have di
 - How many games are being released in the genre?
 - Quality-to-pricing expectations
 
-![Game Categories Quadrants](assets/images/article/2025-09-quadrants.png)
+![Game Categories Quadrants](assets/posts/how-to-not-pick-the-wrong-game-genre/02.png)
 
 Optimally, you release your game in categories where there are a lot of players and too few games (top right). This massively increases the likelihood that your game will sell, lowers the requirements on quality/polish, and overall makes life much easier for you.
 
@@ -46,7 +46,7 @@ I have my massive dataset over Steam tags, their performance, and estimations on
 - Mediocre: Games which sold between $10K and $50K before fees. This is alright, but won't fund a game #2.
 - Success: Games with >$50K in sales before fees. This will sustain a 5-person indie game studio.
 
-![Game Categories Quadrants](assets/images/article/Screenshot2025-09-21-122301.png)
+![Game Categories Quadrants](assets/posts/how-to-not-pick-the-wrong-game-genre/03.png)
 
 There are two types of bad categories here, which is reflected in our quadrants.
 - Oversaturated tags (bottom right, many players but many games), where there are so many games that the audience isn't accessible ("Combat", "Arcade", "Minimalist", "Linear"). 

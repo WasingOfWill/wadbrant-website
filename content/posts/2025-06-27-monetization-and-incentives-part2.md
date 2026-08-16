@@ -5,7 +5,7 @@ date: 2025-06-27
 categories: [Gaming, Monetisation]
 tags: [Product, Game Industry]
 image:
-  path: assets/images/cover/mobileGameMonetization.png
+  path: assets/posts/monetization-and-incentives-part2/cover.png
 ---
 
 This is part 2 of how game design and strategy are affected by the incentives created by how your game is monetized. While monetization is necessary to sustain development, overly aggressive methods can undermine the quality and enjoyment of a game. This is a hot topic now that we get to free-to-play game studios, which I have spent the last 3 years working with and building product for.

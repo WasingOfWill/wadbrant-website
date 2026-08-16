@@ -5,7 +5,7 @@ date: 2025-09-18
 categories: [Gaming]
 tags: [Product, Game Industry, Indie Games]
 image:
-  path: assets/images/cover/yaengardStore.png
+  path: assets/posts/why-indie-games-fail/cover.png
 ---
 
 ## This Article
@@ -32,7 +32,7 @@ Let's break down what happens to most games on Steam.
 
 In large part, this is due to game development being accessible, and many gamers dreaming of adding their creation to Steam. But for those of us not just dreaming, but trying to build games for a living, it becomes a sobering truth.
 
-![Genre Matters](assets/images/article/steamGraph.png)
+![Genre Matters](assets/posts/why-indie-games-fail/01.png)
 More and more games are being released as gaming grows, kids grow up dreaming of making games, and it is easier now than ever. Additionally, both tools and distribution are much more accessible than they once were (including the arrival of coding LLMs).
 
 **Pricing Mistakes**
@@ -43,7 +43,7 @@ More and more games are being released as gaming grows, kids grow up dreaming of
 - Only 1.5% of these games cost $40 or more.
 - Less than 0.2% of these games have AAA pricing (>$60).
 
-![Genre Matters](assets/images/article/reviewsSteam.png)
+![Genre Matters](assets/posts/why-indie-games-fail/02.png)
 For each Steam review (positive or negative), about 50–60 copies are sold (funnily enough, my indie game sold EXACTLY 50 copies per review in its first year). You need about 500 reviews for a game release to sustain a tiny indie development team. Double it if you have a publisher, which generally takes a 50/50 revenue split these days for indie game companies. 
 
 ## Consider your business options. Don't go in blind.

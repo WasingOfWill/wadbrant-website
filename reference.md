@@ -19,7 +19,12 @@ deployed on Vercel. Every page is prerendered at build time.
 content/            the only thing you edit to publish
   posts/            articles, one .md per post, drafts included
   pages/            about, cv
-public/assets/      images, self-hosted fonts, favicons
+public/assets/
+  posts/<slug>/     one folder per article: cover.png, 01.png, 02.png ...
+  site/             avatar, og image, the drawn map, portraits
+  incoming/         media waiting for an article
+  fonts/            self-hosted webfonts
+  favicons/
 src/
   app/              routes
   components/       UI
@@ -119,7 +124,7 @@ a region, and anything unmatched falls to Misc. Renaming a category means
 adding a redirect in `next.config.mjs`, which is where every retired name
 already points.
 
-The drawn map under the grid is `public/assets/images/website/map.jpg`, faded
+The drawn map under the grid is `public/assets/site/map.jpg`, faded
 by `--map-wash` and masked to nothing well before any window edge.
 `tests/functional.mjs` reads the border pixels at four window sizes to prove it,
 because a mask radius that is safe at one size is not at another.
@@ -143,6 +148,34 @@ can read it.
 `npm run slot` decides the date: today if today is free, otherwise two days
 past the last one booked. `tests/build-output.mjs` checks that no draft leaks
 into anything indexable.
+
+## Media
+
+One folder per article, named for its slug, holding everything that article
+uses and nothing else:
+
+```
+public/assets/posts/why-indie-games-fail/
+  cover.png
+  01.png
+  02.png
+```
+
+`cover` is the cover. The numbers are the order the images appear in the piece,
+so finding the third picture means opening `03`. Replacing one means dropping a
+file over it and keeping the name.
+
+An article may only reference its own folder, plus `assets/site/` for the
+things that belong to the site rather than to a piece. Two articles wanting the
+same picture each get a copy: a duplicated file is cheaper than an edit in one
+place changing another article.
+
+`tests/content.mjs` enforces all of it: a path outside the folder, a file in
+the folder nobody uses, and a folder with no article all fail. Media with no
+article yet goes in `assets/incoming/`.
+
+Then run `npm run optimize:images`, which re-encodes in place across the whole
+tree and skips fonts and favicons.
 
 ## Content model
 

@@ -17,7 +17,7 @@ export default async function HexMap() {
     <>
       {/* The ground is a CSS background, so it is only discovered once the
           stylesheet has parsed. Without this it fades in after the grid. */}
-      <link rel="preload" as="image" href="/assets/images/website/map.jpg" />
+      <link rel="preload" as="image" href="/assets/site/map.jpg" />
 
       {/* The map is a picture to a screen reader. This is the same content as
           a list, and it is what a crawler follows. */}

@@ -32,13 +32,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/assets/img/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/assets/img/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/assets/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/assets/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
     ],
-    apple: '/assets/img/favicons/apple-touch-icon.png',
-    shortcut: '/assets/img/favicons/favicon.ico',
+    apple: '/assets/favicons/apple-touch-icon.png',
+    shortcut: '/assets/favicons/favicon.ico',
   },
-  manifest: '/assets/img/favicons/site.webmanifest',
+  manifest: '/assets/favicons/site.webmanifest',
   appleWebApp: { capable: true, title: site.title, statusBarStyle: 'black-translucent' },
 };
 

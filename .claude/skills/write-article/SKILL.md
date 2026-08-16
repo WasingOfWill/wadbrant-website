@@ -82,22 +82,29 @@ Structure so it can be skimmed: headings that say something, short paragraphs,
 a list where a list helps, a table where a table helps. Do not use the same
 skeleton as the last post.
 
-Media goes in a folder of its own, created now and left for the author to fill:
+Media goes in a folder of its own, named for the slug, created now and left for
+the author to fill:
 
 ```bash
-mkdir -p public/assets/images/article/<slug>
+mkdir -p public/assets/posts/<slug>
 ```
 
-Reference the images the article wants at the points it wants them, with real
-alt text and a filename that says what the picture should be:
+The cover is `cover.png`. Inline images are numbered in the order they appear:
+`01.png`, `02.png`. Reference them where the article wants them, with real alt
+text:
 
 ```markdown
-![A Steam store page showing the review count](assets/images/article/<slug>/placeholder-steam-reviews.png)
+![A Steam store page showing the review count](assets/posts/<slug>/01.png)
 ```
 
-Keep `placeholder-` in every filename that is not real yet. `tests/content.mjs`
-fails a published post that still has one, so a placeholder cannot reach the
-site by accident, and a draft can carry as many as it likes.
+While the picture does not exist yet, name the file `placeholder-01.png` and
+point at that. `tests/content.mjs` fails a published post that still has one,
+so a placeholder cannot reach the site by accident, and a draft can carry as
+many as it likes. Tell the author which number is which, because `01.png` says
+nothing about what should be in it.
+
+An article may only use its own folder, plus `assets/site/`. If two pieces want
+the same picture, copy it into both.
 
 ## 6. Review the draft
 

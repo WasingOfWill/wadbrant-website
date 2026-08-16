@@ -5,7 +5,7 @@ date: 2025-10-27
 categories: [Product]
 tags: [Product]
 image:
-  path: assets/images/cover/default.png
+  path: assets/posts/top-10-mistakes/cover.png
 ---
 
 Few skills is as important for a product manager as self-reflection. It is the PMs job to stop and change when things aren't working. 

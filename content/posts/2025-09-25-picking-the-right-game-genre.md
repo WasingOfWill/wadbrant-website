@@ -7,14 +7,14 @@ tags:
 - Indie Games
 - Doing Things
 image:
-  path: assets/images/cover/idol.webp
+  path: assets/posts/picking-the-right-game-genre/cover.webp
 date: 2025-09-25 17:02 -0400
 ---
 I’ve been digging into how to evaluate whether a game genre is worth building for as an indie studio. My goal is to combine passion with market reality: I want to make games I love, but I also want to know if those games can sustain a small team of two to five people. Recently I used this process to explore one of my favorite game categories: narrative detective mystery puzzle games, like *Return of the Obra Dinn*, *The Roottrees Are Dead*, and *Case of the Golden Idol*.
 
 Here I go through a rough but practical analysis of mystery games (with some Lovecraftian tangents), with an approach that can be applied to all games!
 
-![The Roottrees are dead is excellent](assets/images/article/roottrees.jpg)
+![The Roottrees are dead is excellent](assets/posts/picking-the-right-game-genre/01.jpg)
 *THE ROOTTREES ARE DEAD.*
 
 ## My process for evaluating a genre
@@ -71,7 +71,7 @@ Mystery games are hard to design. You need strong writing and puzzle design, and
 
 But for a passionate indie willing to tackle that challenge, Lovecraftian mystery puzzle games seem to be one of the most promising underserved niches on Steam: hungry players, relatively low competition, and better success odds than crowded genres like platformers or generic puzzle games. If you love this space and can execute well, it’s a smart place to build.
 
-![The Return of the Obra Dinn is excellent](assets/images/article/obradin.jpg)
+![The Return of the Obra Dinn is excellent](assets/posts/picking-the-right-game-genre/02.jpg)
 *You'll get... EXACTLY WHAT I GIVE YOU!*
 
 ## How to evaluate your game genre

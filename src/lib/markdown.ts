@@ -15,7 +15,7 @@ import type { Element, Root, ElementContent } from 'hast';
 
 /**
  * Accepts asset paths written without a leading slash
- * (`assets/images/x.png` becomes `/assets/images/x.png`).
+ * (`assets/posts/x/01.png` becomes `/assets/posts/x/01.png`).
  */
 function normalizeAssetPath(src: string): string {
   if (/^(https?:)?\/\//.test(src) || src.startsWith('/') || src.startsWith('data:')) {

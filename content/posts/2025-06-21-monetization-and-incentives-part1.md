@@ -5,7 +5,7 @@ date: 2025-06-21
 categories: [Gaming, Monetisation]
 tags: [Product, Game Industry]
 image:
-  path: assets/images/cover/steamHome.jpg
+  path: assets/posts/monetization-and-incentives-part1/cover.jpg
 
 ---
 
