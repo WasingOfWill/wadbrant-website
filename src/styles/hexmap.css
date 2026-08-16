@@ -13,7 +13,7 @@
 :root {
   --region-ai: #684a8c;
   --region-gaming: #a63528;
-  --region-ongoing: #445e49;
+  --region-news: #445e49;
   --region-product: #9c470d;
   --region-projects: #7f5722;
   --region-misc: #5c554c;
@@ -29,7 +29,7 @@
 html[data-mode='dark'] {
   --region-ai: #b79ce0;
   --region-gaming: #ef8f76;
-  --region-ongoing: #94bb9c;
+  --region-news: #94bb9c;
   --region-product: #fb923c;
   --region-projects: #d7a862;
   --region-misc: #b0a89d;
@@ -46,7 +46,7 @@ html[data-mode='dark'] {
   html:not([data-mode='light']) {
     --region-ai: #b79ce0;
     --region-gaming: #ef8f76;
-    --region-ongoing: #94bb9c;
+    --region-news: #94bb9c;
     --region-product: #fb923c;
     --region-projects: #d7a862;
     --region-misc: #b0a89d;
@@ -316,8 +316,8 @@ html:has(#hexmap) body {
 #hexmap [data-region='gaming'] {
   --region: var(--region-gaming);
 }
-#hexmap [data-region='ongoing'] {
-  --region: var(--region-ongoing);
+#hexmap [data-region='news'] {
+  --region: var(--region-news);
 }
 #hexmap [data-region='product'] {
   --region: var(--region-product);
@@ -383,7 +383,7 @@ html:has(#hexmap) body {
 /* Terrain ink. currentColor inside a pattern resolves against the pattern
    element, not against whatever references it, so each one is tinted here. */
 #terrain-ai path,
-#terrain-ongoing path,
+#terrain-news path,
 #terrain-product path,
 #terrain-projects path {
   fill: none;
@@ -402,8 +402,8 @@ html:has(#hexmap) body {
 #terrain-gaming path {
   stroke: var(--region-gaming);
 }
-#terrain-ongoing path {
-  stroke: var(--region-ongoing);
+#terrain-news path {
+  stroke: var(--region-news);
 }
 #terrain-product path {
   stroke: var(--region-product);

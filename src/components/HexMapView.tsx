@@ -27,7 +27,7 @@ const MARKS: Record<string, string> = {
 
   ai: 'M -14 8 L 14 8 M -14 8 L 0 -13 M 14 8 L 0 -13',
   gaming: 'M 0 -17 L 15 -8.5 L 15 8.5 L 0 17 L -15 8.5 L -15 -8.5 Z M 0 -17 L 15 8.5 L -15 8.5 Z',
-  ongoing: 'M 0 16 V 3 M -8 -2 A 11 11 0 0 1 8 -2 M -15 -8 A 21 21 0 0 1 15 -8 M 0 3 A 3 3 0 1 0 0 2.9',
+  news: 'M 0 16 V 3 M -8 -2 A 11 11 0 0 1 8 -2 M -15 -8 A 21 21 0 0 1 15 -8 M 0 3 A 3 3 0 1 0 0 2.9',
   product: 'M -15 13 L 15 13 L -15 -13 Z M -15 5 L 6 5',
   projects: 'M -15 14 H 15 M -13 14 V 2 H -3 V 14 M 3 14 V -4 H 13 V 14 M -8 -2 V -13 H 2 V -2',
   misc: 'M 4 -12 L 14 -12 L 14 -2 L 4 -2 Z M -12 12 L -2 12 L -7 3 Z',
@@ -628,7 +628,7 @@ function Terrain() {
       <pattern id="terrain-gaming" width="26" height="30" patternUnits="userSpaceOnUse">
         <path d="M 13 4 L 20 8 L 20 16 L 13 20 L 6 16 L 6 8 Z" />
       </pattern>
-      <pattern id="terrain-ongoing" width="28" height="18" patternUnits="userSpaceOnUse">
+      <pattern id="terrain-news" width="28" height="18" patternUnits="userSpaceOnUse">
         <path d="M -2 13 Q 7 3 16 13 T 34 13" />
       </pattern>
       <pattern id="terrain-product" width="22" height="22" patternUnits="userSpaceOnUse">

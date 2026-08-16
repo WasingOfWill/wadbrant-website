@@ -78,13 +78,13 @@ export const REGIONS: Region[] = [
     matches: ['Gaming'],
   },
   {
-    id: 'ongoing',
-    name: 'Ongoing',
+    id: 'news',
+    name: 'News',
     direction: { q: 1, r: 0 },
     distance: 9,
     skew: 0,
-    blurb: 'What is happening out there in the industry, and what I make of it.',
-    matches: ['Ongoing'],
+    blurb: 'What is happening out there, and what I make of it.',
+    matches: ['News'],
   },
   {
     id: 'product',
@@ -130,9 +130,17 @@ const OUTPOST_DISTANCE = 4;
  * The four directions are chosen to stay on screen: up, up and right, down and
  * right, down. Nothing seeds to the left, which is where the sidebar sits.
  */
-const FEATURED: { badge: string; cells: Axial[] }[] = [
-  { badge: 'New', cells: [{ q: 2, r: -4 }, { q: 3, r: -4 }] },
-  { badge: 'New', cells: [{ q: 4, r: -3 }, { q: 4, r: -2 }] },
+const FEATURED: { badge: string; cells: Axial[]; label: { x: number; y: number } }[] = [
+  {
+    badge: 'New',
+    cells: [{ q: 2, r: -4 }, { q: 3, r: -4 }],
+    label: { x: -132, y: -378 },
+  },
+  {
+    badge: 'New',
+    cells: [{ q: 4, r: -3 }, { q: 4, r: -2 }],
+    label: { x: 277, y: -374 },
+  },
   {
     badge: 'Featured',
     cells: [
@@ -142,8 +150,13 @@ const FEATURED: { badge: string; cells: Axial[] }[] = [
       { q: 2, r: 3 },
       { q: 1, r: 4 },
     ],
+    label: { x: 150, y: 244 },
   },
-  { badge: 'Recommended', cells: [{ q: -3, r: 4 }, { q: -2, r: 4 }, { q: -1, r: 4 }] },
+  {
+    badge: 'Recommended',
+    cells: [{ q: -3, r: 4 }, { q: -2, r: 4 }, { q: -1, r: 4 }],
+    label: { x: 0, y: 300 },
+  },
 ];
 
 /** Nothing may be laid closer than this. Rings 2 and 3 are the gap. */
@@ -414,7 +427,7 @@ export async function getHexMap(): Promise<HexMapData> {
     label: post.title,
     meta: `${DATE_FORMAT.format(post.date)} / ${post.listReadTime} min`,
     href: post.url,
-    excerpt: post.excerpt,
+    excerpt: post.description ?? post.excerpt,
     image: post.image ? { src: post.image.path, alt: post.image.alt ?? '' } : undefined,
     icon: iconFor(post),
   });
@@ -548,6 +561,16 @@ export async function getHexMap(): Promise<HexMapData> {
       travelTo: `${region.id}-${sub.slug}`,
     }));
 
+    /* An entry that lives at one of the topics does not also ring the
+       category: it is in one place on the map, and the signpost is how you get
+       to it. */
+    const atTopics = new Set(
+      outposts.flatMap(({ sub }) =>
+        list.filter((post) => post.categories.includes(sub.name)).map((post) => post.slug)
+      )
+    );
+    const here = list.filter((post) => !atTopics.has(post.slug));
+
     /* Ring 1 first, then ring 2, swept by angle so the newest work sits
        closest to the city. Anything already taken is skipped, so no entry can
        be dropped on the floor. */
@@ -557,8 +580,8 @@ export async function getHexMap(): Promise<HexMapData> {
     ].filter(free);
 
     const room = slots.length - signposts.length;
-    const overflows = list.length > room;
-    const shown = overflows ? list.slice(0, room - 1) : list;
+    const overflows = here.length > room;
+    const shown = overflows ? here.slice(0, room - 1) : here;
 
     const filling: HexCell[] = [
       ...shown.map((post) => entry(post, `post-${post.slug}`, region.id, region.id)),
@@ -662,14 +685,11 @@ export async function getHexMap(): Promise<HexMapData> {
     }
     if (laid.length === 0) continue;
 
-    /* The label floats above the cluster rather than sitting on a tile, so it
-       is readable at any size and belongs to the group, not to one entry. */
-    const points = laid.map((cell) => axialToPixel(cell));
-    clusters.push({
-      badge: cluster.badge,
-      x: Number((points.reduce((sum, at) => sum + at.x, 0) / points.length).toFixed(1)),
-      y: Number((Math.min(...points.map((at) => at.y)) - 52).toFixed(1)),
-    });
+    /* Where the label goes is written down rather than derived. A label placed
+       relative to the tiles lands in a different spot for every cluster shape,
+       and half of them ended up crossing a hexagon. These four sit clear of
+       any tile, above or beside the group they name. */
+    clusters.push({ badge: cluster.badge, ...cluster.label });
 
     /* A faded road across the gap, so the cluster reads as somewhere the camp
        connects to rather than as an island. */
@@ -719,7 +739,7 @@ export async function getHexMap(): Promise<HexMapData> {
       title: recent[0].title,
       href: recent[0].url,
       meta: `${DATE_FORMAT.format(recent[0].date)} / ${recent[0].listReadTime} min`,
-      excerpt: recent[0].excerpt,
+      excerpt: recent[0].description ?? recent[0].excerpt,
       image: recent[0].image
         ? { src: recent[0].image.path, alt: recent[0].image.alt ?? '' }
         : undefined,

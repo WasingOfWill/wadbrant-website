@@ -8,7 +8,9 @@ import { extractHeadings } from '@/lib/headings';
 import {
   formatLongDate,
   getAllPosts,
-  getPost,
+  getDrafts,
+  getPostOrDraft,
+  getScheduled,
   getRelatedPosts,
   slugify,
   type Post,
@@ -18,21 +20,28 @@ import { site } from '@/lib/site';
 type Params = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  const posts = await getAllPosts();
+  /* Drafts and scheduled pieces render at their real URL so they can be read
+     in place before they go out. Nothing links to them and nothing indexes
+     them. */
+  const posts = [...(await getAllPosts()), ...(await getDrafts()), ...(await getScheduled())];
   return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await getPostOrDraft(slug);
   if (!post) return {};
 
   const description = post.description ?? post.excerpt;
   const image = post.image?.path ?? site.ogImage;
+  /* Not out yet, either way. A search engine should not be holding a copy of
+     something that has not been published. */
+  const unpublished = post.draft || post.date.getTime() > Date.now();
 
   return {
-    title: post.title,
+    title: unpublished ? `Draft: ${post.title}` : post.title,
     description,
+    robots: unpublished ? { index: false, follow: false } : undefined,
     alternates: { canonical: post.url },
     openGraph: {
       type: 'article',
@@ -96,7 +105,7 @@ function RelatedPosts({ posts }: { posts: Post[] }) {
 
 export default async function PostPage({ params }: Params) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await getPostOrDraft(slug);
   if (!post) notFound();
 
   const posts = await getAllPosts();
@@ -143,7 +152,15 @@ export default async function PostPage({ params }: Params) {
   return (
     <Layout
       title="Post"
-      crumbs={[{ label: 'Home', href: '/' }, { label: post.title }]}
+      /* The category crumb goes to the article list filtered to it, which is
+         the page a reader actually wants when they click a category. */
+      crumbs={[
+        { label: 'Home', href: '/' },
+        ...(post.categories[0]
+          ? [{ label: post.categories[0], href: `/articles/?c=${slugify(post.categories[0])}` }]
+          : []),
+        { label: post.title },
+      ]}
       headings={headings}
       tail={tail}
     >
@@ -153,6 +170,13 @@ export default async function PostPage({ params }: Params) {
       />
 
       <article className="px-1">
+        {(post.draft || post.date.getTime() > Date.now()) && (
+          <p className="draft-flag">
+            {post.draft
+              ? 'Draft. Not listed anywhere on the site and not indexed.'
+              : `Scheduled for ${formatLongDate(post.date)}. Not listed yet and not indexed.`}
+          </p>
+        )}
         <header>
           <h1>{post.title}</h1>
           <div className="post-meta text-muted">

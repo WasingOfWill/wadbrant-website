@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatCardDate, type Post } from '@/lib/posts';
+import { formatCardDate, slugify, type Post } from '@/lib/posts';
 
 /**
  * `priority` is passed for the first couple of cards: they are the largest
@@ -10,7 +10,9 @@ export default function PostCard({ post, priority = false }: { post: Post; prior
   const hasImage = Boolean(post.image);
 
   return (
-    <article className="card-wrapper card">
+    /* The filter on the article list hides by attribute rather than by
+       re-rendering, so the card has to say which category it is in. */
+    <article className="card-wrapper card" data-category={slugify(post.categories[0] ?? '')}>
       <Link
         href={post.url}
         className={`post-preview row g-0${hasImage ? ' flex-md-row-reverse' : ''}`}

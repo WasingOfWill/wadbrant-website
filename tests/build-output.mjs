@@ -79,7 +79,7 @@ for (const href of links) {
  * rendered SVG is measured, because the React payload further down the
  * document repeats every attribute.
  */
-const REGION_IDS = ['ai', 'gaming', 'ongoing', 'product', 'projects', 'misc'];
+const REGION_IDS = ['ai', 'gaming', 'news', 'product', 'projects', 'misc'];
 
 const canvas = home.body.match(/<svg class="hexmap-canvas"[\s\S]*?<\/svg>/)?.[0];
 if (!canvas) {
@@ -130,7 +130,11 @@ if (!canvas) {
       continue;
     }
     const held = Number(tiles.find((tile) => tile.id === `city-${id}`)?.holds);
-    const shown = count((tile) => tile.hub === id && tile.kind === 'article');
+    /* An entry sits at its topic when it has one, and around the category
+       otherwise, so a region's entries are spread across both. */
+    const shown = count(
+      (tile) => tile.kind === 'article' && (tile.hub === id || tile.hub.startsWith(`${id}-`))
+    );
     const gated = count((tile) => tile.hub === id && tile.kind === 'gate') === 1;
     sizes.push(shown);
 
@@ -165,6 +169,51 @@ if (!canvas) {
       fail('/', `map links to ${href}, which is not a published post`);
     }
   }
+}
+
+/*
+ * Drafts are unlisted, which is a promise made of several parts: no index, no
+ * sitemap entry, no feed entry, nothing in search, and no link from anywhere.
+ * Any one of them slipping is how unfinished writing ends up on Google.
+ */
+const drafts = await get('/drafts/');
+if (drafts.status !== 200) fail('/drafts/', `status ${drafts.status}`);
+if (!/name="robots"[^>]*noindex/.test(drafts.body)) fail('/drafts/', 'is not noindex');
+if (sitemap.body.includes('/drafts/')) fail('/sitemap.xml', 'lists the drafts page');
+
+const robots = await get('/robots.txt');
+if (!/Disallow: \/drafts\//.test(robots.body)) fail('/robots.txt', 'does not exclude /drafts/');
+
+/* Only the list itself. The page chrome carries links to published posts, and
+   matching those would report every article on the site as a leaked draft. */
+const draftList = drafts.body.match(/<ul class="draft-list">[\s\S]*?<\/ul>/g)?.join('') ?? '';
+if (!/In progress/.test(drafts.body) || !/Scheduled/.test(drafts.body)) {
+  fail('/drafts/', 'does not show both work in progress and what is scheduled');
+}
+for (const [, href] of draftList.matchAll(/href="(\/posts\/[^"]+)"/g)) {
+  if (index.some((entry) => entry.url === href)) {
+    fail('/drafts/', `${href} is listed as a draft but is also published`);
+  }
+  const page = await get(href);
+  if (!/name="robots"[^>]*noindex/.test(page.body)) fail(href, 'a draft that is not noindex');
+  if (sitemap.body.includes(href)) fail('/sitemap.xml', `lists the draft ${href}`);
+  if (feed.body.includes(href)) fail('/feed.xml', `carries the draft ${href}`);
+  if (links.has(href)) fail('/', `a draft is linked from the published site: ${href}`);
+}
+
+/*
+ * The category tabs on the article list. Filtering is done with an attribute,
+ * so a card without one silently becomes unreachable by every filter.
+ */
+const articles = await get('/articles/');
+const tabs = [...articles.body.matchAll(/data-category="([\w-]+)"[^>]*>\s*([A-Za-z]+)/g)];
+if (tabs.length === 0) fail('/articles/', 'has no category tabs');
+const cards = [...articles.body.matchAll(/class="card-wrapper card" data-category="([\w-]*)"/g)];
+if (cards.length !== index.length) {
+  fail('/articles/', `${cards.length} cards for ${index.length} posts`);
+}
+for (const [, category] of cards) {
+  if (!category) fail('/articles/', 'a card has no category to filter on');
 }
 
 // A missing page must actually 404.

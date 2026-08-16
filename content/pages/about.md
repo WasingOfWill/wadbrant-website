@@ -11,18 +11,18 @@ I write about projects I work on, AI, Product Management, the gaming industry, a
 Professionally I do many things, but my heart is in the gaming industry, business, and AI. Shipped multiple products (both 0-to-1 and scaling). Shipped multiple games, including my own from scratch. 
 
 Worked on products where we...
-- Grew from absolutely nothing to 5000 paying players. (2022)
-- Grew from 40 000 users to a million unique users. (2024)
-- Grew  from $30K ARR to $2 mil. (2025)
-- Grew up to $150M ARR, 50M users, and +500K active paying subscribers. (2026)
+- Grew from absolutely nothing to 5000 paying players. (Planeshift Interactive)
+- Grew from 40 000 users to a million unique users. (Pley)
+- Grew  from $30K ARR to $2 mil. (Pley)
+- Grew up to $150M ARR, 50M users, and +500K active paying subscribers. (EverAI)
 And I loved each one.
 
-Studied material science engineering (Steel production) and industrial management.
+Studied material science engineering (steel production & engineering) and industrial management. Mostly use to buy the right cooking equipment these days :)
 
 I am endless curiosity, love to enable others, & turning chaos into direction. Passion for AI product development, but do not believe it'll ruin the world OR solve everything.
 
 If we are to do something, let us do what actually matters!
-Always happy to talk! (Listen too! ;) )
+Always happy to talk! (And even more; listen! ;) )
 
 ## Contact
 
@@ -30,6 +30,11 @@ Always happy to talk! (Listen too! ;) )
 - **Twitter:** [@WilliamWadbrant](https://twitter.com/WilliamWadbrant)
 - **GitHub:** [WasingOfWill](https://github.com/WasingOfWill)
 - **LinkedIn:** [Wadbrant](https://www.linkedin.com/in/wadbrant/) 
+
+## Business
+- Wadbrant Labs AB (559556-2744)
+- Stockholm, Sweden
+- **Business Email:** wadbrantlabs@gmail.com
 
 ## Useful Links
 - [EverAi](https://www.everai.ai/) (Senior AI Product Manager)

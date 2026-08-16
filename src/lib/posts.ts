@@ -35,6 +35,8 @@ export type Post = {
   tags: string[];
   image?: PostImage;
   pin: boolean;
+  /** Still being written. Excluded from every listing, feed and index. */
+  draft: boolean;
   description?: string;
   toc: boolean;
   math: boolean;
@@ -254,6 +256,7 @@ async function loadPost(fileName: string): Promise<Post | null> {
     tags: toArray(data.tags),
     image: normalizeImage(data.image),
     pin: Boolean(data.pin),
+    draft: data.draft === true,
     description: data.description ? String(data.description) : undefined,
     toc: data.toc !== false,
     math: Boolean(data.math),
@@ -272,24 +275,52 @@ async function loadPost(fileName: string): Promise<Post | null> {
 /**
  * All published posts, newest first. Future-dated posts are hidden.
  */
-export async function getAllPosts(): Promise<Post[]> {
-  if (cache) return cache;
+let everything: Post[] | null = null;
+
+/** Everything in content/posts, drafts and scheduled pieces included. */
+async function loadEverything(): Promise<Post[]> {
+  if (everything) return everything;
   if (!fs.existsSync(POSTS_DIR)) return [];
 
   const files = fs.readdirSync(POSTS_DIR).filter((file) => /\.mdx?$/.test(file));
   const posts = (await Promise.all(files.map(loadPost))).filter((post): post is Post => Boolean(post));
+  everything = posts.sort((a, b) => b.date.getTime() - a.date.getTime());
+  return everything;
+}
+
+/**
+ * The published site. A piece is out when it is not a draft and its date has
+ * passed, which is what makes both staging and drafting work by writing a file
+ * rather than by moving one.
+ */
+export async function getAllPosts(): Promise<Post[]> {
+  if (cache) return cache;
   const now = Date.now();
-
-  cache = posts
-    .filter((post) => post.date.getTime() <= now)
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
-
+  cache = (await loadEverything()).filter((post) => !post.draft && post.date.getTime() <= now);
   return cache;
+}
+
+/** Work in progress. Never linked from the site and never indexed. */
+export async function getDrafts(): Promise<Post[]> {
+  return (await loadEverything()).filter((post) => post.draft);
+}
+
+/** Dated ahead and waiting for its day to come. */
+export async function getScheduled(): Promise<Post[]> {
+  const now = Date.now();
+  return (await loadEverything())
+    .filter((post) => !post.draft && post.date.getTime() > now)
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
 }
 
 export async function getPost(slug: string): Promise<Post | undefined> {
   const posts = await getAllPosts();
   return posts.find((post) => post.slug === slug);
+}
+
+/** Used by the post route, so a draft can be read at its real URL. */
+export async function getPostOrDraft(slug: string): Promise<Post | undefined> {
+  return (await loadEverything()).find((post) => post.slug === slug);
 }
 
 /* -------------------------------------------------------------------------- */

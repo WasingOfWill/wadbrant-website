@@ -64,6 +64,28 @@ if (!fs.existsSync(path.join(process.cwd(), '.next'))) {
   process.exit(1);
 }
 
+/*
+ * A server already on the port is never the one we want. `next start` reads
+ * the build manifest once at boot, so an instance left over from an earlier
+ * run serves chunk names that no longer exist: the CSS and the client
+ * JavaScript 404, hydration dies, and the suites fail with nonsense like an
+ * element that is plainly in the markup being missing, or every colour on the
+ * page measuring the same. Refusing to reuse it costs one line and saves an
+ * afternoon of chasing a bug that is not there.
+ */
+try {
+  const stale = await fetch(BASE, { redirect: 'follow' });
+  if (stale.ok) {
+    console.error(
+      `Something is already serving ${BASE}. That is not this build, and testing ` +
+        'against it gives answers about the wrong site. Stop it and run again.'
+    );
+    process.exit(1);
+  }
+} catch {
+  // Nothing there, which is what we want.
+}
+
 const server = spawn(npm, ['start', '--', '-p', String(PORT)], {
   stdio: 'ignore',
   shell: process.platform === 'win32',

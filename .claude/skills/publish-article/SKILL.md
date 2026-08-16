@@ -1,55 +1,80 @@
 ---
 name: publish-article
-description: Publish or update an article on wadbrant.com. Use when asked to add a post, turn a draft or document into an article, set front matter, add cover or inline images, or get a piece live. Handles scaffolding, images, verification and the commit.
+description: The mechanics of getting an article onto wadbrant.com: front matter, scheduling, images, verification and the push. Use when adding or updating a post directly, or as steps 9 to 11 of write-article. For writing a piece from source material, use write-article instead.
 ---
 
 # Publishing an article
 
-The whole pipeline is files plus a push. Nothing else is involved.
+The moving parts, not the writing. `write-article` is the pipeline that calls
+this; this is what it calls.
 
-## 1. Create the file
+## Create the file
 
 ```bash
-npm run new -- "The Title" --categories "Game Industry,Indie" --tags "Indie Games,Doing Things"
+npm run new -- "The Title" --categories "Gaming,Design" --tags "Game Dev,Doing Things"
 ```
 
 That writes `content/posts/YYYY-MM-DD-the-title.md` with valid front matter and
-tells you the URL it will publish at. Writing the file by hand is fine too; the
-naming rule is `YYYY-MM-DD-slug.md`, and the part after the date becomes the
-slug.
+prints the URL it will publish at. Writing the file by hand is fine; the naming
+rule is `YYYY-MM-DD-slug.md`, and the part after the date becomes the slug.
 
-If the source is an existing document, convert it to Markdown first and keep
-the author's voice exactly. The writing rules in CLAUDE.md govern interface
-copy and documentation, not the author's articles.
+## Front matter
 
-## 2. Front matter
+`content/README.md` is the full reference. What matters in practice:
 
-`content/README.md` is the reference. What matters in practice:
+- `categories` is ordered and the first entry is one of the six on the homepage
+  map: AI, Gaming, News, Product, Projects, Misc. At most one second-level
+  entry after it, and there are only three of those. The table is in
+  `reference.md`. Inventing a seventh region silently changes the map.
+- `tags` are flat and shared. Reuse existing spellings; every distinct string
+  becomes its own page.
+- `description` is the summary, 120 to 180 words. It is the meta description
+  and the blurb on the homepage map. Required for anything dated from
+  2026-08-15 onwards, which `tests/content.mjs` enforces.
+- `image.path` is the cover: the card, the top of the post, the social preview.
+- `draft: true` keeps it out of everything while it is being written.
+- A date in the future keeps it out until the day arrives. That is how to stage.
 
-- `categories` is ordered. The first entry is the top-level group on the
-  categories page, the second is its child. Reuse existing groups rather than
-  inventing new ones; check `/categories/` first.
-- `tags` are flat and shared across the site. Reuse existing spellings, since
-  each distinct string becomes its own tag page.
-- `image.path` is the cover. It appears on the card, at the top of the post,
-  and in the social preview.
-- A date in the future keeps the post unpublished. That is the way to stage
-  something.
+Both still render at their own URL, marked and noindex, and both are listed at
+`/drafts/`. There is no separate drafts folder; the flag is the difference.
 
-## 3. Images
+## When it goes out
 
-Put files under `public/assets/images/`, referenced as
-`assets/images/...` with or without the leading slash. Source artwork should be
-no wider than 1600px. Then:
+```bash
+npm run slot
+```
+
+Today if today is free, otherwise two days past the last date already on the
+calendar, stepping until it finds a gap. It reads the filenames, so a staged
+post counts as booked. Put the answer in both the filename and `date`.
+
+Do not work the date out by hand. It is the kind of arithmetic that is wrong
+one day in ten and invisible afterwards.
+
+## Images
+
+Each article gets a folder:
+
+```bash
+mkdir -p public/assets/images/article/<slug>
+```
+
+Reference them as `assets/images/...`, with or without the leading slash.
+Source artwork no wider than 1600px. Then:
 
 ```bash
 npm run optimize:images
 ```
 
-It re-encodes in place and never upscales or quantises photographs. Originals
-are not kept in the repository, so optimise once and commit the result.
+It re-encodes in place, never upscales, never quantises a photograph.
+Originals are not kept in the repository, so optimise once and commit the
+result.
 
-## 4. Verify
+Anything not yet real keeps `placeholder-` in its filename. A published post
+that still has one fails the content suite, so a placeholder cannot reach the
+site by accident.
+
+## Verify
 
 ```bash
 npm run verify
@@ -57,17 +82,21 @@ npm run verify
 
 The content suite is the one that catches article mistakes: missing title or
 date, duplicate slug, an image path that does not resolve, an internal link to
-a route that does not exist. Fix and rerun until it passes. Do not commit an
-article that has not been through it.
+a route that does not exist, a surviving placeholder, a missing description.
+Fix and rerun. Do not commit an article that has not been through it.
 
-## 5. Ship
+Then look at it rendered, with `npm run dev`. The suite cannot tell you that a
+cover is the wrong crop.
 
-Commit the post and its images together, then push. Vercel builds and deploys
-from `main`. For something that wants a look before it goes live, push a branch
-instead and use the preview URL.
+## Ship
+
+Commit the post and its images together, then push to `main`. Vercel builds and
+deploys. For something that wants a look first, push a branch and use the
+preview URL.
 
 ## Editing an existing article
 
 Same loop, minus the scaffolding. Changing a title does not change the URL,
-which comes from the filename; renaming the file does, and breaks inbound
-links, so prefer leaving it alone or add a redirect in `next.config.mjs`.
+which comes from the filename. Renaming the file does, and breaks inbound
+links, so either leave it or add a redirect in `next.config.mjs`, which is
+where every retired URL already points.

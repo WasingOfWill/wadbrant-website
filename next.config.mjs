@@ -23,10 +23,10 @@ const nextConfig = {
       // them. Everything below is a category page that used to exist and no
       // longer does.
       ...[
-        ['game-industry', 'ongoing'],
-        ['industry', 'ongoing'],
-        ['news', 'ongoing'],
-        ['indie', 'ongoing'],
+        ['game-industry', 'news'],
+        ['industry', 'news'],
+        ['ongoing', 'news'],
+        ['indie', 'gaming'],
         ['strategy', 'monetisation'],
         ['game-design', 'gaming'],
         ['genre', 'gaming'],

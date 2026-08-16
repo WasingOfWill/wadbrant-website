@@ -13,7 +13,8 @@
     "verify": "next build && node tests/run.mjs",
     "new": "node scripts/new-post.mjs",
     "build:avatar": "node scripts/build-avatar.mjs",
-    "optimize:images": "node scripts/optimize-images.mjs"
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "slot": "node scripts/next-slot.mjs --why"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

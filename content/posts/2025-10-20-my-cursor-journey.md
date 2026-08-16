@@ -2,6 +2,7 @@
 layout: post
 title: "My Cursor Journey: From Manual Prompting to Automated Editing"
 date: 2025-10-20
+draft: true
 categories: [AI, Practice]
 tags: [Using LLMs, Product, Doing Things]
 image:

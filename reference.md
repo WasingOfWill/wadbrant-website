@@ -17,9 +17,8 @@ deployed on Vercel. Every page is prerendered at build time.
 
 ```
 content/            the only thing you edit to publish
-  posts/            articles, one .md per post
+  posts/            articles, one .md per post, drafts included
   pages/            about, cv
-  drafts/           not built
 public/assets/      images, self-hosted fonts, favicons
 src/
   app/              routes
@@ -36,14 +35,14 @@ src/
     fonts.css       self-hosted font faces
 scripts/            post scaffolding, image tooling, CSS audit
 tests/              automated checks, see tests/README.md
-writing/            style guide and the AI editing workflow
+writing/            style guide, tag list and the post template
 ```
 
 ## Routes
 
 `/`, `/articles/`, `/posts/[slug]/`, `/categories/`, `/categories/[slug]/`,
-`/tags/[slug]/`, `/archives/`, `/about/`, `/cv/`, `/feed.xml`, `/sitemap.xml`,
-`/robots.txt`, `/search.json`.
+`/tags/[slug]/`, `/archives/`, `/about/`, `/cv/`, `/drafts/`, `/feed.xml`,
+`/sitemap.xml`, `/robots.txt`, `/search.json`.
 
 All URLs end in a trailing slash.
 
@@ -51,6 +50,10 @@ All URLs end in a trailing slash.
 shared `Layout`. The article list lives at `/articles/`. Tags have no index of
 their own: the tag cloud sits at the bottom of `/categories/`, and `/tags/`
 redirects there. Individual tag pages still exist.
+
+`/articles/` carries six category tabs, the same six as the map. Filtering is
+an attribute on the list and a `?c=` in the URL, not a re-render, so a link can
+arrive already filtered; the category crumb on a post is one of those links.
 
 ## The homepage map
 
@@ -102,14 +105,14 @@ Every post's first category is one of them:
 | Region | What goes in it |
 | --- | --- |
 | AI | Using it and building with it: ways of working, what is changing |
-| Gaming | Game design, and the projects that came out of it |
-| Ongoing | What is happening in the industry, and what to make of it |
+| Gaming | Game design, monetisation, and why players do what they do |
+| News | What is happening out there, and what to make of it |
 | Product | The craft of product management |
 | Projects | Things built, how they were run, how they went |
 | Misc | Opinions and odds and ends |
 
 A post may carry one second category. There are three: Practice under AI,
-Design under Gaming, Monetisation under Ongoing. Keep it that way; each one
+Design under Gaming, Monetisation under Gaming. Keep it that way; each one
 becomes an outpost on the map and a page under `/categories/`, and a long tail
 of them makes both worse. `REGIONS[].matches` in `lib/hexmap.ts` maps a name to
 a region, and anything unmatched falls to Misc. Renaming a category means
@@ -121,11 +124,35 @@ by `--map-wash` and masked to nothing well before any window edge.
 `tests/functional.mjs` reads the border pixels at four window sizes to prove it,
 because a mask radius that is safe at one size is not at another.
 
+## Drafts and scheduling
+
+One folder, two flags. Everything lives in `content/posts/`.
+
+- `draft: true` means still being written. Out of the article list, the feed,
+  the sitemap, the search index and the map.
+- A date in the future means written and waiting. Same exclusions, and it
+  publishes itself when the day comes.
+- Everything else is live.
+
+Both still render at their real URL, marked and `noindex`, so a piece can be
+read on the site before it goes out. `/drafts/` lists them, in progress and
+scheduled, and is itself unlisted: nothing links to it, robots are told to stay
+away, and it is not in the sitemap. Unlisted, not private. Anyone with the URL
+can read it.
+
+`npm run slot` decides the date: today if today is free, otherwise two days
+past the last one booked. `tests/build-output.mjs` checks that no draft leaks
+into anything indexable.
+
 ## Content model
 
 Front matter drives everything; `content/README.md` has the full list. The
-essentials: `title`, `date`, `categories` (first entry is the top-level group),
-`tags`, optional `image`, `pin`, `description`.
+essentials: `title`, `date`, `categories` (first entry is one of the six
+regions), `tags`, `description`, and optional `image`, `pin`, `draft`.
+
+`description` is the summary, 120 to 180 words, used as the meta description
+and as the blurb on the homepage map. Required from 2026-08-15 onwards; older
+posts fall back to their opening paragraph.
 
 Rules worth knowing:
 
@@ -191,8 +218,10 @@ Six things that have already cost an afternoon each.
 `npm install` points git at `.githooks`, so committing runs the style and
 content checks first. The full suite runs in CI on every push and pull request.
 
-Repeatable procedures live as skills in `.claude/skills/`, currently publishing
-an article and changing the styling. Add one when a job is done more than once.
+Repeatable procedures live as skills in `.claude/skills/`. Writing an article
+end to end is `write-article`, which calls `review-article` and `linkedin-post`
+and leans on `publish-article` for the mechanics. `styling` covers CSS work.
+Add one when a job is done more than once.
 
 ## Commands
 

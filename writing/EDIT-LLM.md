@@ -1,70 +1,32 @@
-This is a task that you are to do in its entirety. Before starting, plan a step-by-step plan how to complete the entire instruction.
-1. Check if there are unreviewed articles (in the `content/posts/` folder). Any article in `content/posts/` which isn't listed in `writing/edited-articles.md` is unreviewed.
-2. Follow the editing instructions beneath these steps for each article.
-3. Go to the `writing/writing-style-guide.md` file and make sure the writing style is up to par and matches my style.
-4. Once complete, add the name of the article to the `writing/edited-articles.md` file.
+# Editing existing articles
 
-Editing Instructions:
-Edit the provided posts to improve writing quality while preserving content and structure.
+This file used to hold the whole editing procedure. It now lives in
+`.claude/skills/review-article/`, which is invoked as part of writing a piece
+and can also be run on its own against any draft.
 
-Scope of fixes:
+What is still here is the part that is about Will rather than about process.
 
-- Spelling, grammar, punctuation, and hyphenation (e.g., “follow-up”, “okay”).
-- Language and naming consistency (e.g., “GOG”, “SnowRunner”, “Pillars of Eternity”, “Steam”).
-- Heading syntax (e.g., “## A …”, not “##A …”).
-- Number formatting and symbols:
-    - Use space as thousands separators: 10 000 instead of 10,000.
-    - Currency without commas: $1000 not $1,000.
-    - Use en dashes for numeric ranges (2019–2022, 10–20).
-    - Format dates as year-month-day or dayth Month
-    - Percent as “%” with no preceding space (e.g., 70%).
-- Capitalization rules:
-    - Front matter:
-        - title: Title Case (keep deliberate stylization if present)
-        - categories: Capitalized (e.g., “Game Industry”, “Indie”)
-        - tags: Title Case (e.g., “Doing Things”, “Game Design”)
-    - Proper nouns correctly capitalized (product and game names).
-    - Headers should be in Pascal case, but lower case filler words. Examples: "This is a Header" "Best Game I've Ever Seen" 
-- List and table consistency (commas, periods, spacing) without reordering.
-- YAML front matter validity and indentation preserved.
+## Tags in use
 
-Do NOT:
+Doing Things, Game Industry, Game Dev, AI, My Product, Nonsense, My Project,
+Product, Things Happening
 
-- Add or remove content, reorder sections, or change meaning.
-- Restructure sentences beyond minimal edits to reduce awkwardness.
-- Change voice/tone beyond consistency and clarity.
+Title case, each word capitalised. A tag that is not on this list is probably a
+typo; ask before adding one, and add it here when the answer is yes.
 
-Style grounding:
+## Categories
 
-1. Before editing, read writing-style-guide.md to learn the style of my writing.
-2. Apply that style consistently to all edits. If it does not make sense to apply, ask follow up questions. Do not presume.
+The first category is one of the six on the homepage map: AI, Gaming, News,
+Product, Projects, Misc. At most one second-level category after it, and there
+are only three of those: Practice, Design, Monetisation. `reference.md` has the
+table and says what belongs in each.
 
-Tags:
-Standard tags I use:
-Doing Things, Game Industry, Game Dev, AI, My Product, Nonsense, My Project, Product Management, Things Happening
-1. Tags should be capitalized at the start of each word.
-2. If I use a tag which I have never used before, that is likely an error. Ask a follow up question if I'd like to add a new tag. If I say yes, add it to the list above.
+Keep the list of second-level categories short. Each one becomes a page under
+`/categories/` and an outpost on the map, and a long tail of them makes both
+worse.
 
-Categories:
-All articles should have two categories. The first category should always be "Game Industry", "Product Management", "AI", and "Whatever". The second category can be whatever, as long as each word is categorized.
+## When something is ambiguous
 
-Uncertainty handling:
-
-- If any fix is ambiguous or would require larger rewrites, pause and ask follow-up questions.
-- If a recurring pattern requires a preference (e.g., tag capitalization, number formatting), ask once, then apply consistently.
-- If you ask follow up questions, add my response to the writing-style-guide.md file.
-
-Output:
-
-- Edit files in place, preserving existing indentation and file format structure.
-- Keep all headings, blocks, images, and links unchanged except for necessary corrections.
-
-Checklist (apply to every post):
-
-- [ ]  Front matter capitalization (title/categories/tags) and validity.
-- [ ]  Spelling/grammar/punctuation/hyphenation.
-- [ ]  Number formatting (commas, currency, ranges, %).
-- [ ]  Proper nouns and product names.
-- [ ]  Heading spacing and list punctuation.
-- [ ]  “markdown” lowercase in text.
-- [ ]  No content additions or restructuring.
+Ask. Do not presume, and do not rewrite meaning to make a sentence tidier. When
+the answer is a preference that will come up again, write it into
+`writing/writing-style-guide.md` so it only has to be given once.

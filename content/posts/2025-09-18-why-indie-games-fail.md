@@ -2,7 +2,7 @@
 layout: post
 title: "Why 90% of Indie Games Fail"
 date: 2025-09-18
-categories: [Ongoing]
+categories: [Gaming]
 tags: [Product, Game Industry, Indie Games]
 image:
   path: assets/images/cover/yaengardStore.png

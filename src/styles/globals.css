@@ -615,3 +615,134 @@ html {
 #sidebar #avatar {
   margin-inline: auto;
 }
+
+/* --------------------------------------------------------------------------
+   Category tabs over the article list.
+
+   Filtering hides cards with CSS rather than re-rendering the list, so the
+   rule that does the work is the one below: everything that does not match
+   the chosen category goes away, and no choice means everything stays.
+   -------------------------------------------------------------------------- */
+#post-list[data-filter]:not([data-filter='']) .card-wrapper {
+  display: none;
+}
+
+#post-list[data-filter='ai'] .card-wrapper[data-category='ai'],
+#post-list[data-filter='gaming'] .card-wrapper[data-category='gaming'],
+#post-list[data-filter='news'] .card-wrapper[data-category='news'],
+#post-list[data-filter='product'] .card-wrapper[data-category='product'],
+#post-list[data-filter='projects'] .card-wrapper[data-category='projects'],
+#post-list[data-filter='misc'] .card-wrapper[data-category='misc'] {
+  display: block;
+}
+
+#article-filter {
+  margin-bottom: 1.5rem;
+}
+
+#article-filter ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#article-filter button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--btn-border-color);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted-color);
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+#article-filter button span {
+  font-size: 0.6875rem;
+  color: var(--text-muted-color);
+  opacity: 0.75;
+}
+
+#article-filter button:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+#article-filter button[data-on] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+
+#article-filter button[data-on] span {
+  color: var(--accent);
+  opacity: 1;
+}
+
+/* On a phone the tabs scroll sideways instead of stacking into four rows and
+   pushing the articles off the screen. */
+@media (max-width: 850px) {
+  #article-filter {
+    margin-bottom: 1rem;
+  }
+
+  #article-filter ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding-bottom: 0.2rem;
+    /* Bleed to the screen edge so the row reads as scrollable. */
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+  }
+
+  #article-filter ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  #article-filter li {
+    flex: 0 0 auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Drafts.
+   -------------------------------------------------------------------------- */
+.draft-flag {
+  padding: 0.55rem 0.9rem;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-wash);
+  color: var(--text-muted-color);
+  font-size: 0.85rem;
+}
+
+.draft-list {
+  list-style: none;
+  padding: 0;
+}
+
+.draft-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.draft-list li span {
+  color: var(--text-muted-color);
+  font-size: 0.8125rem;
+}

@@ -23,6 +23,9 @@ const matterOptions = {
   engines: { yaml: (input) => yaml.load(input, { schema: yaml.CORE_SCHEMA }) },
 };
 
+/** Articles dated on or after this must carry a description. */
+const DESCRIPTION_FROM = '2026-08-15';
+
 const slugs = new Map();
 const files = fs.existsSync(POSTS) ? fs.readdirSync(POSTS).filter((f) => /\.mdx?$/.test(f)) : [];
 
@@ -60,6 +63,36 @@ for (const file of files) {
     if (/^https?:|^data:/.test(src)) continue;
     const target = path.join(PUBLIC, src.replace(/^\//, ''));
     if (!fs.existsSync(target)) fail(file, `image not found: ${src}`);
+  }
+
+  /*
+   * Placeholders are how a draft is written before the real media arrives.
+   * They only cause trouble once the date passes and nobody notices, so the
+   * rule is scoped to posts that are actually out: draft freely, ship clean.
+   */
+  /* A draft is exempt from everything a finished piece has to have. That is
+     what makes it a draft. */
+  const published = data.draft !== true && new Date(data.date) <= new Date();
+  if (published) {
+    const marker = /placeholder|PLACEHOLDER|\bTK\b|TODO/;
+    if (marker.test(String(cover ?? ''))) fail(file, 'cover is still a placeholder');
+    for (const match of content.matchAll(/!\[([^\]]*)\]\(([^)\s]+)/g)) {
+      if (marker.test(match[1]) || marker.test(match[2])) {
+        fail(file, `placeholder image still in a published post: ${match[2]}`);
+      }
+    }
+    if (marker.test(content)) fail(file, 'placeholder text still in a published post');
+
+    /*
+     * Every article written from here on carries its own summary, used both as
+     * the meta description and as the blurb on the homepage map. The back
+     * catalogue predates the rule and falls back to its opening paragraph;
+     * backfilling it means writing thirteen summaries, which is a job for the
+     * author rather than for a test.
+     */
+    if (String(data.date).slice(0, 10) >= DESCRIPTION_FROM && !data.description) {
+      fail(file, 'missing description, the summary Google and the homepage show');
+    }
   }
 
   // Internal links should point at routes that exist.

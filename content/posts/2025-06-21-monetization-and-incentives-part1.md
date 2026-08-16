@@ -2,7 +2,7 @@
 layout: post
 title: "Monetization & Incentives (Part 1): Paid Games"
 date: 2025-06-21
-categories: [Ongoing, Monetisation]
+categories: [Gaming, Monetisation]
 tags: [Product, Game Industry]
 image:
   path: assets/images/cover/steamHome.jpg

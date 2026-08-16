@@ -202,13 +202,13 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
 
   // Anything you can see, you can go to: picking a distant entry travels to
   // the settlement it belongs to rather than doing nothing.
-  await tap('.hex[data-hub="ongoing"][data-kind="article"]');
+  await tap('.hex[data-hub="gaming"][data-kind="article"]');
   const reached = await page.evaluate(() => ({
     place: document.getElementById('hexmap').dataset.place,
     kicker: document.querySelector('.hexmap-panel-card:not(.hexmap-latest) .hexmap-kicker')
       .textContent,
   }));
-  check('a distant entry can be travelled to', reached.place === 'ongoing', String(reached.place));
+  check('a distant entry can be travelled to', reached.place === 'gaming', String(reached.place));
   check('and it opens on arrival', reached.kicker === 'Article', reached.kicker);
 
   // Home is a tile like any other, so it is the way back from anywhere.
@@ -216,27 +216,35 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   const camp = await page.evaluate(() => document.getElementById('hexmap').dataset.place);
   check('the camp tile leads home from a city', camp === 'home', String(camp));
 
-  await tap('.hex[data-id="gateway-ongoing"]');
+  await tap('.hex[data-id="gateway-gaming"]');
   const entered = await page.evaluate(() => ({
     heading: document.querySelector('#hexmap-panel h2').textContent,
     place: document.getElementById('hexmap').dataset.place,
-    lit: document.querySelectorAll('.hex[data-hub="ongoing"][data-kind="article"][data-active]')
-      .length,
-    holds: Number(document.querySelector('.hex[data-id="city-ongoing"]').dataset.holds),
+    lit: document.querySelectorAll('.hex[data-kind="article"]').length &&
+      [...document.querySelectorAll('.hex[data-kind="article"]')].filter(
+        (tile) => tile.dataset.hub === 'gaming' || tile.dataset.hub.startsWith('gaming-')
+      ).length,
+    holds: Number(document.querySelector('.hex[data-id="city-gaming"]').dataset.holds),
     others: document.querySelectorAll('.hex[data-hub="product"][data-active]').length,
     reads: document.querySelectorAll('#hexmap-panel .hexmap-list a').length,
     cta: document.querySelector('#hexmap-panel .hexmap-go')?.getAttribute('href'),
     back: document.querySelectorAll('.hex[data-kind="return"][data-active]').length,
   }));
-  check('travelling arrives in the city', entered.place === 'ongoing', String(entered.place));
-  check('the city names its region', entered.heading === 'Ongoing', entered.heading);
+  check('travelling arrives in the city', entered.place === 'gaming', String(entered.place));
+  check('the city names its region', entered.heading === 'Gaming', entered.heading);
+  /* Entries sit either around the category or out at one of its topics, so
+     the two together have to add up to what the category says it holds. */
   check(
-    'the city holds its entries',
+    'the category and its topics hold everything',
     entered.lit === entered.holds,
     `${entered.lit} of ${entered.holds}`
   );
   check('other regions stay distant', entered.others === 0, `${entered.others} lit`);
-  check('the readout recommends reads', entered.reads === 3, `${entered.reads}`);
+  check(
+    'the readout recommends reads',
+    entered.reads === Math.min(3, entered.holds),
+    `${entered.reads} of ${entered.holds}`
+  );
   check(
     'the readout offers the whole category',
     /^\/categories\/.+\/$/.test(entered.cta ?? ''),
@@ -244,7 +252,7 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   );
   check('the city has a way back', entered.back === 1, `${entered.back}`);
 
-  await tap('.hex[data-hub="ongoing"][data-kind="article"]');
+  await tap('.hex[data-hub="gaming"][data-kind="article"]');
   const opened = await page.evaluate(() => ({
     kicker: document.querySelector('.hexmap-panel-card:not(.hexmap-latest) .hexmap-kicker')
       .textContent,
@@ -272,12 +280,12 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
 
     await tap(`.hex[data-id="return-${outpost.place}"]`);
     const city = await page.evaluate(() => document.getElementById('hexmap').dataset.place);
-    check('leaving an outpost returns to its city', city === 'ongoing', String(city));
+    check('leaving an outpost returns to its city', city === 'gaming', String(city));
   } else {
     check('a signpost leads to a topic', false, 'no signpost was reachable');
   }
 
-  await tap('.hex[data-id="return-ongoing"]');
+  await tap('.hex[data-id="return-gaming"]');
   const returned = await page.evaluate(() => document.getElementById('hexmap').dataset.place);
   check('the return tile leads home', returned === 'home', String(returned));
 
@@ -364,6 +372,78 @@ const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox']
   const after = await page.evaluate(() => document.documentElement.hasAttribute('sidebar-display'));
   check('following a link closes the sidebar', !after);
 
+  await page.close();
+}
+
+/* ------------------------------------------------- article category tabs */
+{
+  for (const [width, height] of [
+    [1440, 900],
+    [390, 844],
+  ]) {
+    const page = await browser.newPage();
+    await page.setViewport({ width, height });
+    await page.goto(`${BASE}/articles/`, { waitUntil: 'networkidle0' });
+
+    const all = await page.evaluate(
+      () => document.querySelectorAll('#post-list .card-wrapper').length
+    );
+
+    /* The row must not push the articles off the screen on a phone; it scrolls
+       sideways instead of wrapping into four lines. */
+    const shape = await page.evaluate(() => {
+      const bar = document.getElementById('article-filter');
+      const list = bar.querySelector('ul');
+      return {
+        height: Math.round(bar.getBoundingClientRect().height),
+        scrolls: list.scrollWidth > list.clientWidth,
+        wraps: getComputedStyle(list).flexWrap,
+      };
+    });
+    check(`the tabs stay one row at ${width}`, shape.height < 90, `${shape.height}px tall`);
+    if (width < 850) {
+      check('on a phone the tabs scroll rather than stack', shape.wraps === 'nowrap', shape.wraps);
+    }
+
+    await page.evaluate(() => {
+      [...document.querySelectorAll('#article-filter button')]
+        .find((tab) => tab.dataset.category === 'gaming')
+        ?.click();
+    });
+    await new Promise((r) => setTimeout(r, 300));
+
+    const filtered = await page.evaluate(() => {
+      const shown = [...document.querySelectorAll('#post-list .card-wrapper')].filter(
+        (card) => getComputedStyle(card).display !== 'none'
+      );
+      return {
+        count: shown.length,
+        offCategory: shown.filter((card) => card.dataset.category !== 'gaming').length,
+        url: window.location.search,
+      };
+    });
+    check(`a tab filters the list at ${width}`, filtered.count > 0 && filtered.count < all,
+      `${filtered.count} of ${all}`);
+    check(`only that category is left at ${width}`, filtered.offCategory === 0,
+      `${filtered.offCategory} strays`);
+    check(`the choice is in the URL at ${width}`, filtered.url === '?c=gaming', filtered.url);
+
+    await page.close();
+  }
+
+  /* Arriving with the filter already chosen is what the category crumb does. */
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1440, height: 900 });
+  await page.goto(`${BASE}/articles/?c=ai`, { waitUntil: 'networkidle0' });
+  await new Promise((r) => setTimeout(r, 300));
+  const arrived = await page.evaluate(() => ({
+    filter: document.getElementById('post-list').dataset.filter,
+    shown: [...document.querySelectorAll('#post-list .card-wrapper')].filter(
+      (card) => getComputedStyle(card).display !== 'none'
+    ).length,
+  }));
+  check('a link can arrive already filtered', arrived.filter === 'ai', String(arrived.filter));
+  check('and it shows that category', arrived.shown > 0, `${arrived.shown} cards`);
   await page.close();
 }
 

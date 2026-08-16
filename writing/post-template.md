@@ -1,10 +1,14 @@
 ---
 title: "TITLE"
-date: 2026-01-01 09:00
-categories: [Category1, Category2] # the first one is the top-level group
+date: 2026-01-01 09:00 # from `npm run slot`, and matching the filename
+categories: [Gaming, Design] # first is one of the six regions, second optional
 tags: [Tag One, Tag Two]
+description: >-
+  The summary, 120 to 180 words. Google shows roughly the first 155 characters
+  of it and the homepage map shows all of it, so the first sentence has to work
+  on its own. Not the opening paragraph rewritten.
 image:
-  path: assets/images/cover/image-name.png
+  path: assets/images/article/the-slug/placeholder-cover.png
   alt: Image description
 ---
 

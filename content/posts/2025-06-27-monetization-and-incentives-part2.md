@@ -2,7 +2,7 @@
 layout: post
 title: "Monetization & Incentives (Part 2): Free-to-Play Games"
 date: 2025-06-27
-categories: [Ongoing, Monetisation]
+categories: [Gaming, Monetisation]
 tags: [Product, Game Industry]
 image:
   path: assets/images/cover/mobileGameMonetization.png
