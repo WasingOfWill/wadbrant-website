@@ -129,8 +129,11 @@ html:has(#hexmap) body {
   #hexmap {
     --map-x: calc(260px + (100vw - 260px) * 0.3 - var(--hex-step));
     --map-y: 50%;
-    --map-scale: 1;
-    --hex-type: 12px;
+    /* Pulled back a notch so the clusters four rings out have room for a
+       header above them. At full size the topmost one sits against the top of
+       the window with nowhere to put its name. */
+    --map-scale: 0.88;
+    --hex-type: 13px;
     --hex-type-small: 9.5px;
     --hex-type-cluster: 15px;
     --hex-track: 0.12em;

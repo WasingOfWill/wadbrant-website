@@ -43,6 +43,12 @@ const nextConfig = {
         permanent: true,
       })),
       { source: '/tags/product-management', destination: '/tags/product/', permanent: true },
+      // A stray " copy" in a filename had made it into the URL.
+      {
+        source: '/posts/five-best-lessons-of-everyday-LLM-usage-copy',
+        destination: '/posts/five-best-lessons-of-everyday-llm-usage/',
+        permanent: true,
+      },
     ];
   },
 };

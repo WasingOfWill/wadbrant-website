@@ -134,7 +134,7 @@ const FEATURED: { badge: string; cells: Axial[]; label: { x: number; y: number }
   {
     badge: 'New',
     cells: [{ q: 2, r: -4 }, { q: 3, r: -4 }],
-    label: { x: -132, y: -378 },
+    label: { x: 55, y: -458 },
   },
   {
     badge: 'New',
@@ -150,7 +150,10 @@ const FEATURED: { badge: string; cells: Axial[]; label: { x: number; y: number }
       { q: 2, r: 3 },
       { q: 1, r: 4 },
     ],
-    label: { x: 150, y: 244 },
+    /* Over the tile that reaches highest, not over the middle of the shape:
+       this cluster steps down and to the left, so its centre is nowhere near
+       its top edge. */
+    label: { x: 388, y: 20 },
   },
   {
     badge: 'Recommended',
@@ -687,8 +690,8 @@ export async function getHexMap(): Promise<HexMapData> {
 
     /* Where the label goes is written down rather than derived. A label placed
        relative to the tiles lands in a different spot for every cluster shape,
-       and half of them ended up crossing a hexagon. These four sit clear of
-       any tile, above or beside the group they name. */
+       and half of them ended up crossing a hexagon. Each of these four sits
+       above the tile its cluster reaches highest with, clear of every edge. */
     clusters.push({ badge: cluster.badge, ...cluster.label });
 
     /* A faded road across the gap, so the cluster reads as somewhere the camp
